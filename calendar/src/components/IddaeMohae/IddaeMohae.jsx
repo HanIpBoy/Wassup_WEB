@@ -21,7 +21,7 @@ const localizer = dateFnsLocalizer({
 
 const events = [
     {
-        title: "ppt완성",
+        title: "ppt완성입니다!!",
         allDay: true,
         start: new Date(),
         end: new Date()
