@@ -4,23 +4,32 @@ import { format, addMonths, subMonths } from 'date-fns';
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
 import { isSameMonth, isSameDay, addDays, parse } from 'date-fns';
 import styles from './Calendar.module.css';
+import MainIcon from '../../images/MainIcon.png';
 
 const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
   return (
+    <>
+    <img className={styles.mainIcon} src={MainIcon} />
     <div className={styles.header + ' row'}>
+    
       <div className={styles['col-start']}>
+      <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} />
         <span className={styles.text}>
+            {format(currentMonth, 'yyyy')}년 
           <span className={`${styles.text} ${styles.month}`}>
             {format(currentMonth, 'M')}월
           </span>
-          {format(currentMonth, 'yyyy')}
+          <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
         </span>
+        
       </div>
-      <div className={styles['col-end']}>
+      {/* <div className={styles['col-end']}>
         <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} />
         <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
-      </div>
+      </div> */}
     </div>
+    </>
+    
   );
 };
 
@@ -113,3 +122,4 @@ export default function Calendar() {
     </div>
   );
 };
+
