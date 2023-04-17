@@ -5,6 +5,9 @@
 .calendar {
     width: 80%;
     height: 90%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .header {
@@ -13,6 +16,7 @@
     display: flex;
     align-items: baseline;
     justify-content: center;
+    margin-bottom: 10px;
   }
   
   .mainIcon {
@@ -21,6 +25,8 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+    margin-top: 30px;
+    margin-bottom: 5px;
   }
   
   .text {
@@ -28,7 +34,7 @@
   }
   
   .text.month {
-    margin-right: 5px;
+    margin-left: 5px;
     font-size: 1.6em;
     font-weight: 600;
   }
@@ -75,8 +81,9 @@
     justify-content: flex-end;
     align-items: flex-start;
     padding-left: 1%;
-    background: rgba(128, 128, 128, 0.6);
+    background: #ffffff;
     border-radius: 10px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.25);
   }
   
   .body {
@@ -88,7 +95,7 @@
   
   .row {
     width: 100%;
-    height: 100%;
+    height: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -102,17 +109,17 @@
     justify-content: flex-start;
     align-items: flex-start;
     border: 0.4px solid rgba(128, 128, 128, 0.4);
-    border-radius: 3px;
+    border-radius: 5px;
     font-size: 0.8em;
   }
 
   
   .col.cell span {
-    margin: 4px 0 0 4px;
+    margin: 4px;
   }
   
   .col.cell .not-valid {
-    color: #a9a9a9;
+    color: #ffffff;
   }
   
   .col.cell img {
@@ -124,15 +131,14 @@
     box-shadow: 1.5px 1.5px rgba(128, 128, 128, 0.1);
     transform: scale(1.01);
     border: none;
-    background: rgba(128, 128, 128, 0.5);
+    background-color: #dbe2ff;
   }
   
   .col.cell.selected {
     box-shadow: 1.5px 1.5px #008080;
     transform: scale(1.02);
-    border: none;
-    background: #afeeee;
-    color: #008080;
+    color: #0040ff;
     font-weight: 600;
+    background-color: #aebcf4;
   }
   

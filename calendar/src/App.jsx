@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Signin from './pages/Signin';
 import NotFound from './pages/NotFound';
 import Calendar from './pages/Calendar';
+import CalendarModal from './pages/CalendarModal';
 import { ErrorBoundary } from 'react-error-boundary';
 import Error from './pages/Error';
 
@@ -16,6 +17,7 @@ function App() {
       {/* <Route exact path="/edit/:id" element= {<Edit  />} /> */}
       <Route path="/signin" element= {<Signin  />}  />
       <Route path="/calendar" element= {<Calendar  />} />
+      <Route path="/calendarmodal" element= {<CalendarModal />} />
       <Route element= {<NotFound  />}  />
     </Routes>
     </BrowserRouter>

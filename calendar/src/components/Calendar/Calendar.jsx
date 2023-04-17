@@ -5,6 +5,9 @@ import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
 import { isSameMonth, isSameDay, addDays, parse } from 'date-fns';
 import styles from './Calendar.module.css';
 import MainIcon from '../../images/MainIcon.png';
+import CalendarModal from '../Modals/CalendarModal';
+
+
 
 const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
   return (
@@ -48,6 +51,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
+  const [CalendarModalOn, setCalendarModalOn] = useState(false);
 
   const rows = [];
   let days = [];
@@ -70,8 +74,9 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
               : styles.valid
           }`}
           key={day}
-          onClick={() => onDateClick(parse(cloneDay))}
+          onClick={() => CalendarModalOn(true)}
         >
+            {/* onDateClick(parse(cloneDay)) -> */}
           <span
             className={
               format(currentMonth, 'M') !== format(day, 'M') ? `${styles.text} ${styles['not-valid']}` : styles.text
@@ -84,13 +89,13 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
       day = addDays(day, 1);
     }
     rows.push(
-      <div className={`${styles.row}`} key={day}>
+      <div className={styles.row} key={day}>
         {days}
       </div>
     );
     days = [];
   }
-  return <div className={`${styles.body}`}>{rows}</div>;
+  return <div className={styles.body}>{rows}</div>;
 };
 
 export default function Calendar() {
@@ -106,7 +111,12 @@ export default function Calendar() {
   const onDateClick = (day) => {
     setSelectedDate(day);
   };
+
+  const [CalendarModalOn, setCalendarModalOn] = useState(false);
+
   return(
+    <>
+    <CalendarModal show={CalendarModalOn} onHide={()=>CalendarModalOn(false)} />
     <div className={styles.calendar}>
         <RenderHeader
             currentMonth={currentMonth}
@@ -120,6 +130,7 @@ export default function Calendar() {
             onDateClick={onDateClick}
         />
     </div>
+    </>
   );
 };
 
