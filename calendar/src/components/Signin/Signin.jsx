@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import MainIcon from '../../images/MainIcon.png';
 import styles from './Signin.module.css';
@@ -21,15 +18,7 @@ export default function SignIn() {
     const [passwordInput, setPasswordInput] = useState('')
     const [checkEmail, setCheckEmail] = useState(false)
 
-    const handleSubmit = async (event) => { // await을 사용하기 위해 async 함수로 선언
-        event.preventDefault();
-        const response = await axios.post('http://localhost:8080/auth/signin', { // axios는 항상 await과 함께 사용
-            userId: emailInput,
-            password: passwordInput
-        })
 
-        const { status, data } = response;
-    };
 
     const handleInputEmail = (event) => {
         const { value } = event.target
@@ -47,6 +36,15 @@ export default function SignIn() {
         setCheckEmail(checked)
     }
 
+    const handleSubmit = async (event) => { // await을 사용하기 위해 async 함수로 선언
+        event.preventDefault();
+        const response = await axios.post('http://localhost:8080/auth/signin', { // axios는 항상 await과 함께 사용
+            userId: emailInput,
+            password: passwordInput
+        })
+
+        const { status, data } = response;
+    };
 
     return (
         <Container component="main" maxWidth="xs">
