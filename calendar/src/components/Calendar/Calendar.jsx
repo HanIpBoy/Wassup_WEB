@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import { format, addMonths, subMonths } from 'date-fns';
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
@@ -46,15 +46,13 @@ const RenderDays = () => {
   return <div className={`${styles.days} row`}>{days}</div>;
 };
 
-const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
+const RenderCells = ({ currentMonth, selectedDate, onDateClick, onClose, onOpen }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
-  const [CalendarModalOn, setCalendarModalOn] = useState(false);
-
-  const rows = [];
-  let days = [];
+  const [days, setDays] = useState([]);
+  const [rows, setRows] = useState([])
   let day = startDate;
   let formattedDate = '';
 
@@ -62,38 +60,36 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, 'd');
       const cloneDay = day;
-      days.push(
-        <div
-          className={`${styles.col} ${styles.cell} ${!isSameMonth(day, monthStart)
-              ? styles.disabled
-              : isSameDay(day, selectedDate)
-                ? styles.selected
-                : format(currentMonth, 'M') !== format(day, 'M')
-                  ? styles['not-valid']
-                  : styles.valid
-            }`}
-          key={day}
-          onClick={() => CalendarModalOn(true)}
+      setDays([...days,
+      <div
+        className={`${styles.col} ${styles.cell} ${!isSameMonth(day, monthStart)
+          ? styles.disabled
+          : isSameDay(day, selectedDate)
+            ? styles.selected
+            : format(currentMonth, 'M') !== format(day, 'M')
+              ? styles['not-valid']
+              : styles.valid
+          }`}
+        key={day.getTime()}
+        onClick={onOpen}
+      >
+        {/* onDateClick(parse(cloneDay)) -> */}
+        <span
+          className={
+            format(currentMonth, 'M') !== format(day, 'M') ? `${styles.text} ${styles['not-valid']}` : styles.text
+          }
         >
-          {/* onDateClick(parse(cloneDay)) -> */}
-          <span
-            className={
-              format(currentMonth, 'M') !== format(day, 'M') ? `${styles.text} ${styles['not-valid']}` : styles.text
-            }
-          >
-            {formattedDate}
-          </span>
-        </div>
-      );
+          {formattedDate}
+        </span>
+      </div>])
       day = addDays(day, 1);
     }
-    rows.push(
-      <div className={styles.row} key={day}>
-        {days}
-      </div>
-    );
-    days = [];
+    setRows([...rows, <div className={styles.row} key={day.getTime()} >
+      {days}
+    </div>])
+    // setDays([]);
   }
+
   return <div className={styles.body}>{rows}</div>;
 };
 
@@ -111,11 +107,12 @@ export default function Calendar() {
     setSelectedDate(day);
   };
 
-  const [CalendarModalOn, setCalendarModalOn] = useState(false);
-
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
     <>
-      <CalendarModal show={CalendarModalOn} onHide={() => CalendarModalOn(false)} />
+      <CalendarModal open={open} onClose={handleClose} />
       <div className={styles.calendar}>
         <RenderHeader
           currentMonth={currentMonth}
@@ -124,6 +121,8 @@ export default function Calendar() {
         />
         <RenderDays />
         <RenderCells
+          onClose={handleClose}
+          onOpen={handleOpen}
           currentMonth={currentMonth}
           selectedDate={selectedDate}
           onDateClick={onDateClick}
