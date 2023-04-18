@@ -94,6 +94,7 @@ export default function SignIn() {
                             fullWidth
                             variant="contained"
                             sx={{ backgroundColor: '#0040ff', mt: 3, mb: 2 }}
+                            onClick={handleSubmit}
                         >
                             로그인
                         </Button>
