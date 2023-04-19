@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { format, addMonths, subMonths } from 'date-fns';
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
-import { isSameMonth, isSameDay, addDays, parse } from 'date-fns';
+import { isSameMonth, isSameDay, addDays } from 'date-fns';
 import styles from './Calendar.module.css';
 import MainIcon from '../../images/MainIcon.png';
 import CalendarModal from '../Modals/CalendarModal';
@@ -51,8 +51,8 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, onClose, onOpen 
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
-  const [days, setDays] = useState([]);
-  const [rows, setRows] = useState([])
+  let days = []
+  const rows =[]
   let day = startDate;
   let formattedDate = '';
 
@@ -60,7 +60,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, onClose, onOpen 
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, 'd');
       const cloneDay = day;
-      setDays([...days,
+      days.push(
       <div
         className={`${styles.col} ${styles.cell} ${!isSameMonth(day, monthStart)
           ? styles.disabled
@@ -81,13 +81,13 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, onClose, onOpen 
         >
           {formattedDate}
         </span>
-      </div>])
+      </div>)
       day = addDays(day, 1);
     }
-    setRows([...rows, <div className={styles.row} key={day.getTime()} >
+    rows.push(<div className={styles.row} key={day.getTime()} >
       {days}
-    </div>])
-    // setDays([]);
+    </div>)
+    days = []
   }
 
   return <div className={styles.body}>{rows}</div>;
