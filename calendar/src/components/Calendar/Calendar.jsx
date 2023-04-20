@@ -8,7 +8,6 @@ import MainIcon from '../../images/MainIcon.png';
 import CalendarModal from '../Modals/CalendarModal';
 
 
-
 const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
   return (
     <>
@@ -52,7 +51,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, onClose, onOpen 
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
   let days = []
-  const rows =[]
+  const rows = []
   let day = startDate;
   let formattedDate = '';
 
@@ -61,27 +60,27 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, onClose, onOpen 
       formattedDate = format(day, 'd');
       const cloneDay = day;
       days.push(
-      <div
-        className={`${styles.col} ${styles.cell} ${!isSameMonth(day, monthStart)
-          ? styles.disabled
-          : isSameDay(day, selectedDate)
-            ? styles.selected
-            : format(currentMonth, 'M') !== format(day, 'M')
-              ? styles['not-valid']
-              : styles.valid
-          }`}
-        key={day.getTime()}
-        onClick={onOpen}
-      >
-        {/* onDateClick(parse(cloneDay)) -> */}
-        <span
-          className={
-            format(currentMonth, 'M') !== format(day, 'M') ? `${styles.text} ${styles['not-valid']}` : styles.text
-          }
+        <div
+          className={`${styles.col} ${styles.cell} ${!isSameMonth(day, monthStart)
+            ? styles.disabled
+            : isSameDay(day, selectedDate)
+              ? styles.selected
+              : format(currentMonth, 'M') !== format(day, 'M')
+                ? styles['not-valid']
+                : styles.valid
+            }`}
+          key={day.getTime()}
+          onClick={onOpen}
         >
-          {formattedDate}
-        </span>
-      </div>)
+          {/* onDateClick(parse(cloneDay)) -> */}
+          <span
+            className={
+              format(currentMonth, 'M') !== format(day, 'M') ? `${styles.text} ${styles['not-valid']}` : styles.text
+            }
+          >
+            {formattedDate}
+          </span>
+        </div>)
       day = addDays(day, 1);
     }
     rows.push(<div className={styles.row} key={day.getTime()} >

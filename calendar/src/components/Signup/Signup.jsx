@@ -19,7 +19,9 @@ export default function SignUp() {
     const [nameInput, setNameInput] = useState('')
     const [emailInput, setEmailInput] = useState('')
     const [passwordInput, setPasswordInput] = useState('')
-    const [value, setValue] = useState(dayjs());
+    const [birthInput, setBirthInput] = useState(dayjs());
+    const [codeInput, setCodeInput] = useState('');
+    const [passwordCheck, setPasswordCheck] = useState(false);
 
     const handleInputName = (event) => {
         const { value } = event.target
@@ -36,16 +38,70 @@ export default function SignUp() {
         setPasswordInput(value)
     }
 
+    const handleInputPasswordCheck = (event) => {
+        const { value } = event.target
+        if (value !== passwordInput) {
+            setPasswordCheck(true)
+        } else {
+            setPasswordCheck(false)
+        }
+    }
+
+    const handleInputVerifyEmailCode = (event) => {
+        const { value } = event.target
+        setCodeInput(value)
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await axios.post('http://localhost:8080/auth/signup', {
+
+
+
+        const responseEmail = await axios.post('http://13.125.238.167:8080/auth/email-verify', {
+            userId: emailInput,
+            emailAuthCode: codeInput
+        })
+
+        if (responseEmail.data.includes('success')) {
+            window.alert('이메일 인증에 성공했습니다!')
+        } else {
+            window.alert('이메일 인증에 실패했습니다!')
+            return
+        }
+
+        let month = birthInput.$M + 1
+        let day = birthInput.$D
+
+        if (month < 10) {
+            month = '0' + month
+        }
+
+        if (day < 10) {
+            day = '0' + birthInput.$D
+        }
+
+        const birth = birthInput.$y + '-' + month + '-' + day
+
+        const response = await axios.post('http://13.125.238.167:8080/auth/signup', {
             username: nameInput,
             userId: emailInput,
-            password: passwordInput
+            password: passwordInput,
+            birth: birth
         })
 
         const { status, data } = response;
+
+        console.log(response)
+
+        window.history.pushState('', '', 'localhost:3000/calendar')
     };
+
+    const handleClickEmail = async (event) => {
+        const response = await axios.post('http://13.125.238.167:8080/auth/email-send', {
+            userId: emailInput
+        })
+    }
+
 
     return (
         <Container component="main" maxWidth="xs">
@@ -92,29 +148,43 @@ export default function SignUp() {
                             onInput={handleInputPassword}
                         />
                         <TextField className={styles.textField}
+                            error={passwordCheck}
+                            helperText={passwordCheck === true ? "비밀번호가 일치하지 않습니다." : undefined}
                             margin="normal"
                             required
                             fullWidth
-                            name="password"
+                            name="passwordcheck"
                             label="비밀번호 확인"
                             type="password"
-                            id="password"
-                            onInput={handleInputPassword}
+                            id="passwordcheck"
+                            onInput={handleInputPasswordCheck}
                         />
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DemoContainer components={['DatePicker', 'DatePicker']} sx={{ width: '100%', '& .MuiFormControl-root': { width: '100%', mt: 1 } }}>
                                 <DatePicker
                                     label="생년월일"
-                                    value={value}
-                                    onChange={(newValue) => setValue(newValue)}
+                                    value={birthInput}
+                                    onChange={(newValue) => setBirthInput(newValue)}
                                 />
                             </DemoContainer>
                         </LocalizationProvider>
                         <div className={styles.buttonContainer} sx={{ mt: 1 }}>
-                            <Button variant="outlined" sx={{ width: '100%', mt: 3, height: '45px' }}>
+                            <Button variant="outlined" sx={{ width: '100%', mt: 3, height: '45px' }}
+                                onClick={handleClickEmail}>
                                 이메일 인증하기
                             </Button>
                         </div>
+
+                        <TextField className={styles.textField}
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="verify"
+                            label="인증번호 입력"
+                            type="text"
+                            id="verify"
+                            onInput={handleInputVerifyEmailCode}
+                        />
 
                         <Button
                             type="submit"
