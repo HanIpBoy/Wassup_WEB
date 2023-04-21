@@ -1,16 +1,19 @@
 import React from 'react';
-import { Modal, Box, Typography } from '@mui/material';
+import { Modal, Box, TextField, FormControlLabel, Checkbox } from '@mui/material';
+import CustomizedMenus from './CustomizedMenus';
 
 const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 800,
+    width: 400,
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
 };
+
+
 export default function CalendarModal({ open, onClose }) {
 
 
@@ -23,12 +26,28 @@ export default function CalendarModal({ open, onClose }) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Text in a modal
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                    </Typography>
+                    <TextField id="filled-basic"
+                        label="이름"
+                        variant='filled'
+                        margin="dense"
+                        required
+                        fullWidth
+                    />
+                    <br />
+                    <FormControlLabel
+                        value="start"
+                        control={<Checkbox />}
+                        label="하루종일"
+                        labelPlacement='start'
+                        sx={{ ml: 35 }}
+                    />
+                    <TextField id="filled-basic"
+                        label="메모"
+                        variant='filled'
+                        margin="dense"
+                        fullWidth
+                    />
+                    {/* <CustomizedMenus /> */}
                 </Box>
             </Modal>
         </div>

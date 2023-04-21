@@ -57,7 +57,7 @@ export default function SignUp() {
 
 
 
-        const responseEmail = await axios.post('http://13.125.122.132:8080/auth/email-verify', { //이메일 인증요청
+        const responseEmail = await axios.post('http://13.125.122.132:5005/auth/email-verify', { //이메일 인증요청
             userId: emailInput,
             emailAuthCode: codeInput
         })
@@ -83,7 +83,7 @@ export default function SignUp() {
 
         const birth = birthInput.$y + '-' + month + '-' + day //서버 요청 양식에 맞춘 새로운 birth값 생성
 
-        const response = await axios.post('http://13.125.122.132:8080/auth/signup', { //회원가입 버튼 클릭시 서버로 post
+        const response = await axios.post('http://13.125.122.132:5005/auth/signup', { //회원가입 버튼 클릭시 서버로 post
             username: nameInput,
             userId: emailInput,
             password: passwordInput,
@@ -99,7 +99,7 @@ export default function SignUp() {
 
 
     const handleClickEmail = async (event) => {   //이메일 인증하기 버튼 이벤트 핸들러
-        const response = await axios.post('http://13.125.122.132:8080/auth/email-send', {
+        const response = await axios.post('http://13.125.122.132:5005/auth/email-send', {
             userId: emailInput
         })
     }
