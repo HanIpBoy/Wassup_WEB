@@ -1,6 +1,8 @@
 import React from 'react';
 import { Modal, Box, TextField, FormControlLabel, Checkbox } from '@mui/material';
 import CustomizedMenus from './CustomizedMenus';
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack';
 
 const style = {
     position: 'absolute',
@@ -47,6 +49,11 @@ export default function CalendarModal({ open, onClose }) {
                         margin="dense"
                         fullWidth
                     />
+                    <Button
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mt: 3 }}
+                    >저장</Button>
                     {/* <CustomizedMenus /> */}
                 </Box>
             </Modal>
