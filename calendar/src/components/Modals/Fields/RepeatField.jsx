@@ -17,6 +17,7 @@ export default function RepeatField() {
                 variant="filled"
                 sx={{ mt: 2, minWidth: 120 }}
                 fullWidth
+                required
             >
                 <InputLabel id="demo-simple-select-filled-label">반복</InputLabel>
                 <Select
