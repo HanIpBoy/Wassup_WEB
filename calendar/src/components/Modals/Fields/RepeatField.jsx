@@ -4,12 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function RepeatField() {
-    const [age, setAge] = React.useState('');
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
+export default function RepeatField({ name, onInput, value }) {
 
     return (
         <div>
@@ -23,8 +18,9 @@ export default function RepeatField() {
                 <Select
                     labelId="demo-simple-select-filled-label"
                     id="demo-simple-select-filled"
-                    value={age}
-                    onChange={handleChange}
+                    name={name}
+                    value={value}
+                    onChange={onInput}
                 >
                     <MenuItem value="안 함">안 함</MenuItem>
                     <MenuItem value="매일">매일</MenuItem>

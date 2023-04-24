@@ -5,7 +5,16 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 
-export default function DateField() {
+export default function DateField({ name, onInput }) {
+  const handleChange = (value) => {
+    const event = {
+      target: {
+        name: name,
+        value: value
+      }
+    }
+    onInput(event)
+  }
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer
@@ -14,7 +23,7 @@ export default function DateField() {
         ]}
       >
         <DemoItem>
-          <MobileDateTimePicker defaultValue={dayjs()} />
+          <MobileDateTimePicker onChange={handleChange} defaultValue={dayjs()} />
         </DemoItem>
       </DemoContainer>
     </LocalizationProvider>
