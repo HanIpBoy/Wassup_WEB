@@ -6,9 +6,9 @@ import Select from '@mui/material/Select';
 import { COLOR_CODE_LIST } from '../../../constants';
 function ColorLabel({ color }) {
     const style = {
-        width: '100%',
-        height: '20px',
-        borderRadius: 5,
+        width: '25px',
+        height: '25px',
+        borderRadius: 20,
         background: color
     }
     return (
@@ -24,7 +24,7 @@ export default function ColorField({ name, onInput, value }) {
                 fullWidth
                 required
             >
-                <InputLabel id="demo-simple-select-filled-label">색상</InputLabel>
+                <InputLabel id="demo-simple-select-filled-label" >색상</InputLabel>
                 <Select
                     labelId="demo-simple-select-filled-label"
                     id="demo-simple-select-filled"
@@ -34,7 +34,7 @@ export default function ColorField({ name, onInput, value }) {
                 >
                     {
                         COLOR_CODE_LIST.map((value, idx) => {
-                            return <MenuItem key={idx} value={value} style={{ display: 'flex', justifyContent: 'center' }}><ColorLabel color={value} /></MenuItem>
+                            return <MenuItem key={idx} value={value} style={{ display: 'flex', justifyContent: 'center', width: '100%' }}><ColorLabel color={value} /></MenuItem>
                         })
                     }
                     {/* <MenuItem value="빨"><ColorLabel color={'#E45C5C'} /></MenuItem>
