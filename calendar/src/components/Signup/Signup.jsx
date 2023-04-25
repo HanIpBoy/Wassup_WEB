@@ -55,22 +55,6 @@ export default function SignUp() {
     }
 
     const handleSubmit = async (event) => { //회원가입 버튼 이벤트 핸들러
-        event.preventDefault();
-
-
-
-        const responseEmail = await axios.post('/auth/email-verify', { //이메일 인증요청
-            userId: emailInput,
-            emailAuthCode: codeInput
-        })
-
-        if (responseEmail.data.includes('success')) { //만약 서버에서 보내준 값에 "success" 값이 있을 경우
-            window.alert('이메일 인증에 성공했습니다! 회원가입이 완료되었습니다!') //성공 alert를 띄운 후 그대로 실행
-        } else {
-            window.alert('이메일 인증에 실패했습니다!') //실패 alert를 띄운 후 그대로 종료
-            return
-        }
-
         //데이터값들을 서버 요청 양식에 맞게 재가공
         let month = birthInput.$M + 1 //월
         let day = birthInput.$D //일
@@ -96,14 +80,32 @@ export default function SignUp() {
 
         console.log(response)
 
-        navigate('/calendar') //페이지 이동
+        navigate('/signin') //페이지 이동
     };
 
 
     const handleClickEmail = async (event) => {   //이메일 인증하기 버튼 이벤트 핸들러
+        window.alert('이메일에서 인증번호를 입력해주세요.')
         const response = await axios.post('/auth/email-send', {
             userId: emailInput
         })
+    }
+
+    const handleClickVerifyEmailCode = async (event) => { //확인 버튼 클릭 이벤트 핸들러
+        event.preventDefault();
+
+        const responseEmail = await axios.post('/auth/email-verify', { //이메일 인증요청
+            userId: emailInput,
+            emailAuthCode: codeInput
+        })
+
+        if (responseEmail.data.includes('success')) { //만약 서버에서 보내준 값에 "success" 값이 있을 경우
+            window.alert('이메일 인증에 성공했습니다!') //성공 alert를 띄운 후 그대로 실행
+        } else {
+            window.alert('이메일 인증에 실패했습니다!') //실패 alert를 띄운 후 그대로 종료
+            return
+        }
+
     }
 
 
@@ -132,15 +134,41 @@ export default function SignUp() {
                             autoFocus
                             onInput={handleInputName}
                         />
-                        <TextField className={styles.textField}
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="id"
-                            label="이메일"
-                            name="id"
-                            onInput={handleInputEmail}
-                        />
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr auto' }}>
+                            <TextField className={styles.textField}
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="id"
+                                label="이메일"
+                                name="id"
+                                onInput={handleInputEmail}
+                            />
+                            <div className={styles.buttonContainer}>
+                                <Button variant="outlined" sx={{ width: '94%', height: '55px', mt: 2, ml: 1 }}
+                                    onClick={handleClickEmail}>
+                                    이메일 인증
+                                </Button>
+                            </div>
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr auto' }}>
+                            <TextField className={styles.textField}
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="verify"
+                                label="인증번호 입력"
+                                type="text"
+                                id="verify"
+                                onInput={handleInputVerifyEmailCode}
+                            />
+                            <div className={styles.buttonContainer}>
+                                <Button variant="outlined" sx={{ width: '90%', height: '55px', mt: 2, ml: 1 }}
+                                    onClick={handleClickVerifyEmailCode}>
+                                    확인
+                                </Button>
+                            </div>
+                        </div>
                         <TextField className={styles.textField}
                             margin="normal"
                             required
@@ -172,24 +200,6 @@ export default function SignUp() {
                                 />
                             </DemoContainer>
                         </LocalizationProvider>
-                        <div className={styles.buttonContainer} sx={{ mt: 1 }}>
-                            <Button variant="outlined" sx={{ width: '100%', mt: 3, height: '45px' }}
-                                onClick={handleClickEmail}>
-                                이메일 인증하기
-                            </Button>
-                        </div>
-
-                        <TextField className={styles.textField}
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="verify"
-                            label="인증번호 입력"
-                            type="text"
-                            id="verify"
-                            onInput={handleInputVerifyEmailCode}
-                        />
-
                         <Button
                             type="submit"
                             fullWidth
