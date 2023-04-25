@@ -59,17 +59,17 @@ export default function SignUp() {
 
 
 
-        // const responseEmail = await axios.post('http://13.125.122.132:5005/auth/email-verify', { //이메일 인증요청
-        //     userId: emailInput,
-        //     emailAuthCode: codeInput
-        // })
+        const responseEmail = await axios.post('/auth/email-verify', { //이메일 인증요청
+            userId: emailInput,
+            emailAuthCode: codeInput
+        })
 
-        // if (responseEmail.data.includes('success')) { //만약 서버에서 보내준 값에 "success" 값이 있을 경우
-        //     window.alert('이메일 인증에 성공했습니다!') //성공 alert를 띄운 후 그대로 실행
-        // } else {
-        //     window.alert('이메일 인증에 실패했습니다!') //실패 alert를 띄운 후 그대로 종료
-        //     return
-        // }
+        if (responseEmail.data.includes('success')) { //만약 서버에서 보내준 값에 "success" 값이 있을 경우
+            window.alert('이메일 인증에 성공했습니다! 회원가입이 완료되었습니다!') //성공 alert를 띄운 후 그대로 실행
+        } else {
+            window.alert('이메일 인증에 실패했습니다!') //실패 alert를 띄운 후 그대로 종료
+            return
+        }
 
         //데이터값들을 서버 요청 양식에 맞게 재가공
         let month = birthInput.$M + 1 //월
@@ -85,16 +85,16 @@ export default function SignUp() {
 
         const birth = birthInput.$y + '-' + month + '-' + day //서버 요청 양식에 맞춘 새로운 birth값 생성
 
-        // const response = await axios.post('/auth/signup', { //회원가입 버튼 클릭시 서버로 post
-        //     username: nameInput,
-        //     userId: emailInput,
-        //     password: passwordInput,
-        //     birth: birth
-        // })
+        const response = await axios.post('/auth/signup', { //회원가입 버튼 클릭시 서버로 post
+            username: nameInput,
+            userId: emailInput,
+            password: passwordInput,
+            birth: birth
+        })
 
-        // const { status, data } = response;
+        const { status, data } = response;
 
-        // console.log(response)
+        console.log(response)
 
         navigate('/calendar') //페이지 이동
     };
