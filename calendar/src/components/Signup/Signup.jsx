@@ -13,7 +13,8 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import MainIcon from '../../images/MainIcon.png';
 import styles from './Signup.module.css';
-import axios from 'axios'
+import axios from '../../axios';
+import { useNavigate } from 'react-router-dom' //페이지 이동해주는 훅
 
 export default function SignUp() {
     const [nameInput, setNameInput] = useState('') //이름 값
@@ -22,6 +23,7 @@ export default function SignUp() {
     const [birthInput, setBirthInput] = useState(dayjs()); //생일 값
     const [codeInput, setCodeInput] = useState(''); //이메일 인증번호 값
     const [passwordCheck, setPasswordCheck] = useState(false); //비밀번호확인 값
+    const navigate = useNavigate()
 
     const handleInputName = (event) => { //이름 이벤트 핸들러
         const { value } = event.target
@@ -57,17 +59,17 @@ export default function SignUp() {
 
 
 
-        const responseEmail = await axios.post('http://13.125.122.132:5005/auth/email-verify', { //이메일 인증요청
-            userId: emailInput,
-            emailAuthCode: codeInput
-        })
+        // const responseEmail = await axios.post('http://13.125.122.132:5005/auth/email-verify', { //이메일 인증요청
+        //     userId: emailInput,
+        //     emailAuthCode: codeInput
+        // })
 
-        if (responseEmail.data.includes('success')) { //만약 서버에서 보내준 값에 "success" 값이 있을 경우
-            window.alert('이메일 인증에 성공했습니다!') //성공 alert를 띄운 후 그대로 실행
-        } else {
-            window.alert('이메일 인증에 실패했습니다!') //실패 alert를 띄운 후 그대로 종료
-            return
-        }
+        // if (responseEmail.data.includes('success')) { //만약 서버에서 보내준 값에 "success" 값이 있을 경우
+        //     window.alert('이메일 인증에 성공했습니다!') //성공 alert를 띄운 후 그대로 실행
+        // } else {
+        //     window.alert('이메일 인증에 실패했습니다!') //실패 alert를 띄운 후 그대로 종료
+        //     return
+        // }
 
         //데이터값들을 서버 요청 양식에 맞게 재가공
         let month = birthInput.$M + 1 //월
@@ -83,23 +85,23 @@ export default function SignUp() {
 
         const birth = birthInput.$y + '-' + month + '-' + day //서버 요청 양식에 맞춘 새로운 birth값 생성
 
-        const response = await axios.post('http://13.125.122.132:5005/auth/signup', { //회원가입 버튼 클릭시 서버로 post
-            username: nameInput,
-            userId: emailInput,
-            password: passwordInput,
-            birth: birth
-        })
+        // const response = await axios.post('/auth/signup', { //회원가입 버튼 클릭시 서버로 post
+        //     username: nameInput,
+        //     userId: emailInput,
+        //     password: passwordInput,
+        //     birth: birth
+        // })
 
-        const { status, data } = response;
+        // const { status, data } = response;
 
-        console.log(response)
+        // console.log(response)
 
-        window.history.pushState('', '', 'localhost:3000/calendar') //calendar 페이지로 이동
+        navigate('/calendar') //페이지 이동
     };
 
 
     const handleClickEmail = async (event) => {   //이메일 인증하기 버튼 이벤트 핸들러
-        const response = await axios.post('http://13.125.122.132:5005/auth/email-send', {
+        const response = await axios.post('/auth/email-send', {
             userId: emailInput
         })
     }

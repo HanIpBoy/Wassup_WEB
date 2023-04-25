@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import { format, addMonths, subMonths } from 'date-fns';
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
@@ -45,7 +45,7 @@ const RenderDays = () => {
   return <div className={`${styles.days} row`}>{days}</div>;
 };
 
-const RenderCells = ({ currentMonth, selectedDate, onDateClick, onClose, onOpen }) => {
+const RenderCells = ({ currentMonth, selectedDate, onClose, onOpen, savedSchedule }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
@@ -70,7 +70,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, onClose, onOpen 
                 : styles.valid
             }`}
           key={day.getTime()}
-          onClick={onOpen}
+          onClick={() => onOpen(cloneDay)}
         >
           {/* onDateClick(parse(cloneDay)) -> */}
           <span
@@ -92,7 +92,8 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick, onClose, onOpen 
   return <div className={styles.body}>{rows}</div>;
 };
 
-export default function Calendar() {
+export default function Calendar({ schedule }) {
+
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -102,16 +103,20 @@ export default function Calendar() {
   const nextMonth = () => {
     setCurrentMonth(addMonths(currentMonth, 1));
   };
-  const onDateClick = (day) => {
-    setSelectedDate(day);
-  };
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  const [editMode, setEditMode] = useState(false);
+  const handleOpen = (day) => {
+    setOpen(true)
+    console.log(day)
+    setSelectedDate(day)
+  };
   const handleClose = () => setOpen(false);
+
+
   return (
     <>
-      <CalendarModal open={open} onClose={handleClose} />
+      <CalendarModal editMode={editMode} open={open} onClose={handleClose} />
       <div className={styles.calendar}>
         <RenderHeader
           currentMonth={currentMonth}
@@ -124,7 +129,7 @@ export default function Calendar() {
           onOpen={handleOpen}
           currentMonth={currentMonth}
           selectedDate={selectedDate}
-          onDateClick={onDateClick}
+          savedSchedule={schedule}
         />
       </div>
     </>

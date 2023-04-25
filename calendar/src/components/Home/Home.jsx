@@ -4,7 +4,6 @@ import MainIcon from '../../images/MainIcon.png';
 import FirstHomePicture from '../../images/FirstHomePicture.png';
 import SecondHomePicture from '../../images/SecondHomePicture.png';
 import ThirdHomePicture from '../../images/ThirdHomePicture.png';
-import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 
 export default function Home() {
@@ -13,13 +12,13 @@ export default function Home() {
         <>
             <div className={styles.firstLayout}>
                 <img className={styles.mainIcon} src={MainIcon} />
-                <div>
-                    <div>
-                        <Link to='/signin'>
-                            <button className={styles.loginHome}>로그인</button>
-                        </Link>
-                    </div>
-                    <button className={styles.signUpHome} href="#">회원가입</button>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <Link href='/signin'>
+                        <button className={styles.loginHome}>로그인</button>
+                    </Link>
+                    <Link href='/signup'>
+                        <button className={styles.signUpHome} href="#">회원가입</button>
+                    </Link>
                 </div>
             </div>
             <br />

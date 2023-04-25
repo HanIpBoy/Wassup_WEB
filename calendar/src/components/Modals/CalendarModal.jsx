@@ -6,6 +6,7 @@ import DateField from './Fields/DateField';
 import Button from '@mui/material/Button'
 import MiniIcon from '../../images/MiniIcon.png';
 import axios from 'axios';
+import dayjs from 'dayjs'
 
 const style = {
     position: 'absolute',
@@ -44,8 +45,8 @@ export default function CalendarModal({ open, onClose }) {
     const initialInput = {
         name: '',
         allday: false,
-        start: '',
-        end: '',
+        start: dayjs(),
+        end: dayjs(),
         memo: '',
         color: '',
         repeat: ''
@@ -77,7 +78,7 @@ export default function CalendarModal({ open, onClose }) {
         const startAt = start.$y + '-' + format(start.$M + 1) + '-' + format(start.$D) + '-' + format(start.$H) + ':' + format(start.$m)
         const endAt = end.$y + '-' + format(end.$M + 1) + '-' + format(end.$D) + '-' + format(end.$H) + ':' + format(end.$m)
 
-        const response = await axios.post('http://13.125.122.132:5005/schedule', {
+        const response = await axios.post('/schedule', {
             name: input.name,
             startAt: startAt,
             endAt: endAt,
@@ -88,11 +89,16 @@ export default function CalendarModal({ open, onClose }) {
         })
     }
 
+    const handleClose = () => {
+        setInput(initialInput)
+        onClose()
+    }
+
     return (
         <div>
             <Modal
                 open={open}
-                onClose={onClose}
+                onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -130,6 +136,8 @@ export default function CalendarModal({ open, onClose }) {
                             <DateField
                                 name='start'
                                 onInput={handleInput}
+                                allday={input.allday}
+                                value={input.start}
                             />
                         </div>
                         <div>
@@ -137,6 +145,8 @@ export default function CalendarModal({ open, onClose }) {
                             <DateField
                                 name='end'
                                 onInput={handleInput}
+                                allday={input.allday}
+                                value={input.end}
                             />
                         </div>
                     </div>
