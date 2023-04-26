@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -23,7 +23,17 @@ export default function SignUp() {
     const [birthInput, setBirthInput] = useState(dayjs()); //생일 값
     const [codeInput, setCodeInput] = useState(''); //이메일 인증번호 값
     const [passwordCheck, setPasswordCheck] = useState(false); //비밀번호확인 값
+    const [emailCheck, setEmailCheck] = useState(); //인증번호 체크
+    const [submittable, setSubmittable] = useState(false); //회원가입 가능여부
+
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (nameInput && emailInput && passwordInput && birthInput && codeInput && passwordCheck && emailCheck)
+            setSubmittable(true)
+        else
+            setSubmittable(false)
+    }, [nameInput, emailInput, passwordInput, birthInput, codeInput, passwordCheck, emailCheck])
 
     const handleInputName = (event) => { //이름 이벤트 핸들러
         const { value } = event.target
@@ -101,8 +111,10 @@ export default function SignUp() {
 
         if (responseEmail.data.includes('success')) { //만약 서버에서 보내준 값에 "success" 값이 있을 경우
             window.alert('이메일 인증에 성공했습니다!') //성공 alert를 띄운 후 그대로 실행
+            setEmailCheck(true)
         } else {
             window.alert('이메일 인증에 실패했습니다!') //실패 alert를 띄운 후 그대로 종료
+            setEmailCheck(false)
             return
         }
 
@@ -153,6 +165,8 @@ export default function SignUp() {
                         </div>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr auto' }}>
                             <TextField className={styles.textField}
+                                error={emailCheck === false}
+                                helperText={emailCheck === false ? "다시 입력해주세요." : undefined}
                                 margin="normal"
                                 required
                                 fullWidth
@@ -206,6 +220,7 @@ export default function SignUp() {
                             variant="contained"
                             sx={{ backgroundColor: '#0040ff', mt: 2, mb: 1, height: '45px' }}
                             onClick={handleSubmit}
+                            disabled={!submittable}
                         >
                             회원가입
                         </Button>

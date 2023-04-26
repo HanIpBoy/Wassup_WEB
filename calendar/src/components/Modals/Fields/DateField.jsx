@@ -25,7 +25,9 @@ export default function DateField({ name, onInput, allday, value }) {
       >
         <DemoItem>
           {
-            allday ? <MobileDatePicker value={value} onChange={handleChange} defaultValue={dayjs()} /> : <MobileDateTimePicker value={value} onChange={handleChange} defaultValue={dayjs()} />
+            allday ? //하루종일 토글이 true or false
+              <MobileDatePicker value={value} onChange={handleChange} defaultValue={dayjs()} />
+              : <MobileDateTimePicker value={value} onChange={handleChange} defaultValue={dayjs()} />
           }
         </DemoItem>
       </DemoContainer>

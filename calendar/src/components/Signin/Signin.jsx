@@ -9,15 +9,16 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import MainIcon from '../../images/MainIcon.png';
 import styles from './Signin.module.css';
-import axios from 'axios'
-
+import axios from '../../axios';
+import cookie from 'js-cookie'
+import { useNavigate } from 'react-router-dom' //페이지 이동해주는 훅
 
 export default function SignIn() {
 
     const [emailInput, setEmailInput] = useState('')
     const [passwordInput, setPasswordInput] = useState('')
     const [checkEmail, setCheckEmail] = useState(false)
-
+    const navigate = useNavigate()
 
 
     const handleInputEmail = (event) => {
@@ -38,12 +39,19 @@ export default function SignIn() {
 
     const handleSubmit = async (event) => { // await을 사용하기 위해 async 함수로 선언
         event.preventDefault();
-        const response = await axios.post('http://localhost:8080/auth/signin', { // axios는 항상 await과 함께 사용
-            userId: emailInput,
-            password: passwordInput
-        })
 
-        const { status, data } = response;
+        try {
+            const response = await axios.post('/auth/signin', { // axios는 항상 await과 함께 사용
+                userId: emailInput,
+                password: passwordInput
+            })
+            const { status, data } = response;
+            cookie.set('token', data.token) //response의 data에 있는 token값 읽어오기
+            navigate('/calendar')
+
+        } catch (e) {
+            window.alert("로그인에 실패했습니다. 아이디와 비밀번호를 다시 한번 확인해주세요!")
+        }
     };
 
     return (
@@ -60,7 +68,7 @@ export default function SignIn() {
                 <img className={styles.mainIcon} src={MainIcon} />
 
                 <div className={styles.container}>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" noValidate sx={{ mt: 1 }}>
                         <TextField className={styles.textField}
                             margin="normal"
                             required
@@ -96,7 +104,9 @@ export default function SignIn() {
                         >
                             로그인
                         </Button>
-                        <button className={styles.signUp} href="#">계정을 만들어보자!</button>
+                        <Link href='/signup'>
+                            <Button className={styles.signUp} fullWidth variant='contained' sx={{ backgroundColor: '#000', mb: 2 }}>계정을 만들어보자!</Button>
+                        </Link>
                     </Box>
                     <Link className={styles.forgotPassword} href="#" variant="body1">
                         비밀번호를 까먹으셨나?

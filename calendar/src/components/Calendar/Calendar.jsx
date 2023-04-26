@@ -105,7 +105,7 @@ export default function Calendar({ schedule }) {
   };
 
   const [open, setOpen] = useState(false);
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(false); //수정모달 띄울지 말지 결정해주는 상태
   const handleOpen = (day) => {
     setOpen(true)
     console.log(day)
@@ -116,7 +116,7 @@ export default function Calendar({ schedule }) {
 
   return (
     <>
-      <CalendarModal editMode={editMode} open={open} onClose={handleClose} />
+      <CalendarModal selectedDate={selectedDate} editMode={editMode} open={open} onClose={handleClose} />
       <div className={styles.calendar}>
         <RenderHeader
           currentMonth={currentMonth}

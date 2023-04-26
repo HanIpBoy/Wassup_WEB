@@ -40,16 +40,16 @@ const modalHeader = {
 
 
 
-export default function CalendarModal({ open, onClose }) {
+export default function CalendarModal({ open, onClose, selectedDate }) {
 
     const initialInput = {
         name: '',
         allday: false,
-        start: dayjs(),
+        start: dayjs(selectedDate), //모달 클릭시 시작날짜 초기화
         end: dayjs(),
         memo: '',
         color: '',
-        repeat: ''
+        repeat: '',
     }
 
     const [input, setInput] = useState(initialInput)
@@ -136,8 +136,8 @@ export default function CalendarModal({ open, onClose }) {
                             <DateField
                                 name='start'
                                 onInput={handleInput}
-                                allday={input.allday}
-                                value={input.start}
+                                allday={input.allday} //datepicker or datetimepicker
+                                value={input.start} //입력값 동기화를 위해
                             />
                         </div>
                         <div>
