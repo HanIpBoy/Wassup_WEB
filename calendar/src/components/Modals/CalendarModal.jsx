@@ -40,13 +40,13 @@ const modalHeader = {
 
 
 
-export default function CalendarModal({ open, onClose, selectedDate }) {
+export default function CalendarModal({ onClose, selectedDate }) {
 
     const initialInput = {
         name: '',
         allday: false,
         start: dayjs(selectedDate), //모달 클릭시 시작날짜 초기화
-        end: dayjs(),
+        end: dayjs(selectedDate),
         memo: '',
         color: '',
         repeat: '',
@@ -97,7 +97,7 @@ export default function CalendarModal({ open, onClose, selectedDate }) {
     return (
         <div>
             <Modal
-                open={open}
+                open={true}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"

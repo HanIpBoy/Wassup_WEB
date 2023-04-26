@@ -1,124 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { Icon } from '@iconify/react';
-import { format, addMonths, subMonths } from 'date-fns';
-import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
-import { isSameMonth, isSameDay, addDays } from 'date-fns';
 import styles from './Calendar.module.css';
 import MainIcon from '../../images/MainIcon.png';
 import CalendarModal from '../Modals/CalendarModal';
-
-
-const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
-  return (
-    <>
-      <img className={styles.mainIcon} src={MainIcon} />
-      <div className={styles.header + ' row'}>
-
-        <div className={styles['col-start']}>
-          <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} />
-          <span className={styles.text}>
-            {format(currentMonth, 'yyyy')}년
-            <span className={`${styles.text} ${styles.month}`}>
-              {format(currentMonth, 'M')}월
-            </span>
-            <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
-          </span>
-
-        </div>
-        {/* <div className={styles['col-end']}>
-        <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} />
-        <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
-      </div> */}
-      </div>
-    </>
-
-  );
-};
-
-const RenderDays = () => {
-  const days = ['Sun', 'Mon', 'Thu', 'Wed', 'Thrs', 'Fri', 'Sat'].map((day, index) => (
-    <div className={styles.col} key={index}>
-      {day}
-    </div>
-  ));
-
-  return <div className={`${styles.days} row`}>{days}</div>;
-};
-
-const RenderCells = ({ currentMonth, selectedDate, onClose, onOpen, savedSchedule }) => {
-  const monthStart = startOfMonth(currentMonth);
-  const monthEnd = endOfMonth(monthStart);
-  const startDate = startOfWeek(monthStart);
-  const endDate = endOfWeek(monthEnd);
-  let days = []
-  const rows = []
-  let day = startDate;
-  let formattedDate = '';
-
-  while (day <= endDate) {
-    for (let i = 0; i < 7; i++) {
-      formattedDate = format(day, 'd');
-      const cloneDay = day;
-      days.push(
-        <div
-          className={`${styles.col} ${styles.cell} ${!isSameMonth(day, monthStart)
-            ? styles.disabled
-            : isSameDay(day, selectedDate)
-              ? styles.selected
-              : format(currentMonth, 'M') !== format(day, 'M')
-                ? styles['not-valid']
-                : styles.valid
-            }`}
-          key={day.getTime()}
-          onClick={() => onOpen(cloneDay)}
-        >
-          {/* onDateClick(parse(cloneDay)) -> */}
-          <span
-            className={
-              format(currentMonth, 'M') !== format(day, 'M') ? `${styles.text} ${styles['not-valid']}` : styles.text
-            }
-          >
-            {formattedDate}
-          </span>
-        </div>)
-      day = addDays(day, 1);
-    }
-    rows.push(<div className={styles.row} key={day.getTime()} >
-      {days}
-    </div>)
-    days = []
-  }
-
-  return <div className={styles.body}>{rows}</div>;
-};
+import FullCalendarView from './FullCalendarView';
 
 export default function Calendar({ schedule }) {
-
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
-  const prevMonth = () => {
-    setCurrentMonth(subMonths(currentMonth, 1));
-  };
-  const nextMonth = () => {
-    setCurrentMonth(addMonths(currentMonth, 1));
-  };
-
   const [open, setOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState();
   const [editMode, setEditMode] = useState(false); //수정모달 띄울지 말지 결정해주는 상태
-  const handleOpen = (day) => {
+  const [selectedEvent, setSelectedEvent] = useState(); //스케줄 클릭시 나타나는 모달 정보
+
+  const handleClickDate = (date) => {
     setOpen(true)
-    console.log(day)
-    setSelectedDate(day)
+    console.log(date)
+    setSelectedDate(date)
+    setEditMode(false)
   };
   const handleClose = () => setOpen(false);
 
+  const handleClickEvent = (event) => { //FullCalendar 에서 넘겨준 클릭 이벤트
+    setOpen(true)
+    setEditMode(true)
+    setSelectedEvent(event)
+  }
 
   return (
     <>
-      <CalendarModal selectedDate={selectedDate} editMode={editMode} open={open} onClose={handleClose} />
+      {open && <CalendarModal selectedEvent={selectedEvent} selectedDate={selectedDate} editMode={editMode} onClose={handleClose} />}
       <div className={styles.calendar}>
-        <RenderHeader
+        {/* <RenderHeader
           currentMonth={currentMonth}
           prevMonth={prevMonth}
           nextMonth={nextMonth}
@@ -130,7 +40,8 @@ export default function Calendar({ schedule }) {
           currentMonth={currentMonth}
           selectedDate={selectedDate}
           savedSchedule={schedule}
-        />
+        /> */}
+        <FullCalendarView schedule={schedule} onClickDate={handleClickDate} onClickEvent={handleClickEvent} />  {/* FullCalendarView Library 렌더링 */}
       </div>
     </>
   );

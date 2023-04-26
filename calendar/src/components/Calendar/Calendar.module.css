@@ -137,3 +137,9 @@
   font-weight: 600;
   background-color: #aebcf4;
 }
+
+.fc-calendar {}
+
+.fc-calendar .fc-day {
+  background-color: red;
+}
