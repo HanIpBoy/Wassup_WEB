@@ -29,7 +29,7 @@ export default function SignUp() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (nameInput && emailInput && passwordInput && birthInput && codeInput && passwordCheck && emailCheck)
+        if (nameInput && emailInput && passwordInput && birthInput && codeInput || passwordCheck && emailCheck)
             setSubmittable(true)
         else
             setSubmittable(false)
@@ -90,7 +90,7 @@ export default function SignUp() {
 
         console.log(response)
 
-        navigate('/signin') //페이지 이동
+        // navigate('/signin') //페이지 이동
     };
 
 
@@ -214,16 +214,18 @@ export default function SignUp() {
                                 />
                             </DemoContainer>
                         </LocalizationProvider>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ backgroundColor: '#0040ff', mt: 2, mb: 1, height: '45px' }}
-                            onClick={handleSubmit}
-                            disabled={!submittable}
-                        >
-                            회원가입
-                        </Button>
+                        <Link href='/signin'>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ backgroundColor: '#0040ff', mt: 2, mb: 1, height: '45px' }}
+                                onClick={handleSubmit}
+                                disabled={!submittable}
+                            >
+                                회원가입
+                            </Button>
+                        </Link>
                     </Box>
                 </div>
             </Box>
