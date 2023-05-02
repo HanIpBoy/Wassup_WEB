@@ -5,7 +5,7 @@ import RepeatField from './Fields/RepeatField';
 import DateField from './Fields/DateField';
 import Button from '@mui/material/Button'
 import MiniIcon from '../../images/MiniIcon.png';
-import axios from 'axios';
+import axios from '../../axios';
 import dayjs from 'dayjs'
 
 const style = {
@@ -40,7 +40,7 @@ const modalHeader = {
 
 
 
-export default function CalendarModal({ onClose, selectedDate }) {
+export default function CalendarModal({ onClose, selectedDate, editMode }) {
 
     const initialInput = {
         name: '',
@@ -175,6 +175,16 @@ export default function CalendarModal({ onClose, selectedDate }) {
                         sx={{ mt: 3, height: 45, fontSize: 16 }}
                         onClick={handleSubmit}
                     >저장</Button>
+                    {editMode ? (
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            sx={{ mt: 1, height: 45, fontSize: 16 }}
+                        // onClick={handleDelete}
+                        >
+                            삭제
+                        </Button>
+                    ) : null}
                 </Box>
             </Modal>
         </div>
