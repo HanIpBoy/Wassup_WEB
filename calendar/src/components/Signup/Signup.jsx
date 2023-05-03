@@ -90,7 +90,6 @@ export default function SignUp() {
 
         console.log(response)
 
-        // navigate('/signin') //페이지 이동
     };
 
 
@@ -215,7 +214,6 @@ export default function SignUp() {
                         </LocalizationProvider>
                         <Link href='/signin'>
                             <Button
-                                type="submit"
                                 fullWidth
                                 variant="contained"
                                 sx={{ backgroundColor: '#0040ff', mt: 2, mb: 1, height: '45px' }}

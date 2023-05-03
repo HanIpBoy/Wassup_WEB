@@ -96,7 +96,6 @@ export default function SignIn() {
                             label="아이디 기억하기"
                         />
                         <Button
-                            type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ backgroundColor: '#0040ff', mt: 3, mb: 2 }}
@@ -112,7 +111,7 @@ export default function SignIn() {
                         비밀번호를 까먹으셨나?
                     </Link>
                 </div>
-            </Box>
-        </Container>
+            </Box >
+        </Container >
     );
 }
