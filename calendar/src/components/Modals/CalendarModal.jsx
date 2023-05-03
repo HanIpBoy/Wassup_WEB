@@ -40,7 +40,7 @@ const modalHeader = {
 
 
 
-export default function CalendarModal({ onClose, selectedDate, editMode }) {
+export default function CalendarModal({ onClose, selectedDate, editMode, onSubmitSchedule, selectedEvent }) {
 
     const initialInput = {
         name: '',
@@ -51,8 +51,24 @@ export default function CalendarModal({ onClose, selectedDate, editMode }) {
         color: '',
         repeat: '',
     }
+    const formatEvent = (event) => {
+        const input = {
+            name: event._def.title,
+            allday: event._def.allDay,
+            start: dayjs(event._instance.range.start),
+            end: dayjs(event._instance.range.end),
+            memo: '',
+            color: '',
+            repeat: '',
+            // memo: 아직 못 가져옴
+            // color: 
+        }
 
-    const [input, setInput] = useState(initialInput)
+        return input
+    }
+
+    const [input, setInput] = useState(selectedEvent && editMode ? formatEvent(selectedEvent) : initialInput) // editMode, selectedEvent가 true이면 들어있는 값으로 변경
+    // const [input, setInput] = useState(initialInput) // editMode, selectedEvent가 true이면 들어있는 값으로 변경
     const handleInput = (event) => {
         const { value, name } = event.target
         if (name === 'allday') {
@@ -75,8 +91,8 @@ export default function CalendarModal({ onClose, selectedDate, editMode }) {
             } else return value
         }
         const { start, end } = input
-        const startAt = start.$y + '-' + format(start.$M + 1) + '-' + format(start.$D) + '-' + format(start.$H) + ':' + format(start.$m)
-        const endAt = end.$y + '-' + format(end.$M + 1) + '-' + format(end.$D) + '-' + format(end.$H) + ':' + format(end.$m)
+        const startAt = start.$y + '-' + format(start.$M + 1) + '-' + format(start.$D) + 'T' + format(start.$H) + ':' + format(start.$m)
+        const endAt = end.$y + '-' + format(end.$M + 1) + '-' + format(end.$D) + 'T' + format(end.$H) + ':' + format(end.$m)
 
         const response = await axios.post('/schedule', {
             name: input.name,
@@ -87,6 +103,10 @@ export default function CalendarModal({ onClose, selectedDate, editMode }) {
             notification: 0,
             allDayToggle: input.allday === true ? "true" : "false"
         })
+
+        if (response.data.status === 'succeed') {
+            onSubmitSchedule(response.data.data)
+        }
     }
 
     const handleClose = () => {
@@ -111,6 +131,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode }) {
                     </div>
                     <TextField id="filled-basic"
                         name='name'
+                        value={input.name}
                         label="이름"
                         variant='filled'
                         margin="dense"
@@ -121,7 +142,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode }) {
                     <br />
                     <FormControlLabel
                         name='allday'
-                        value="start"
+                        checked={input.allday}
                         onInput={handleInput}
                         control={<Checkbox />}
                         label="하루종일"
@@ -175,7 +196,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode }) {
                         sx={{ mt: 3, height: 45, fontSize: 16 }}
                         onClick={handleSubmit}
                     >저장</Button>
-                    {editMode ? (
+                    {editMode && (
                         <Button
                             variant="contained"
                             fullWidth
@@ -184,7 +205,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode }) {
                         >
                             삭제
                         </Button>
-                    ) : null}
+                    )}
                 </Box>
             </Modal>
         </div>
