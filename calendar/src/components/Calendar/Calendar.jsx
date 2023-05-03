@@ -5,10 +5,18 @@ import CalendarModal from '../Modals/CalendarModal';
 import FullCalendarView from './FullCalendarView';
 
 export default function Calendar({ schedule }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); // true면 모달 열림, false면 모달 닫힘
   const [selectedDate, setSelectedDate] = useState();
   const [editMode, setEditMode] = useState(false); //수정모달 띄울지 말지 결정해주는 상태
   const [selectedEvent, setSelectedEvent] = useState(); //스케줄 클릭시 나타나는 모달 정보
+  const [updatedSchedule, setUpdatedSchedule] = useState();
+
+  useEffect(() => {
+    // schedule값이 undefined -> 리스트로 변하면 updatedSchedule을 schedule값으로 바꾼다
+    if (schedule !== undefined) {
+      setUpdatedSchedule(schedule)
+    }
+  }, [schedule])
 
   const handleClickDate = (date) => {
     setOpen(true)
@@ -24,9 +32,25 @@ export default function Calendar({ schedule }) {
     setSelectedEvent(event)
   }
 
+  const handleSubmitSchedule = (event) => {
+    // 1. 모달을 닫는다
+    setOpen(false)
+    // 2. schedule을 업데이트한다
+    setUpdatedSchedule(event)
+
+  }
+
   return (
     <>
-      {open && <CalendarModal selectedEvent={selectedEvent} selectedDate={selectedDate} editMode={editMode} onClose={handleClose} />}
+      {open &&
+        <CalendarModal
+          selectedEvent={selectedEvent}
+          selectedDate={selectedDate}
+          editMode={editMode}
+          onClose={handleClose}
+          onSubmitSchedule={handleSubmitSchedule}
+        />
+      }
       <div className={styles.calendar}>
         {/* <RenderHeader
           currentMonth={currentMonth}
@@ -41,7 +65,7 @@ export default function Calendar({ schedule }) {
           selectedDate={selectedDate}
           savedSchedule={schedule}
         /> */}
-        <FullCalendarView schedule={schedule} onClickDate={handleClickDate} onClickEvent={handleClickEvent} />  {/* FullCalendarView Library 렌더링 */}
+        <FullCalendarView schedule={updatedSchedule} onClickDate={handleClickDate} onClickEvent={handleClickEvent} />  {/* FullCalendarView Library 렌더링 */}
       </div>
     </>
   );
