@@ -21,6 +21,7 @@ schedule [ //데이터 예시
     {}
 ]
 */
+
 export default function FullCalendarView({ onClickDate, schedule, onClickEvent }) {
     const [events, setEvents] = useState([])
     const [calendarApi, setCalendarApi] = useState();
@@ -38,10 +39,10 @@ export default function FullCalendarView({ onClickDate, schedule, onClickEvent }
         if (calendarRef.current) {
             setCalendarApi(calendarRef.current.getApi())
         }
-    }, []);
+    }, [calendarRef.current]);
 
     useEffect(() => { //스케줄을 FullCalendar library 형식에 맞춰 가공
-        if (calendarApi) {
+        if (calendarApi && schedule) {
             const events = schedule.map((value, idx) => {
                 let event = {
                     id: value.originKey,
@@ -56,7 +57,7 @@ export default function FullCalendarView({ onClickDate, schedule, onClickEvent }
             })
             setEvents(events)
         }
-    }, [calendarApi])
+    }, [calendarApi, schedule])
 
     return (
         <div>
