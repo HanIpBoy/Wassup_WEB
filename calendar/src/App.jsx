@@ -5,9 +5,9 @@ import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import NotFound from './pages/NotFound';
 import Calendar from './pages/Calendar';
-import CalendarModal from './pages/CalendarModal';
 import { ErrorBoundary } from 'react-error-boundary';
 import Error from './pages/Error';
+import Group from './pages/Group';
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/calendar" element={<Calendar />} />
-          <Route path="/calendarmodal" element={<CalendarModal />} />
+          <Route path="/group" element={<Group />} />
           <Route element={<NotFound />} />
         </Routes>
       </BrowserRouter>
