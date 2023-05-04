@@ -28,7 +28,16 @@ export default function FullCalendarView({ onClickDate, schedule, onClickEvent }
     const calendarRef = useRef();
 
     const handleClickEvent = (event) => {
-        onClickEvent(event.event)
+        // schedule 중에 originKey값이 event의 publicId와 같은 리스트아이템을 넘겨준다.
+        const publicId = event.event._def.publicId
+        // Array.filter() -> Array
+        // (Array).find() -> Item
+
+        const target = schedule.find((item) => {
+            return item.originKey === publicId
+        })
+
+        onClickEvent(target)
     }
 
     const handleClickDate = (event) => {

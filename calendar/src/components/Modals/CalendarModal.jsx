@@ -40,7 +40,7 @@ const modalHeader = {
 
 
 
-export default function CalendarModal({ onClose, selectedDate, editMode, onSubmitSchedule, selectedEvent }) {
+export default function CalendarModal({ onClose, selectedDate, editMode, onSubmitSchedule, selectedSchedule }) {
 
     const initialInput = {
         name: '',
@@ -51,30 +51,24 @@ export default function CalendarModal({ onClose, selectedDate, editMode, onSubmi
         color: '',
         repeat: '',
     }
-    const formatEvent = (event) => {
-        const input = {
-            name: event._def.title,
-            allday: event._def.allDay,
-            start: dayjs(event._instance.range.start),
-            end: dayjs(event._instance.range.end),
-            memo: '',
-            color: '',
-            repeat: '',
-            // memo: 아직 못 가져옴
-            // color: 
-        }
 
+    const formatSchedule = (schedule) => {
+        const input = {
+            ...schedule,
+            start: dayjs(schedule.startAt),
+            end: dayjs(schedule.endAt),
+        }
         return input
     }
 
-    const [input, setInput] = useState(selectedEvent && editMode ? formatEvent(selectedEvent) : initialInput) // editMode, selectedEvent가 true이면 들어있는 값으로 변경
-    // const [input, setInput] = useState(initialInput) // editMode, selectedEvent가 true이면 들어있는 값으로 변경
+    const [input, setInput] = useState(selectedSchedule && editMode ? formatSchedule(selectedSchedule) : initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
+    // const [input, setInput] = useState(initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
     const handleInput = (event) => {
         const { value, name } = event.target
         if (name === 'allday') {
             setInput((prev) => ({
                 ...prev,
-                allday: event.target.checked
+                allday: !prev.allday
             }))
             return
         }
@@ -94,7 +88,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, onSubmi
         const startAt = start.$y + '-' + format(start.$M + 1) + '-' + format(start.$D) + 'T' + format(start.$H) + ':' + format(start.$m)
         const endAt = end.$y + '-' + format(end.$M + 1) + '-' + format(end.$D) + 'T' + format(end.$H) + ':' + format(end.$m)
 
-        const response = await axios.post('/schedule', {
+        const payload = {
             name: input.name,
             startAt: startAt,
             endAt: endAt,
@@ -102,7 +96,17 @@ export default function CalendarModal({ onClose, selectedDate, editMode, onSubmi
             memo: input.memo,
             notification: 0,
             allDayToggle: input.allday === true ? "true" : "false"
-        })
+        }
+        // 수정 모드일 때는 (editMode) PUT
+        // 생성할 때는 POST
+
+        let response
+
+        if (editMode) {
+            response = await axios.put('/schedule', payload)
+        } else {
+            response = await axios.post('/schedule', payload)
+        }
 
         if (response.data.status === 'succeed') {
             onSubmitSchedule(response.data.data)
@@ -112,6 +116,15 @@ export default function CalendarModal({ onClose, selectedDate, editMode, onSubmi
     const handleClose = () => {
         setInput(initialInput)
         onClose()
+    }
+
+    const handleDelete = async (event) => {
+        const response = await axios.delete(`/schedule/${selectedSchedule.originKey}`, {
+            // originKey: selectedSchedule.originKey
+        })
+        if (response.data.status === 'succeed') {
+            onSubmitSchedule(response.data.data)
+        }
     }
 
     return (
@@ -195,13 +208,14 @@ export default function CalendarModal({ onClose, selectedDate, editMode, onSubmi
                         fullWidth
                         sx={{ mt: 3, height: 45, fontSize: 16 }}
                         onClick={handleSubmit}
-                    >저장</Button>
+                    >{editMode ? '수정' : '추가'}</Button>
+                    {/* 삼항연산자 사용, editMode에 따라 수정, 추가 버튼 변경 */}
                     {editMode && (
                         <Button
                             variant="contained"
                             fullWidth
                             sx={{ mt: 1, height: 45, fontSize: 16 }}
-                        // onClick={handleDelete}
+                            onClick={handleDelete}
                         >
                             삭제
                         </Button>

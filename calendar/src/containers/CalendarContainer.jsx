@@ -1,7 +1,7 @@
 import axios from "../axios";
 import Calendar from "../components/Calendar/Calendar.jsx";
 import { useEffect, useState } from "react";
-
+import Header from "../components/Header/Header.jsx";
 // const dummy = [ //더미 데이터, 서버 작동되면 삭제해도 됨
 //     {
 //         "originKey": " ", "name": "스케쥴1 ",
@@ -60,5 +60,11 @@ export default function CalendarContainer() {
             setSchedule(schedule)
         })
     }, []);
-    return <Calendar schedule={schedule} />
+
+    return (
+        <>
+            <Header />
+            <Calendar schedule={schedule} />
+        </>
+    )
 }

@@ -8,7 +8,7 @@ export default function Calendar({ schedule }) {
   const [open, setOpen] = useState(false); // true면 모달 열림, false면 모달 닫힘
   const [selectedDate, setSelectedDate] = useState();
   const [editMode, setEditMode] = useState(false); //수정모달 띄울지 말지 결정해주는 상태
-  const [selectedEvent, setSelectedEvent] = useState(); //스케줄 클릭시 나타나는 모달 정보
+  const [selectedSchedule, setSelectedSchedule] = useState(); //스케줄 클릭시 나타나는 모달 정보
   const [updatedSchedule, setUpdatedSchedule] = useState();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function Calendar({ schedule }) {
   const handleClickEvent = (event) => { //FullCalendar 에서 넘겨준 클릭 이벤트
     setOpen(true)
     setEditMode(true)
-    setSelectedEvent(event)
+    setSelectedSchedule(event)
   }
 
   const handleSubmitSchedule = (event) => {
@@ -44,7 +44,7 @@ export default function Calendar({ schedule }) {
     <>
       {open &&
         <CalendarModal
-          selectedEvent={selectedEvent}
+          selectedSchedule={selectedSchedule}
           selectedDate={selectedDate}
           editMode={editMode}
           onClose={handleClose}
