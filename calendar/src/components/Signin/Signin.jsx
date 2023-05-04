@@ -47,6 +47,7 @@ export default function SignIn() {
             })
             const { status, data } = response;
             cookie.set('token', data.token) //response의 data에 있는 token값 읽어오기
+            cookie.set('username', response.data.userName) //response의 data에 있는 userName 쿠키에 저장
             navigate('/calendar')
 
         } catch (e) {
