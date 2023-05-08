@@ -3,6 +3,8 @@ import MainIcon from "../../images/MainIcon.png";
 import Button from '@mui/material/Button';
 import cookie from 'js-cookie'
 import { useNavigate } from "react-router-dom";
+import CalendarIcon from "../../images/CalendarIcon.png";
+
 export default function Header() {
     const [username, setUserName] = useState('')
     useEffect(() => {
@@ -20,6 +22,8 @@ export default function Header() {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div></div>
+            <div></div>
             <img src={MainIcon} style={{ width: '8%' }} />
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -27,7 +31,9 @@ export default function Header() {
                     <p>{username} 님</p>
                     <Button variant="text" onClick={handleClickLogout}>로그아웃</Button>
                 </div>
-                <div style={{ backgroundColor: 'black', height: '30px', width: '200px' }} />
+                <div>
+                    <img src={CalendarIcon} />
+                </div>
             </div>
 
         </div>
