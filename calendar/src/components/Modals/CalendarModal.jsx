@@ -39,7 +39,7 @@ const modalHeader = {
 }
 
 
-
+// TODO: response에 memo 데이터 없음
 export default function CalendarModal({ onClose, selectedDate, editMode, onSubmitSchedule, selectedSchedule }) {
 
     const initialInput = {
@@ -119,9 +119,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, onSubmi
     }
 
     const handleDelete = async (event) => {
-        const response = await axios.delete(`/schedule/${selectedSchedule.originKey}`, {
-            // originKey: selectedSchedule.originKey
-        })
+        const response = await axios.delete(`/schedule/${selectedSchedule.originKey}`)
         if (response.data.status === 'succeed') {
             onSubmitSchedule(response.data.data)
         }
@@ -186,6 +184,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, onSubmi
                     </div>
                     <TextField id="filled-basic"
                         name='memo'
+                        value={input.memo}
                         label="메모"
                         variant='filled'
                         margin="dense"
