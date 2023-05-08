@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import cookie from 'js-cookie'
 import { useNavigate } from "react-router-dom";
 import CalendarIcon from "../../images/CalendarIcon.png";
+import GroupIcon from '../../images/GroupIcon.png';
+import SettingIcon from '../../images/SettingIcon.png';
 
 export default function Header() {
     const [username, setUserName] = useState('')
@@ -21,18 +23,19 @@ export default function Header() {
     }
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
             <div></div>
-            <div></div>
-            <img src={MainIcon} style={{ width: '8%' }} />
+            <img src={MainIcon} style={{ width: '10%', height: '10%', marginLeft: '100px', marginTop: '10px' }} />
 
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <p>{username} 님</p>
                     <Button variant="text" onClick={handleClickLogout}>로그아웃</Button>
                 </div>
                 <div>
-                    <img src={CalendarIcon} />
+                    <img src={CalendarIcon} style={{ width: '32px', height: '32px', margin: '5px' }} />
+                    <img src={GroupIcon} style={{ width: '32px', height: '32px', margin: '5px' }} />
+                    <img src={SettingIcon} style={{ width: '32px', height: '32px', margin: '3px', marginRight: '20px' }} />
                 </div>
             </div>
 
