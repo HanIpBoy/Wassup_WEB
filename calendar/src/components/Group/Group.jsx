@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 
 export default function Group({ groups }) {
     const [open, setOpen] = useState(false); // true면 모달 열림, false면 모달 닫힘
+    const [editMode, setEditMode] = useState(false) // 수정할지 말지 알려줌
     const handleClick = () => {
         setOpen(true)
     }
@@ -16,18 +17,20 @@ export default function Group({ groups }) {
 
     return (
         <>
-            {open && <GroupModal onClose={handleClose} />}
+            {open && <GroupModal onClose={handleClose} editMode={editMode} />}
             <div>
                 {groups.map((value, idx) => {
                     return <GroupItem group={value} key={idx} />
                 })}
             </div>
-            <Button
-                variant="contained"
-                onClick={handleClick}
-            >
-                그룹 추가
-            </Button>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button
+                    variant="contained"
+                    onClick={handleClick}
+                >
+                    그룹 추가
+                </Button>
+            </div>
         </>
     )
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Group from "../components/Group/Group.jsx";
 import Header from "../components/Header/Header.jsx";
 
-const dummy = [
+const dummy = [ //더미 데이터
     {
         originKey: "1",
         groupName: "한성대 동아리",
