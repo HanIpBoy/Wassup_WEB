@@ -128,9 +128,9 @@ export default function GroupModal({ onClose, editMode }) {
                             onInput={handleInput}
                         />
                         <Button
-                            variant='contained'
+                            variant='text'
                             fullWidth
-                            sx={{ mt: 3, height: 45, fontSize: 16 }}
+                            sx={{ mt: 3, height: 45, fontSize: 16, color: 'gray' }}
                             onClick={handleSearch}
                         >
                             사용자 검색하기

@@ -25,17 +25,18 @@ export default function Header() {
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
             <div></div>
-            <img src={MainIcon} style={{ width: '10%', height: '10%', marginLeft: '100px', marginTop: '10px' }} />
+            <img src={MainIcon} style={{ width: '10%', height: '10%', marginLeft: '180px', marginTop: '10px' }} />
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', margin: '5px' }}>
                     <p>{username} 님</p>
-                    <Button variant="text" onClick={handleClickLogout}>로그아웃</Button>
+                    <div style={{ borderLeft: "solid gray", height: '50%', left: '50%', marginLeft: '8px' }}></div>
+                    <Button variant="text" onClick={handleClickLogout} sx={{ color: 'gray' }}>로그아웃</Button>
                 </div>
                 <div>
                     <img src={CalendarIcon} style={{ width: '32px', height: '32px', margin: '5px' }} />
                     <img src={GroupIcon} style={{ width: '32px', height: '32px', margin: '5px' }} />
-                    <img src={SettingIcon} style={{ width: '32px', height: '32px', margin: '3px', marginRight: '20px' }} />
+                    <img src={SettingIcon} style={{ width: '32px', height: '32px', margin: '3px', marginRight: '50px' }} />
                 </div>
             </div>
 

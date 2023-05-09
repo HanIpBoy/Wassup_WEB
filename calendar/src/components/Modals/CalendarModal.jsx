@@ -212,7 +212,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, onSubmi
                         <Button
                             variant="contained"
                             fullWidth
-                            sx={{ mt: 1, height: 45, fontSize: 16 }}
+                            sx={{ mt: 1, height: 45, fontSize: 16, backgroundColor: 'red' }}
                             onClick={handleDelete}
                         >
                             삭제
