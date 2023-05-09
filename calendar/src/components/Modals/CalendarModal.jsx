@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Box, TextField, FormControlLabel, Checkbox, makeStyles } from '@mui/material';
 import ColorField from './Fields/ColorField';
-import RepeatField from './Fields/RepeatField';
 import DateField from './Fields/DateField';
 import Button from '@mui/material/Button'
 import MiniIcon from '../../images/MiniIcon.png';
@@ -197,11 +196,11 @@ export default function CalendarModal({ onClose, selectedDate, editMode, onSubmi
                         onInput={handleInput}
                         value={input.color}
                     />
-                    <RepeatField
+                    {/* <RepeatField
                         name='repeat'
                         onInput={handleInput}
                         value={input.repeat}
-                    />
+                    /> */}
                     <Button
                         variant="contained"
                         fullWidth
