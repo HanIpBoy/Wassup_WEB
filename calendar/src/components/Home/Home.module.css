@@ -8,7 +8,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin-bottom: -80px;
-    padding: 100px;
+    padding: 80px;
+    background-color: rgb(219, 230, 243, 0.2)
 }
 
 /* .secondLayout {
@@ -90,10 +91,10 @@
     transform: translateX(-95%);
 }
 
-.line {
+/* .line {
     border-top: 1px solid #ababab;
-    margin: 30px 0px;
-}
+    margin-top: 40px;
+} */
 
 .introduce {
     color: #ababab;
@@ -102,7 +103,7 @@
 }
 
 .firstHomePicture {
-    padding-top: 40px;
+    padding-top: 140px;
     padding-bottom: 50px;
     width: 90%;
     height: 100%;
