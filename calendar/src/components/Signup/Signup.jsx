@@ -66,6 +66,8 @@ export default function SignUp() {
 
     const handleSubmit = async (event) => { //회원가입 버튼 이벤트 핸들러
         //데이터값들을 서버 요청 양식에 맞게 재가공
+        window.alert('회원가입이 완료되었습니다!')
+
         let month = birthInput.$M + 1 //월
         let day = birthInput.$D //일
 
@@ -80,14 +82,13 @@ export default function SignUp() {
         const birth = birthInput.$y + '-' + month + '-' + day //서버 요청 양식에 맞춘 새로운 birth값 생성
 
         const response = await axios.post('/auth/signup', { //회원가입 버튼 클릭시 서버로 post
-            username: nameInput,
+            userName: nameInput,
             userId: emailInput,
             password: passwordInput,
             birth: birth
         })
 
         const { status, data } = response;
-        window.alert('회원가입이 완료되었습니다!')
         console.log(response)
 
     };
