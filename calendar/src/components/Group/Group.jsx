@@ -16,21 +16,35 @@ export default function Group({ groups }) {
     }
 
     return (
-        <>
-            {open && <GroupModal onClose={handleClose} editMode={editMode} />}
-            <div>
-                {groups.map((value, idx) => {
-                    return <GroupItem group={value} key={idx} />
-                })}
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div style={{
+            backgroundColor: 'rgba(219,230,243,0.5)',
+            height: '550px',
+            marginLeft: '50px',
+            marginRight: '50px',
+            borderRadius: '30px',
+            boxShadow: '2px 2px 10px rgba(0,0,0,0.2)'
+        }}>
+            <div style={{ display: 'flex', justifyContent: 'right', marginRight: '50px' }}>
+                {open && <GroupModal onClose={handleClose} editMode={editMode} />}
                 <Button
-                    variant="contained"
+                    variant="text"
                     onClick={handleClick}
+                    sx={{ cursor: 'pointer' }}
+
                 >
                     그룹 추가
                 </Button>
+                <div></div>
             </div>
-        </>
+            <div>
+                {groups.map((value, idx) => {
+                    return <>
+                        <hr style={{ borderTop: '1px solid rgba(0,0,0,0.1)', width: '100%' }} />
+                        <GroupItem group={value} key={idx} />
+                    </>
+                })}
+            </div>
+
+        </div>
     )
 }
