@@ -22,14 +22,15 @@ export default function Group({ groups }) {
             marginLeft: '50px',
             marginRight: '50px',
             borderRadius: '30px',
-            boxShadow: '2px 2px 10px rgba(0,0,0,0.2)'
+            boxShadow: '2px 2px 10px rgba(0,0,0,0.2)',
+            fontFamily: 'var(--font-PoorStory);'
         }}>
             <div style={{ display: 'flex', justifyContent: 'right', marginRight: '50px' }}>
                 {open && <GroupModal onClose={handleClose} editMode={editMode} />}
                 <Button
                     variant="text"
                     onClick={handleClick}
-                    sx={{ cursor: 'pointer' }}
+                    sx={{ cursor: 'pointer', fontFamily: 'var(--font-PoorStory);' }}
 
                 >
                     그룹 추가

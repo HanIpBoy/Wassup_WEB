@@ -5,6 +5,8 @@ import MiniIcon from '../../images/MiniIcon.png';
 import axios from 'axios';
 import cookie from 'js-cookie'
 import SearchModal from './SearchModal.jsx';
+import Avartar from '../Avatar';
+import { COLOR_CODE_LIST } from '../../constants';
 
 const style = {
     position: 'absolute',
@@ -36,7 +38,12 @@ export default function GroupModal({ onClose, editMode }) {
     const initialInput = {
         groupName: '',
         description: '',
-        groupUsers: [cookie.get('username')]
+        groupUsers: []
+    }
+
+    const handleGroupUsers = (users) => {
+        setSearchUsers(false)
+        setInput({ ...input, groupUsers: users })
     }
 
     const [input, setInput] = useState(initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
@@ -59,7 +66,7 @@ export default function GroupModal({ onClose, editMode }) {
             groupName: input.groupName,
             description: input.description,
             numOfUsers: input.groupUsers.length,
-            leaderId: cookie.get('username'),
+            leaderId: cookie.get('userId'),
             groupUsers: input.groupUsers
         }
         // [...input.groupUsers, leaderId]
@@ -84,14 +91,21 @@ export default function GroupModal({ onClose, editMode }) {
         onClose()
     }
 
-    const back = () => { //뒤로가기 함수
-        setSearchUsers(false)
+    const handleClickRemove = (userId) => {
+        if (userId !== cookie.get('userId')) {
+            // Array.find((item) => true)
+            const idx = input.groupUsers.findIndex((item) => item.userId === userId)
+            // users에서 idx번째 원소를 삭제하면 된다
+            const tempUsers = [...input.groupUsers]
+            tempUsers.splice(idx, 1)
+            setInput({ ...input, groupUsers: tempUsers })
+        }
     }
 
     return (
         <div>
             {searchUsers === true ?
-                <SearchModal back={back} />
+                <SearchModal onSubmit={handleGroupUsers} />
                 :
                 <Modal
                     open={true}
@@ -135,6 +149,11 @@ export default function GroupModal({ onClose, editMode }) {
                         >
                             사용자 검색하기
                         </Button>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: '30px', rowGap: '15px', padding: '0 25px' }}>
+                            {input.groupUsers.map((value, idx) => {
+                                return <Avartar onClick={handleClickRemove} backgroundColor={COLOR_CODE_LIST[idx]} userName={value.userName} userId={value.userId} key={value.userId} />
+                            })}
+                        </div>
                         <Button
                             variant="contained"
                             fullWidth

@@ -22,6 +22,7 @@ schedule [ //데이터 예시
 ]
 */
 
+// TODO: 이벤트가 endAt 전날 까지만 표시됨
 export default function FullCalendarView({ onClickDate, schedule, onClickEvent }) {
     const [events, setEvents] = useState([])
     const [calendarApi, setCalendarApi] = useState();
@@ -52,12 +53,15 @@ export default function FullCalendarView({ onClickDate, schedule, onClickEvent }
 
     useEffect(() => { //스케줄을 FullCalendar library 형식에 맞춰 가공
         if (calendarApi && schedule) {
+
             const events = schedule.map((value, idx) => {
+                const end = new Date(value.endAt).getTime()
+                const formattedEnd = new Date(end + 60 * 60 * 24 * 1000) //포맷된 날짜
                 let event = {
                     id: value.originKey,
                     title: value.name,
                     start: new Date(value.startAt),
-                    end: new Date(value.endAt),
+                    end: new Date(formattedEnd),
                     allDay: value.allDayToggle,
                     // backgroundColor:
                     // borderColor: 

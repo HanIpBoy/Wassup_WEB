@@ -8,6 +8,7 @@ import Calendar from './pages/Calendar';
 import { ErrorBoundary } from 'react-error-boundary';
 import Error from './pages/Error';
 import Group from './pages/Group';
+import GroupDetail from './pages/GroupDetail';
 import NotLogin from './pages/NotLogin';
 
 function App() {
@@ -20,8 +21,9 @@ function App() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/calendar" element={<Calendar />} />
-          <Route path="/group" element={<Group />} />
+          <Route path="/groups" element={<Group />} />
           <Route path="/notlogin" element={<NotLogin />} />
+          <Route path="/groups/:groupId" element={<GroupDetail />} />
           <Route element={<NotFound />} />
         </Routes>
       </BrowserRouter>

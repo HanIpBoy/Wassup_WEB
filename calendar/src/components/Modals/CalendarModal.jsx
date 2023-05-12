@@ -157,7 +157,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, onSubmi
                         control={<Checkbox />}
                         label="하루종일"
                         labelPlacement='start'
-                        sx={{ ml: 35, mt: -0.5 }}
+                        sx={{ ml: 35, mt: -0.5, fontFamily: 'var(--font-PoorStory)' }}
                     />
                     <div style={{ borderTop: '0.5px solid grey', marginBottom: '10px' }}></div>
 
@@ -204,7 +204,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, onSubmi
                     <Button
                         variant="contained"
                         fullWidth
-                        sx={{ mt: 3, height: 45, fontSize: 16 }}
+                        sx={{ mt: 3, height: 45, fontSize: 16, fontFamily: 'var(--font-PoorStory);' }}
                         onClick={handleSubmit}
                     >{editMode ? '수정' : '추가'}</Button>
                     {/* 삼항연산자 사용, editMode에 따라 수정, 추가 버튼 변경 */}
@@ -212,7 +212,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, onSubmi
                         <Button
                             variant="contained"
                             fullWidth
-                            sx={{ mt: 1, height: 45, fontSize: 16, backgroundColor: 'red' }}
+                            sx={{ mt: 1, height: 45, fontSize: 16, backgroundColor: 'red', fontFamily: 'var(--font-PoorStory);' }}
                             onClick={handleDelete}
                         >
                             삭제

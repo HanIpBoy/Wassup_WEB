@@ -5,6 +5,7 @@ import axios from '../../axios.js';
 import Avartar from '../Avatar.jsx';
 import { COLOR_CODE_LIST } from '../../constants.js';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import cookie from 'js-cookie'
 
 const style = {
     position: 'absolute',
@@ -24,22 +25,35 @@ const dummy = {
     userName: '김정한'
 }
 
-export default function SearchModal({ back }) {
+export default function SearchModal({ onSubmit }) {
     const [searchResult, setSearchResult] = useState()
     const [input, setInput] = useState('')
     const [users, setUsers] = useState([])
     const [addMode, setAddMode] = useState(true)
+
     useEffect(() => {
+        const me = {
+            userId: cookie.get('userId'),
+            userName: cookie.get('username'),
+        }
+        console.log(me)
+        setUsers([me])
         axios.get('/user').then(console.log)
+
     }, [])
+
+    useEffect(() => {
+        if (searchResult) {
+            const find = users.find((user) => searchResult.userId === user.userId)
+            setAddMode(!find)
+        }
+    }, [users, searchResult])
 
     const handleSearch = async () => {
         const response = await axios.post(`/user/search`, { userId: input })
-        const result = result.data
+        const result = response.data
         // const result = dummy
         setSearchResult(result)
-        const find = users.find((item) => searchResult.userId === item.userId)
-        setAddMode(find === undefined)
     }
 
     const handleInput = (event) => {
@@ -51,16 +65,22 @@ export default function SearchModal({ back }) {
         if (users.length < 10) {
             setUsers([...users, searchResult])
         }
-
     }
 
-    const handleClickAvartar = (backgroundColor) => {
-        // Array.find((item) => true)
-        const idx = users.findIndex((item) => item.backgroundColor === backgroundColor)
-        // users에서 idx번째 원소를 삭제하면 된다
-        const tempUsers = [...users]
-        tempUsers.splice(idx, 1)
-        setUsers(tempUsers)
+    const handleSubmit = () => {
+        onSubmit(users)
+    }
+
+
+    const handleClickAvartar = (userId) => {
+        if (userId !== cookie.get('userId')) {
+            // Array.find((item) => true)
+            const idx = users.findIndex((item) => item.userId === userId)
+            // users에서 idx번째 원소를 삭제하면 된다
+            const tempUsers = [...users]
+            tempUsers.splice(idx, 1)
+            setUsers(tempUsers)
+        }
     }
 
     return (
@@ -72,7 +92,7 @@ export default function SearchModal({ back }) {
             >
                 <Box sx={style}>
                     <ArrowBackIcon
-                        onClick={back}
+                        onClick={handleSubmit}
                         sx={{ cursor: 'pointer', ":hover": { transition: 'background-color 0.4s ease ', backgroundColor: 'lightgray', borderRadius: '100%' } }}
                     />
                     <div style={{ display: 'flex', alignItems: 'center', columnGap: '20px' }}>
@@ -105,7 +125,7 @@ export default function SearchModal({ back }) {
                     }
                     <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: '30px', rowGap: '15px', padding: '0 25px' }}>
                         {users.map((value, idx) => {
-                            return <Avartar onClick={handleClickAvartar} backgroundColor={COLOR_CODE_LIST[idx]} userName={value.userName} key={idx} />
+                            return <Avartar onClick={handleClickAvartar} backgroundColor={COLOR_CODE_LIST[idx]} userName={value.userName} userId={value.userId} key={value.userId} />
                         })}
                     </div>
                 </Box>

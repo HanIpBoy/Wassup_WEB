@@ -156,7 +156,7 @@ export default function SignUp() {
                                 onInput={handleInputEmail}
                             />
                             <div className={styles.buttonContainer}>
-                                <Button variant="outlined" sx={{ width: '94%', height: '55px', mt: 2, ml: 1 }}
+                                <Button variant="outlined" sx={{ width: '94%', height: '55px', mt: 2, ml: 1, fontFamily: 'var(--font-PoorStory)' }}
                                     onClick={handleClickEmail}>
                                     이메일 인증
                                 </Button>
@@ -176,7 +176,7 @@ export default function SignUp() {
                                 onInput={handleInputVerifyEmailCode}
                             />
                             <div className={styles.buttonContainer}>
-                                <Button variant="outlined" sx={{ width: '90%', height: '55px', mt: 2, ml: 1 }}
+                                <Button variant="outlined" sx={{ width: '90%', height: '55px', mt: 2, ml: 1, fontFamily: 'var(--font-PoorStory);' }}
                                     onClick={handleClickVerifyEmailCode}>
                                     확인
                                 </Button>
@@ -217,7 +217,7 @@ export default function SignUp() {
                             <Button
                                 fullWidth
                                 variant="contained"
-                                sx={{ backgroundColor: '#0040ff', mt: 2, mb: 1, height: '45px' }}
+                                sx={{ backgroundColor: '#0040ff', mt: 2, mb: 1, height: '45px', fontFamily: 'var(--font-PoorStory)' }}
                                 onClick={handleSubmit}
                                 disabled={!submittable}
                             >

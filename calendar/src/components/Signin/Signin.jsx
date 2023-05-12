@@ -48,6 +48,7 @@ export default function SignIn() {
             const { status, data } = response;
             cookie.set('token', data.token) //response의 data에 있는 token값 읽어오기
             cookie.set('username', response.data.userName) //response의 data에 있는 userName 쿠키에 저장
+            cookie.set('userId', response.data.userId) //response의 data에 있는 userId 쿠키에 저장
             navigate('/calendar')
 
         } catch (e) {
@@ -56,7 +57,7 @@ export default function SignIn() {
     };
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" font-family='var(--font-PoorStory)'>
             <CssBaseline />
             <Box
                 sx={{
@@ -64,6 +65,7 @@ export default function SignIn() {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    fontFamily: 'var(--font-PoorStory);'
                 }}
             >
                 <img className={styles.mainIcon} src={MainIcon} />
@@ -80,6 +82,7 @@ export default function SignIn() {
                             autoComplete="email"
                             autoFocus
                             onInput={handleInputEmail}
+                            sx={{ fontFamily: 'var(--font-PoorStory)' }}
                         />
                         <TextField className={styles.textField}
                             margin="normal"
@@ -91,24 +94,25 @@ export default function SignIn() {
                             id="password"
                             autoComplete="current-password"
                             onInput={handleInputPassword}
+                            sx={{ fontFamily: 'var(--font-PoorStory);' }}
                         />
                         <FormControlLabel
-                            control={<Checkbox value={checkEmail} color="primary" onClick={handleClickCheckEmail} />}
+                            control={<Checkbox value={checkEmail} color="primary" onClick={handleClickCheckEmail} sx={{ fontFamily: 'var(--font-PoorStory);' }} />}
                             label="아이디 기억하기"
                         />
                         <Button
                             fullWidth
                             variant="contained"
-                            sx={{ backgroundColor: '#0040ff', mt: 3, mb: 2 }}
+                            sx={{ backgroundColor: '#0040ff', mt: 3, mb: 2, fontFamily: 'var(--font-PoorStory);' }}
                             onClick={handleSubmit}
                         >
                             로그인
                         </Button>
                         <Link href='/signup'>
-                            <Button className={styles.signUp} fullWidth variant='contained' sx={{ backgroundColor: '#000', mb: 2 }}>계정을 만들어보자!</Button>
+                            <Button className={styles.signUp} fullWidth variant='contained' sx={{ backgroundColor: '#000', mb: 2, fontFamily: 'var(--font-PoorStory);' }}>계정을 만들어보자!</Button>
                         </Link>
                     </Box>
-                    <Link className={styles.forgotPassword} href="#" variant="body1">
+                    <Link className={styles.forgotPassword} href="#" variant="body1" sx={{ fontFamily: 'var(--font-PoorStory);' }}>
                         비밀번호를 까먹으셨나?
                     </Link>
                 </div>
