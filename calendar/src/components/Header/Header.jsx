@@ -29,14 +29,14 @@ export default function Header() {
 
     return (
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', fontFamily: 'var(--font-PoorStory)', margin: '0 50px' }}>
-            <img src={MainIcon} style={{ width: '80px', height: '100px', marginLeft: '210px', marginTop: '10px' }} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '25px', fontFamily: 'var(--font-PoorStory)', margin: '0 50px' }}>
+            <img src={MainIcon} style={{ width: '80px', height: '100px', marginTop: '10px' }} />
 
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <p>{username} 님</p>
                     <div style={{ borderLeft: "solid gray", height: '50%', left: '50%', marginLeft: '10px' }}></div>
-                    <Button variant="text" onClick={handleClickLogout} sx={{ color: 'gray', fontFamily: 'var(--font-PoorStory);' }}>로그아웃</Button>
+                    <Button variant="text" onClick={handleClickLogout} sx={{ color: 'gray', fontFamily: 'var(--font-PoorStory)' }}>로그아웃</Button>
                 </div>
                 <div style={{ display: 'flex', columnGap: '10px' }}>
                     <img src={tab === '/calendar' ? CalendarTab : Calendar} style={{ ...headerStyle }} />

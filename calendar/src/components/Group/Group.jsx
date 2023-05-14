@@ -30,7 +30,7 @@ export default function Group({ groups }) {
                 <Button
                     variant="text"
                     onClick={handleClick}
-                    sx={{ cursor: 'pointer', fontFamily: 'var(--font-PoorStory);' }}
+                    sx={{ cursor: 'pointer', fontFamily: 'var(--font-PoorStory)', fontWeight: 'bold' }}
 
                 >
                     그룹 추가
