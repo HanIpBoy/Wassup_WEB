@@ -40,8 +40,10 @@ export default function Calendar({ schedule }) {
 
   }
 
+
   return (
     <>
+
       {open &&
         <CalendarModal
           selectedSchedule={selectedSchedule}
@@ -51,8 +53,19 @@ export default function Calendar({ schedule }) {
           onSubmitSchedule={handleSubmitSchedule}
         />
       }
-      <div className={styles.calendar}>
-        {/* <RenderHeader
+      <div style={{
+        backgroundColor: 'rgba(219,230,243,0.5)',
+        height: 'auto',
+        marginLeft: '15%',
+        marginRight: '15%',
+        marginBottom: '50px',
+        padding: '35px 0',
+        borderRadius: '30px',
+        boxShadow: '2px 2px 10px rgba(0,0,0,0.2)',
+        fontFamily: 'var(--font-PoorStory);'
+      }}>
+        <div className={styles.calendar}>
+          {/* <RenderHeader
           currentMonth={currentMonth}
           prevMonth={prevMonth}
           nextMonth={nextMonth}
@@ -65,7 +78,8 @@ export default function Calendar({ schedule }) {
           selectedDate={selectedDate}
           savedSchedule={schedule}
         /> */}
-        <FullCalendarView schedule={updatedSchedule} onClickDate={handleClickDate} onClickEvent={handleClickEvent} />  {/* FullCalendarView Library 렌더링 */}
+          <FullCalendarView schedule={updatedSchedule} onClickDate={handleClickDate} onClickEvent={handleClickEvent} />  {/* FullCalendarView Library 렌더링 */}
+        </div>
       </div>
     </>
   );

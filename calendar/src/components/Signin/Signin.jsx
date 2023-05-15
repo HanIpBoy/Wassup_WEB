@@ -112,9 +112,9 @@ export default function SignIn() {
                             <Button className={styles.signUp} fullWidth variant='contained' sx={{ backgroundColor: '#000', mb: 2, fontFamily: 'var(--font-PoorStory);' }}>계정을 만들어보자!</Button>
                         </Link>
                     </Box>
-                    <Link className={styles.forgotPassword} href="#" variant="body1" sx={{ fontFamily: 'var(--font-PoorStory);' }}>
+                    {/* <Link className={styles.forgotPassword} href="#" variant="body1" sx={{ fontFamily: 'var(--font-PoorStory);' }}>
                         비밀번호를 까먹으셨나?
-                    </Link>
+                    </Link> */}
                 </div>
             </Box >
         </Container >

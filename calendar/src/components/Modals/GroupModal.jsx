@@ -62,7 +62,7 @@ export default function GroupModal({ onClose, editMode }) {
     }
 
     const handleSubmit = async (event) => {
-        const payload = {
+        const payload = { //서버의 /group 으로 보내는 페이로드
             groupName: input.groupName,
             description: input.description,
             numOfUsers: input.groupUsers.length,
@@ -75,13 +75,13 @@ export default function GroupModal({ onClose, editMode }) {
 
         let response
 
-        if (editMode) {
+        if (editMode) { //수정할 땐 put
             response = await axios.put('/group', payload)
-        } else {
+        } else { //추가할 땐 post
             response = await axios.post('/group', payload)
         }
 
-        if (response.data.status === 'succeed') {
+        if (response.data.status === 'succeed') { //서버 응답 성공시 onSubmitSchedule 실행
             // onSubmitSchedule(response.data.data)
         }
     }

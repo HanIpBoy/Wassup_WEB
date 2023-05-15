@@ -18,9 +18,9 @@ export default function Group({ groups }) {
     return (
         <div style={{
             backgroundColor: 'rgba(219,230,243,0.5)',
-            height: '550px',
-            marginLeft: '50px',
-            marginRight: '50px',
+            height: '500px',
+            marginLeft: '15%',
+            marginRight: '15%',
             borderRadius: '30px',
             boxShadow: '2px 2px 10px rgba(0,0,0,0.2)',
             fontFamily: 'var(--font-PoorStory);'

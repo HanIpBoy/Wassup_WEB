@@ -106,20 +106,32 @@ export default function GroupDetail() {
     return (
         <>
             <Header />
-            <Box sx={style}>
-                <FullCalendar
-                    ref={calendarRef}
-                    plugins={[timeGridPlugin]}
-                    initialView='timeGridWeek'
-                    locale={koLocale}
-                    events={events}
-                    displayEventTime={false}
-                    eventOverlap={false}
-                    eventClassNames={'custom-event'}
-                    eventOrder={(a, b) => a.order - b.order}
-                    allDaySlot={false}
-                />
-            </Box>
+            <div style={{
+                backgroundColor: 'rgba(219,230,243,0.5)',
+                height: 'auto',
+                marginLeft: '15%',
+                marginRight: '15%',
+                marginBottom: '50px',
+                padding: '35px 50px',
+                borderRadius: '30px',
+                boxShadow: '2px 2px 10px rgba(0,0,0,0.2)',
+                fontFamily: 'var(--font-PoorStory);'
+            }}>
+                <Box sx={style}>
+                    <FullCalendar
+                        ref={calendarRef}
+                        plugins={[timeGridPlugin]}
+                        initialView='timeGridWeek'
+                        locale={koLocale}
+                        events={events}
+                        displayEventTime={false}
+                        eventOverlap={false}
+                        eventClassNames={'custom-event'}
+                        eventOrder={(a, b) => a.order - b.order}
+                        allDaySlot={false}
+                    />
+                </Box>
+            </div>
         </>
     );
 }
