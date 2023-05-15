@@ -110,16 +110,18 @@ export default function SearchModal({ onSubmit }) {
                         >검색</Button>
                     </div>
                     {searchResult && //searchResult값이 있을 경우에만 렌더링
-                        <div className='result'>
-                            {searchResult.userName}
-                            {searchResult.userId}
-                            {
-                                addMode === true && <Button
-                                    ariant="contained"
-                                    sx={{ height: '50px', fontSize: 16 }}
-                                    onClick={handleClickAddUser}
-                                >추가</Button>
-                            }
+                        <div className='result' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', columnGap: '20px' }}>
+                            <div>{searchResult.userName}</div>
+                            <div>{searchResult.userId}</div>
+                            <div>
+                                {
+                                    addMode === true && <Button
+                                        ariant="contained"
+                                        sx={{ height: '50px', fontSize: 16 }}
+                                        onClick={handleClickAddUser}
+                                    >추가</Button>
+                                }
+                            </div>
 
                         </div>
                     }
