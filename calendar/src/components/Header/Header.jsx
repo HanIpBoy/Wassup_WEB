@@ -57,8 +57,9 @@ export default function Header() {
                 </div>
                 <div style={{ display: 'flex', columnGap: '10px' }}>
                     <img src={tab === '/calendar' ? CalendarTab : Calendar} style={{ ...headerStyle }} onClick={handleClickCalendarIcon} />
-                    <img src={tab === '/groups' ? GroupTab : Group} style={{ ...headerStyle }} onClick={handleClickGroupIcon} />
+                    <img src={tab === '/groups' || tab.startsWith('/groups/:') ? GroupTab : Group} style={{ ...headerStyle }} onClick={handleClickGroupIcon} />
                     <img src={tab === '/settings' ? SettingTab : Setting} style={{ ...headerStyle }} onClick={handleClickSettingIcon} />
+
                 </div>
             </div>
         </div>
