@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Box, TextField } from '@mui/material';
 import Button from '@mui/material/Button'
 import MiniIcon from '../../images/MiniIcon.png';
-import axios from 'axios';
+import axios from '../../axios';
 import cookie from 'js-cookie'
 import SearchModal from './SearchModal.jsx';
 import Avartar from '../Avatar';
@@ -67,7 +67,7 @@ export default function GroupModal({ onClose, editMode }) {
             description: input.description,
             numOfUsers: input.groupUsers.length,
             leaderId: cookie.get('userId'),
-            groupUsers: input.groupUsers
+            groupUsers: input.groupUsers.map(user => user.userId.toString())
         }
         // [...input.groupUsers, leaderId]
         // 수정 모드일 때는 (editMode) PUT
