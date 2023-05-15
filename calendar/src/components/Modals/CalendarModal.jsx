@@ -39,7 +39,7 @@ const modalHeader = {
 
 
 // TODO: response에 memo 데이터 없음
-export default function CalendarModal({ onClose, selectedDate, editMode, onSubmitSchedule, selectedSchedule }) {
+export default function CalendarModal({ onClose, selectedDate, editMode, groupMode, onSubmitSchedule, selectedSchedule }) {
 
     const initialInput = {
         name: '',
@@ -134,14 +134,16 @@ export default function CalendarModal({ onClose, selectedDate, editMode, onSubmi
             >
                 <Box sx={style}>
                     <div style={modalHeader}>
+
                         <Box sx={titleStyle} align="center" marginBottom={2} >
-                            일정 등록
+                            {groupMode ? '그룹 일정 등록' : '일정 등록'}
                         </Box>
                         <img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} />
                     </div>
                     <TextField id="filled-basic"
                         name='name'
                         value={input.name}
+
                         label="이름"
                         variant='filled'
                         margin="dense"

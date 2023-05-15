@@ -6,6 +6,8 @@ import koLocale from '@fullcalendar/core/locales/ko';
 import { useRef, useState, useEffect } from 'react';
 import { COLOR_CODE_LIST } from '../../constants';
 import { Box } from '@mui/material';
+import Button from '@mui/material/Button';
+import CalendarModal from '../Modals/CalendarModal';
 import Avatar from '../Avatar';
 
 const dummy = [
@@ -65,6 +67,16 @@ export default function GroupDetail() {
     const [schedules, setSchedules] = useState(dummy);
     const [events, setEvents] = useState([]);
     const [range, setRange] = useState();
+    const [open, setOpen] = useState(false); // true면 모달 열림, false면 모달 닫힘
+    const [groupMode, setGroupMode] = useState(false)
+
+    const handleClickGroupSchedule = () => {
+        setGroupMode(true)
+        setOpen(true)
+        console.log(groupMode)
+
+    }
+    const handleClose = () => setOpen(false);
 
     useEffect(() => {
         function updateRange() {
@@ -105,6 +117,17 @@ export default function GroupDetail() {
 
     return (
         <>
+            {open &&
+                <CalendarModal
+                    //   selectedSchedule={selectedSchedule}
+                    //   selectedDate={selectedDate}
+                    //
+                    groupMode={groupMode}
+                    onClickGroupSchedule={handleClickGroupSchedule}
+                    onClose={handleClose}
+                //   onSubmitSchedule={handleSubmitSchedule}
+                />
+            }
             <Header />
             <div style={{
                 backgroundColor: 'rgba(219,230,243,0.5)',
@@ -117,6 +140,7 @@ export default function GroupDetail() {
                 boxShadow: '2px 2px 10px rgba(0,0,0,0.2)',
                 fontFamily: 'var(--font-PoorStory);'
             }}>
+                <Button variant="contained" onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
                 <Box sx={style}>
                     <FullCalendar
                         ref={calendarRef}
