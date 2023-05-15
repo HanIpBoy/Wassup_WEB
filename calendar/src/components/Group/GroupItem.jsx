@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function GroupItem({ group }) {
+    const navigate = useNavigate()
     const handleClickGroup = (event) => {
-
+        navigate('/groups/' + group.originKey)
     }
 
     return (
