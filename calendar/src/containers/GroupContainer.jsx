@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Group from "../components/Group/Group.jsx";
 import Header from "../components/Header/Header.jsx";
+import axios from '../axios.js';
 
 const dummy = [ //더미 데이터
     {
@@ -25,13 +26,13 @@ const dummy = [ //더미 데이터
     }
 ]
 export default function GroupContainer() {
-    const [groups, setGroups] = useState(dummy)
+    const [groups, setGroups] = useState([])
 
     useEffect(() => {
-        // axios.get('/group').then((response) => {
-        //     console.log('response', response)
-        //     setGroup(response.data.data)
-        // })
+        axios.get('/group').then((response) => {
+            console.log('response', response)
+            setGroups(response.data.data)
+        })
     }, []);
 
     return (
