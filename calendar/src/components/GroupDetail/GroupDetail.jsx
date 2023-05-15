@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import CalendarModal from '../Modals/CalendarModal';
 import Avatar from '../Avatar';
 import GroupItem from '../Group/GroupItem';
+import GroupScheduleModal from '../Modals/GroupScheduleModal';
 
 const dummy = [
     {
@@ -69,15 +70,22 @@ export default function GroupDetail({ groupName }) {
     const [events, setEvents] = useState([]);
     const [range, setRange] = useState();
     const [open, setOpen] = useState(false); // true면 모달 열림, false면 모달 닫힘
+    const [listOpen, setListOpen] = useState(false) // groupname을 눌렀을 때 모달 띄우기
     const [groupMode, setGroupMode] = useState(false)
 
     const handleClickGroupSchedule = () => {
         setGroupMode(true)
         setOpen(true)
-        console.log(groupMode)
-
     }
-    const handleClose = () => setOpen(false);
+
+    const handleClickGroupName = () => {
+        setListOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+        setListOpen(false)
+    };
 
     useEffect(() => {
         function updateRange() {
@@ -129,6 +137,13 @@ export default function GroupDetail({ groupName }) {
                 //   onSubmitSchedule={handleSubmitSchedule}
                 />
             }
+            {listOpen &&
+                <GroupScheduleModal
+                    onClickGroupName={handleClickGroupName}
+                    onClose={handleClose}
+                />
+
+            }
             <Header />
             <div style={{
                 backgroundColor: 'rgba(219,230,243,0.5)',
@@ -145,6 +160,9 @@ export default function GroupDetail({ groupName }) {
                     <div>
                         {groupName}
                         {console.log('GroupDetail넘어갔음 :    ' + groupName)}
+                    </div>
+                    <div>
+                        <Button variant='contained' onClick={handleClickGroupName}>GroupName</Button>
                     </div>
                     <Button variant="text" sx={{ fontWeight: 'bold' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
                 </div>
