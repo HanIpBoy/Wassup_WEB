@@ -9,6 +9,7 @@ import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
 import CalendarModal from '../Modals/CalendarModal';
 import Avatar from '../Avatar';
+import GroupItem from '../Group/GroupItem';
 
 const dummy = [
     {
@@ -62,7 +63,7 @@ const dummy = [
         allDayToogle: true,
     },
 ];
-export default function GroupDetail() {
+export default function GroupDetail({ groupName }) {
     const calendarRef = useRef();
     const [schedules, setSchedules] = useState(dummy);
     const [events, setEvents] = useState([]);
@@ -140,7 +141,13 @@ export default function GroupDetail() {
                 boxShadow: '2px 2px 10px rgba(0,0,0,0.2)',
                 fontFamily: 'var(--font-PoorStory);'
             }}>
-                <Button variant="contained" onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div>
+                        {groupName}
+                        {console.log({ groupName })}
+                    </div>
+                    <Button variant="text" sx={{ fontWeight: 'bold' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
+                </div>
                 <Box sx={style}>
                     <FullCalendar
                         ref={calendarRef}
