@@ -144,7 +144,7 @@ export default function GroupDetail({ groupName }) {
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div>
                         {groupName}
-                        {console.log({ groupName })}
+                        {console.log('GroupDetail넘어갔음 :    ' + groupName)}
                     </div>
                     <Button variant="text" sx={{ fontWeight: 'bold' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
                 </div>
