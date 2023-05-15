@@ -9,7 +9,6 @@ import Group from '../../images/Group.png';
 import GroupTab from '../../images/GroupTab.png';
 import Setting from '../../images/Setting.png';
 import SettingTab from '../../images/SettingTab.png';
-import { Link } from "react-router-dom";
 
 export default function Header() {
     const [username, setUserName] = useState('')
