@@ -143,3 +143,14 @@
 .fc-calendar .fc-day {
   background-color: red;
 }
+
+.plusBtn {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.plusBtn:hover {
+  background-image: url('../../images/btn_plus_hover.png');
+}

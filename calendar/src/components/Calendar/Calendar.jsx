@@ -3,6 +3,8 @@ import styles from './Calendar.module.css';
 import MainIcon from '../../images/MainIcon.png';
 import CalendarModal from '../Modals/CalendarModal';
 import FullCalendarView from './FullCalendarView';
+import PlusBtn from '../../images/btn_plus.png';
+import PlusBtnHover from '../../images/btn_plus_hover.png';
 
 export default function Calendar({ schedule }) {
   const [open, setOpen] = useState(false); // true면 모달 열림, false면 모달 닫힘
@@ -32,6 +34,10 @@ export default function Calendar({ schedule }) {
     setSelectedSchedule(event)
   }
 
+  const handleClickPlusBtn = (event) => { //PlusBtn을 클릭시 일정 추가 모달 띄우기
+    setOpen(true)
+  }
+
   const handleSubmitSchedule = (event) => {
     // 1. 모달을 닫는다
     setOpen(false)
@@ -43,7 +49,6 @@ export default function Calendar({ schedule }) {
 
   return (
     <>
-
       {open &&
         <CalendarModal
           selectedSchedule={selectedSchedule}
@@ -80,7 +85,11 @@ export default function Calendar({ schedule }) {
         /> */}
           <FullCalendarView schedule={updatedSchedule} onClickDate={handleClickDate} onClickEvent={handleClickEvent} />  {/* FullCalendarView Library 렌더링 */}
         </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <img src={PlusBtn} onClick={handleClickPlusBtn} className={styles.plusBtn} />
+        </div>
       </div>
+
     </>
   );
 };

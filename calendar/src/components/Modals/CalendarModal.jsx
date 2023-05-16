@@ -136,7 +136,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
                     <div style={modalHeader}>
 
                         <Box sx={titleStyle} align="center" marginBottom={2} >
-                            {groupMode ? '그룹 일정 등록' : '일정 등록'}
+                            {groupMode ? '그룹 일정 추가' : '일정 추가'}
                         </Box>
                         <img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} />
                     </div>
@@ -193,11 +193,14 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
                         sx={{ mt: 2.5 }}
                         onInput={handleInput}
                     />
-                    <ColorField
-                        name='color'
-                        onInput={handleInput}
-                        value={input.color}
-                    />
+                    {!groupMode &&
+                        <ColorField
+                            name='color'
+                            onInput={handleInput}
+                            value={input.color}
+                            sx={{ justifyContent: 'center' }}
+                        />
+                    }
                     {/* <RepeatField
                         name='repeat'
                         onInput={handleInput}
