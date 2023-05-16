@@ -157,14 +157,14 @@ export default function GroupDetail({ groupName }) {
                 fontFamily: 'var(--font-PoorStory);'
             }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <div>
+                    {/* <div>
                         {groupName}
                         {console.log('GroupDetail넘어갔음 :    ' + groupName)}
-                    </div>
+                    </div> */}
                     <div>
-                        <Button variant='contained' onClick={handleClickGroupName}>GroupName</Button>
+                        <Button variant='text' onClick={handleClickGroupName} style={{ marginBottom: '10px', fontSize: '18px' }}>축구동아리</Button>
                     </div>
-                    <Button variant="text" sx={{ fontWeight: 'bold' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
+                    <Button variant="text" sx={{ fontWeight: 'bold', fontSize: '18px' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
                 </div>
                 <Box sx={style}>
                     <FullCalendar
@@ -178,6 +178,7 @@ export default function GroupDetail({ groupName }) {
                         eventClassNames={'custom-event'}
                         eventOrder={(a, b) => a.order - b.order}
                         allDaySlot={false}
+                        height={'600px'}
                     />
                 </Box>
             </div>
@@ -187,6 +188,6 @@ export default function GroupDetail({ groupName }) {
 
 const style = {
     '.custom-event': {
-        width: '10px !important',
+        width: '10px !important'
     },
 };
