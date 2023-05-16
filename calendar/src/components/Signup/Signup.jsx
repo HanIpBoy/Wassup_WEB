@@ -128,7 +128,8 @@ export default function SignUp() {
                     marginTop: 8,
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    marginBottom: '50px'
                 }}
             >
                 <img className={styles.mainIcon} src={MainIcon} />
