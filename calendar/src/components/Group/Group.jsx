@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 export default function Group({ groups }) {
     const [open, setOpen] = useState(false); // true면 모달 열림, false면 모달 닫힘
     const [editMode, setEditMode] = useState(false) // 수정할지 말지 알려줌
+    const [updatedSchedule, setUpdatedSchedule] = useState(); //스케줄이 업데이트되었는지 
     const handleClick = () => {
         setOpen(true)
     }
@@ -15,22 +16,30 @@ export default function Group({ groups }) {
         setOpen(false)
     }
 
+    const handleSubmitSchedule = (event) => {
+        // 1. 모달을 닫는다
+        setOpen(false)
+        // 2. schedule을 업데이트한다
+        setUpdatedSchedule(event)
+    }
+
     return (
         <div style={{
             backgroundColor: 'rgba(219,230,243,0.5)',
-            height: '500px',
-            marginLeft: '15%',
-            marginRight: '15%',
+            height: 'auto',
+            marginLeft: '20%',
+            marginRight: '20%',
+            marginBottom: '50px',
+            paddingBottom: '10px',
             borderRadius: '30px',
-            boxShadow: '2px 2px 10px rgba(0,0,0,0.2)',
-            fontFamily: 'var(--font-PoorStory);'
+            boxShadow: '2px 2px 10px rgba(0,0,0,0.2)'
         }}>
-            <div style={{ display: 'flex', justifyContent: 'right', marginRight: '50px' }}>
-                {open && <GroupModal onClose={handleClose} editMode={editMode} />}
+            <div style={{ display: 'flex', justifyContent: 'right', marginRight: '12%' }}>
+                {open && <GroupModal onClose={handleClose} editMode={editMode} onSubmitSchedule={handleSubmitSchedule} />}
                 <Button
                     variant="text"
                     onClick={handleClick}
-                    sx={{ cursor: 'pointer', fontFamily: 'var(--font-PoorStory)', fontWeight: 'bold' }}
+                    sx={{ cursor: 'pointer', fontFamily: 'var(--font-PoorStory)', fontWeight: 'bold', fontSize: '18px' }}
 
                 >
                     그룹 추가
@@ -41,7 +50,7 @@ export default function Group({ groups }) {
                 {groups.map((value, idx) => {
                     return <>
                         <hr style={{ borderTop: '1px solid rgba(0,0,0,0.1)', width: '100%' }} />
-                        <GroupItem group={value} key={idx} />
+                        <GroupItem group={value} key={idx} schedule={updatedSchedule} />
                     </>
                 })}
             </div>

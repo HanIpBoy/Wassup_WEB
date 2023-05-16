@@ -56,8 +56,8 @@ export default function Calendar({ schedule }) {
       <div style={{
         backgroundColor: 'rgba(219,230,243,0.5)',
         height: 'auto',
-        marginLeft: '15%',
-        marginRight: '15%',
+        marginLeft: '20%',
+        marginRight: '20%',
         marginBottom: '50px',
         padding: '35px 0',
         borderRadius: '30px',
