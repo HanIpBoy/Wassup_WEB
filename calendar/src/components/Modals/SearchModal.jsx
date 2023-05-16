@@ -4,7 +4,6 @@ import Button from '@mui/material/Button'
 import axios from '../../axios.js';
 import Avartar from '../Avatar.jsx';
 import { COLOR_CODE_LIST } from '../../constants.js';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import cookie from 'js-cookie'
 
 const style = {
@@ -91,10 +90,10 @@ export default function SearchModal({ onSubmit }) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <ArrowBackIcon
+                    {/* <ArrowBackIcon
                         onClick={handleSubmit}
                         sx={{ cursor: 'pointer', ":hover": { transition: 'background-color 0.4s ease ', backgroundColor: 'lightgray', borderRadius: '100%' } }}
-                    />
+                    /> */}
                     <div style={{ display: 'flex', alignItems: 'center', columnGap: '20px' }}>
                         <TextField id="filled-basic"
                             variant='filled'
@@ -125,11 +124,19 @@ export default function SearchModal({ onSubmit }) {
 
                         </div>
                     }
-                    <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: '30px', rowGap: '15px', padding: '0 25px' }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: '30px', rowGap: '15px', padding: '10px 25px' }}>
                         {users.map((value, idx) => {
                             return <Avartar onClick={handleClickAvartar} backgroundColor={COLOR_CODE_LIST[idx]} userName={value.userName} userId={value.userId} key={value.userId} />
                         })}
                     </div>
+
+                    <Button
+                        onClick={handleSubmit}
+                        variant="text"
+                        fullWidth
+                        sx={{ fontSize: 16, mt: '5px', }}
+                    >저장
+                    </Button>
                 </Box>
             </Modal>
         </>
