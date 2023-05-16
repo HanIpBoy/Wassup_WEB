@@ -32,9 +32,9 @@ const modalHeader = {
 }
 
 const buttons = [
-    <Button key="one">One</Button>,
-    <Button key="two">Two</Button>,
-    <Button key="three">Three</Button>
+    <Button key="one">단체 연습</Button>,
+    <Button key="two">홈 경기</Button>,
+    <Button key="three">원정 경기</Button>
 ]
 
 
