@@ -1,10 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import GroupDetail from "../GroupDetail/GroupDetail";
 
-export default function GroupItem({ group }) {
+export default function GroupItem({ group, schedule }) {
     const navigate = useNavigate()
+    const [events, setEvents] = useState([])
     // const [groupName, setGroupName] = useState()
+    const [groupItemApi, setGroupItemApi] = useState();
+    const groupItemRef = useRef();
+
+    useEffect(() => {
+        if (groupItemRef.current) {
+            setGroupItemApi(groupItemRef.current.getApi())
+        }
+    }, [groupItemRef.current]);
+
+    useEffect(() => {
+        if (groupItemApi && schedule) {
+            setEvents(events)
+            return (
+                <>
+                </>
+            )
+        }
+    }, [groupItemApi, schedule])
+
     const handleClickGroup = (event) => {
         return (
             <>
