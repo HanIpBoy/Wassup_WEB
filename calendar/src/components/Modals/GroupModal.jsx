@@ -34,7 +34,7 @@ const modalHeader = {
 
 
 // TODO: response에 memo 데이터 없음
-export default function GroupModal({ onClose, editMode }) {
+export default function GroupModal({ onClose, editMode, onSubmitSchedule }) {
     const initialInput = {
         groupName: '',
         description: '',
@@ -82,7 +82,7 @@ export default function GroupModal({ onClose, editMode }) {
         }
 
         if (response.data.status === 'succeed') { //서버 응답 성공시 onSubmitSchedule 실행
-            // onSubmitSchedule(response.data.data)
+            onSubmitSchedule(response.data.data)
         }
     }
 
@@ -123,7 +123,7 @@ export default function GroupModal({ onClose, editMode }) {
                         <TextField id="filled-basic"
                             name='groupName'
                             value={input.groupName}
-                            label="그룹이름"
+                            label="그룹 이름"
                             variant='filled'
                             margin="dense"
                             required
@@ -149,7 +149,7 @@ export default function GroupModal({ onClose, editMode }) {
                         >
                             사용자 검색하기
                         </Button>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: '30px', rowGap: '15px', padding: '0 25px' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: '30px', rowGap: '15px', padding: '0 25px', paddingTop: '10px' }}>
                             {input.groupUsers.map((value, idx) => {
                                 return <Avartar onClick={handleClickRemove} backgroundColor={COLOR_CODE_LIST[idx]} userName={value.userName} userId={value.userId} key={value.userId} />
                             })}
@@ -159,7 +159,7 @@ export default function GroupModal({ onClose, editMode }) {
                             fullWidth
                             sx={{ mt: 3, height: 45, fontSize: 16 }}
                             onClick={handleSubmit}
-                        >{editMode ? '그룹 수정' : '그룹 추가'}</Button>
+                        >{editMode ? '수정' : '추가'}</Button>
                         {/* 삼항연산자 사용, editMode에 따라 수정, 추가 버튼 변경 */}
                         {editMode && (
                             <Button
