@@ -31,6 +31,7 @@ export default function ColorField({ name, onInput, value }) {
                     value={value}
                     onChange={onInput}
                     name={name}
+                    sx={{ justifyContent: 'center' }}
                 >
                     {
                         COLOR_CODE_LIST.map((value, idx) => {
