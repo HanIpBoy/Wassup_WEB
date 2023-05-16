@@ -2,7 +2,7 @@ import axios from "axios"
 import cookie from "js-cookie";
 
 const instance = axios.create({ //동일 형태로 url 설정
-    baseURL: 'http://43.202.6.236:8080'
+    baseURL: 'http://3.38.101.226:8080'
 })
 
 //인터셉터
