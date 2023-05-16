@@ -44,10 +44,15 @@ export default function Header() {
         setTab('/settings')
     }
 
+    const handleClickMainIcon = (event) => {
+        navigate('/calendar')
+        setTab('/calendar')
+    }
+
     return (
 
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '25px', fontFamily: 'var(--font-PoorStory)', margin: '25px 50px' }}>
-            <img src={MainIcon} style={{ width: '80px', height: '100px', margin: '0 auto', paddingLeft: '120px' }} />
+            <img src={MainIcon} onClick={handleClickMainIcon} style={{ width: '80px', height: '100px', margin: '0 auto', paddingLeft: '120px', cursor: 'pointer' }} />
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -57,7 +62,7 @@ export default function Header() {
                 </div>
                 <div style={{ display: 'flex', columnGap: '10px' }}>
                     <img src={tab === '/calendar' ? CalendarTab : Calendar} style={{ ...headerStyle }} onClick={handleClickCalendarIcon} />
-                    <img src={tab === '/groups' || tab.startsWith('/groups/:') ? GroupTab : Group} style={{ ...headerStyle }} onClick={handleClickGroupIcon} />
+                    <img src={tab === '/groups' || tab.startsWith('/groups/') ? GroupTab : Group} style={{ ...headerStyle }} onClick={handleClickGroupIcon} />
                     <img src={tab === '/settings' ? SettingTab : Setting} style={{ ...headerStyle }} onClick={handleClickSettingIcon} />
 
                 </div>
