@@ -4,8 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import koLocale from '@fullcalendar/core/locales/ko';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useEffect, useState, useRef } from 'react';
-import PlusBtn from '../../images/btn_plus.png';
-import PlusBtnHover from '../../images/btn_plus_hover.png';
+
 /*
 schedule [ //데이터 예시
     {
@@ -64,8 +63,8 @@ export default function FullCalendarView({ onClickDate, schedule, onClickEvent }
                     start: new Date(value.startAt),
                     end: new Date(formattedEnd),
                     allDay: value.allDayToggle,
-                    // backgroundColor:
-                    // borderColor: 
+                    backgroundColor: value.color,
+                    borderColor: value.color
                 }
                 return event
             })

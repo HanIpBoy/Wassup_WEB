@@ -54,6 +54,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
     const formatSchedule = (schedule) => {
         const input = {
             ...schedule,
+            allday: schedule.allDayToggle,
             start: dayjs(schedule.startAt),
             end: dayjs(schedule.endAt),
         }
@@ -88,10 +89,12 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
         const endAt = end.$y + '-' + format(end.$M + 1) + '-' + format(end.$D) + 'T' + format(end.$H) + ':' + format(end.$m)
 
         const payload = {
+            ...(selectedSchedule && { originKey: selectedSchedule.originKey }),
             name: input.name,
             startAt: startAt,
             endAt: endAt,
             userId: '',
+            color: input.color,
             memo: input.memo,
             notification: 0,
             allDayToggle: input.allday === true ? "true" : "false"

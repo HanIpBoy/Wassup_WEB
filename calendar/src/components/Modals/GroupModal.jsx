@@ -34,7 +34,7 @@ const modalHeader = {
 
 
 // TODO: response에 memo 데이터 없음
-export default function GroupModal({ onClose, editMode, onSubmitSchedule }) {
+export default function GroupModal({ onClose, editMode, onSubmitGroup }) {
     const initialInput = {
         groupName: '',
         description: '',
@@ -81,8 +81,8 @@ export default function GroupModal({ onClose, editMode, onSubmitSchedule }) {
             response = await axios.post('/group', payload)
         }
 
-        if (response.data.status === 'succeed') { //서버 응답 성공시 onSubmitSchedule 실행
-            onSubmitSchedule(response.data.data)
+        if (response.data.status === 'succeed') { //서버 응답 성공시 onSubmitGroup 실행
+            onSubmitGroup(response.data.data)
         }
     }
 

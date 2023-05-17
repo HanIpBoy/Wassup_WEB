@@ -35,6 +35,8 @@ export default function Calendar({ schedule }) {
   }
 
   const handleClickPlusBtn = (event) => { //PlusBtn을 클릭시 일정 추가 모달 띄우기
+    setSelectedSchedule()
+    setEditMode(false)
     setOpen(true)
   }
 

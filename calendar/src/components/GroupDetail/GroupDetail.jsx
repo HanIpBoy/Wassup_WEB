@@ -64,14 +64,15 @@ const dummy = [
         allDayToogle: true,
     },
 ];
-export default function GroupDetail({ groupName }) {
+export default function GroupDetail({ group, groupUserSchedule }) {
     const calendarRef = useRef();
-    const [schedules, setSchedules] = useState(dummy);
     const [events, setEvents] = useState([]);
     const [range, setRange] = useState();
     const [open, setOpen] = useState(false); // true면 모달 열림, false면 모달 닫힘
     const [listOpen, setListOpen] = useState(false) // groupname을 눌렀을 때 모달 띄우기
     const [groupMode, setGroupMode] = useState(false)
+    const [userSchedules, setUserSchedules] = useState([]) //모든 유저의 개인스케줄
+    const [groupEvents, setGroupEvents] = useState([]) //모든 유저의 그룹스케줄
 
     const handleClickGroupSchedule = () => {
         setGroupMode(true)
@@ -102,27 +103,30 @@ export default function GroupDetail({ groupName }) {
     }, []);
 
     useEffect(() => {
-        const events = schedules.map((value, idx) => {
-            let start = value.startAt;
-            let end = value.endAt;
-            if (value.allDayToogle) {
-                // allDay이면 시간을 00시부터 23시 59분 59초까지로 변경
-                start = new Date(value.startAt).toJSON().substring(0, 11) + '00:00:00';
-                end = new Date(value.endAt).toJSON().substring(0, 11) + '23:59:59';
-            }
-            let event = {
-                id: value.originKey,
-                start,
-                end,
-                allDay: false,
-                backgroundColor: COLOR_CODE_LIST[idx],
-                borderColor: COLOR_CODE_LIST[idx],
-                order: idx,
-            };
-            return event;
-        });
-        setEvents(events);
-    }, [schedules]);
+        const groupEvents = groupUserSchedule.map((value, userIdx) => { //포맷한 groupSchedules
+            const userId = value.userId
+
+            const groupEvents = value.groupSchedules.map((value, groupScheduleIdx) => {
+                const schedule = { ...value, userId }
+                let isGroupColor = schedule.groupOriginKey === group.originKey
+                let event = {
+                    id: schedule.originKey,
+                    title: schedule.name,
+                    start: schedule.startAt,
+                    end: schedule.endAt,
+                    allDay: schedule.allDayToggle,
+                    backgroundColor: isGroupColor ? 'white' : COLOR_CODE_LIST[userIdx],
+                    borderColor: isGroupColor ? 'black' : COLOR_CODE_LIST[userIdx]
+                }
+                return event
+            })
+            return groupEvents
+        })
+        setGroupEvents(groupEvents)
+
+        setEvents(...groupEvents)
+
+    }, [groupUserSchedule]);
 
     return (
         <>
@@ -157,12 +161,8 @@ export default function GroupDetail({ groupName }) {
                 fontFamily: 'var(--font-PoorStory);'
             }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    {/* <div>
-                        {groupName}
-                        {console.log('GroupDetail넘어갔음 :    ' + groupName)}
-                    </div> */}
                     <div>
-                        <Button variant='text' onClick={handleClickGroupName} style={{ marginBottom: '10px', fontSize: '18px' }}>축구동아리</Button>
+                        <Button variant='text' onClick={handleClickGroupName} style={{ marginBottom: '10px', fontSize: '18px' }}>{group.groupName}</Button>
                     </div>
                     <Button variant="text" sx={{ fontWeight: 'bold', fontSize: '18px' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
                 </div>

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import GroupDetail from "../GroupDetail/GroupDetail";
 
-export default function GroupItem({ group, schedule }) {
+export default function GroupItem({ group }) {
     const navigate = useNavigate()
     const [events, setEvents] = useState([])
     // const [groupName, setGroupName] = useState()
@@ -16,14 +16,14 @@ export default function GroupItem({ group, schedule }) {
     }, [groupItemRef.current]);
 
     useEffect(() => {
-        if (groupItemApi && schedule) {
+        if (groupItemApi) {
             setEvents(events)
             return (
                 <>
                 </>
             )
         }
-    }, [groupItemApi, schedule])
+    }, [groupItemApi])
 
     const handleClickGroup = (event) => {
         return (
