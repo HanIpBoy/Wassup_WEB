@@ -39,7 +39,7 @@ const modalHeader = {
 
 
 // TODO: response에 memo 데이터 없음
-export default function CalendarModal({ onClose, selectedDate, editMode, groupMode, onSubmitSchedule, selectedSchedule }) {
+export default function CalendarModal({ onClose, selectedDate, editMode, groupMode, onSubmitSchedule, selectedSchedule, onSubmitGroupSchedule }) {
 
     const initialInput = {
         name: '',
@@ -76,6 +76,10 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
             ...prev,
             [name]: value
         }))
+    }
+
+    const handleSubmitGroupSchedule = (event) => {
+        onSubmitGroupSchedule(input)
     }
 
     const handleSubmit = async (event) => {
@@ -213,7 +217,8 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
                         variant="contained"
                         fullWidth
                         sx={{ mt: 3, height: 45, fontSize: 16, fontFamily: 'var(--font-PoorStory);' }}
-                        onClick={handleSubmit}
+                        onClick={groupMode ? handleSubmitGroupSchedule : handleSubmit}
+
                     >{editMode ? '수정' : '추가'}</Button>
                     {/* 삼항연산자 사용, editMode에 따라 수정, 추가 버튼 변경 */}
                     {editMode && (

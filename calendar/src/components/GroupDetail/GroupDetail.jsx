@@ -71,12 +71,15 @@ export default function GroupDetail({ group, groupUserSchedule }) {
     const [open, setOpen] = useState(false); // true면 모달 열림, false면 모달 닫힘
     const [listOpen, setListOpen] = useState(false) // groupname을 눌렀을 때 모달 띄우기
     const [groupMode, setGroupMode] = useState(false)
-    const [userSchedules, setUserSchedules] = useState([]) //모든 유저의 개인스케줄
-    const [groupEvents, setGroupEvents] = useState([]) //모든 유저의 그룹스케줄
 
     const handleClickGroupSchedule = () => {
         setGroupMode(true)
         setOpen(true)
+
+    }
+
+    const handleSubmitSchedule = (input) => { //그룹 일정 추가 눌렀을 때 핸들러
+
     }
 
     const handleClickGroupName = () => {
@@ -103,15 +106,14 @@ export default function GroupDetail({ group, groupUserSchedule }) {
     }, []);
 
     useEffect(() => {
-        const groupEvents = groupUserSchedule.map((value, userIdx) => { //포맷한 groupSchedules
+        const events = groupUserSchedule.map((value, userIdx) => { //포맷한 groupSchedules의 그룹스케줄
             const userId = value.userId
 
-            const groupEvents = value.groupSchedules.map((value, groupScheduleIdx) => {
+            const groupEvents = value.groupSchedules.map((value) => {
                 const schedule = { ...value, userId }
                 let isGroupColor = schedule.groupOriginKey === group.originKey
                 let event = {
                     id: schedule.originKey,
-                    title: schedule.name,
                     start: schedule.startAt,
                     end: schedule.endAt,
                     allDay: schedule.allDayToggle,
@@ -120,13 +122,27 @@ export default function GroupDetail({ group, groupUserSchedule }) {
                 }
                 return event
             })
-            return groupEvents
-        })
-        setGroupEvents(groupEvents)
 
-        setEvents(...groupEvents)
+            const userEvents = value.userSchedules.map((value) => { //포맷한 groupSchedule의 유저스케줄
+                const schedule = { ...value, userId }
+                let event = {
+                    id: schedule.originKey,
+                    start: schedule.startAt,
+                    end: schedule.endAt,
+                    allDay: schedule.allDayToggle,
+                    backgroundColor: COLOR_CODE_LIST[userIdx],
+                    borderColor: COLOR_CODE_LIST[userIdx]
+                }
+                return event
+            })
+            return [...groupEvents, ...userEvents]
+        })
+        console.log(events)
+        setEvents(...events)
 
     }, [groupUserSchedule]);
+
+
 
     return (
         <>
@@ -138,7 +154,7 @@ export default function GroupDetail({ group, groupUserSchedule }) {
                     groupMode={groupMode}
                     onClickGroupSchedule={handleClickGroupSchedule}
                     onClose={handleClose}
-                //   onSubmitSchedule={handleSubmitSchedule}
+                    onSubmitGroupSchedule={handleSubmitSchedule}
                 />
             }
             {listOpen &&

@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import axios from '../axios.js';
 
 const dummyGroup = {
-    "originKey": "8a8081b1881e5cc401881e775c890008",
+    "originKey": "group1",
     "groupName": "그룹 생성 시험1",
     "description": "그룹 메모 시험1",
     "numOfUsers": 2,
