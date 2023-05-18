@@ -11,6 +11,7 @@ import CalendarModal from '../Modals/CalendarModal';
 import Avatar from '../Avatar';
 import GroupItem from '../Group/GroupItem';
 import GroupScheduleModal from '../Modals/GroupScheduleModal';
+import axios from '../../axios.js';
 
 const dummy = [
     {
@@ -64,13 +65,14 @@ const dummy = [
         allDayToogle: true,
     },
 ];
-export default function GroupDetail({ group, groupUserSchedule }) {
+export default function GroupDetail({ group, groupUserSchedule, groupName, onSubmitGroupSchedule, updatedGroupSchedules }) {
     const calendarRef = useRef();
     const [events, setEvents] = useState([]);
     const [range, setRange] = useState();
     const [open, setOpen] = useState(false); // true면 모달 열림, false면 모달 닫힘
     const [listOpen, setListOpen] = useState(false) // groupname을 눌렀을 때 모달 띄우기
-    const [groupMode, setGroupMode] = useState(false)
+    const [groupMode, setGroupMode] = useState(false) //그룹 일정 추가 모달을 띄울지 일정 추가 모달을 띄울지 결정
+    const [editMode, setEditMode] = useState(false) //수정모드
 
     const handleClickGroupSchedule = () => {
         setGroupMode(true)
@@ -78,8 +80,29 @@ export default function GroupDetail({ group, groupUserSchedule }) {
 
     }
 
-    const handleSubmitSchedule = (input) => { //그룹 일정 추가 눌렀을 때 핸들러
+    const handleSubmitSchedule = aysnc(event) => { //그룹 일정 추가 눌렀을 때 핸들러
 
+        const payload = { //서버의 /group/schedule로 보내는 페이로드
+            groupOriginKey: ,
+            name: ,
+            startAt: ,
+            endAt: ,
+            memo: ,
+            allDayToggle: ,
+            color: 
+        }
+
+        let response
+
+        if (editMode) { //수정할 경우
+            response = await axios.put('/group/schedule', payload)
+        } else { //수정이 아닐 경우
+            response = await axios.post('/group', payload)
+        }
+
+        if (response.data.status === 'succeed') { //서버 응답 성공시 onSubmitGroupSchedule 실행
+            onSubmitGroupSchedule(response.data.data)
+        }
     }
 
     const handleClickGroupName = () => {
@@ -161,6 +184,7 @@ export default function GroupDetail({ group, groupUserSchedule }) {
                 <GroupScheduleModal
                     onClickGroupName={handleClickGroupName}
                     onClose={handleClose}
+                    group={group}
                 />
 
             }
@@ -178,7 +202,7 @@ export default function GroupDetail({ group, groupUserSchedule }) {
             }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div>
-                        <Button variant='text' onClick={handleClickGroupName} style={{ marginBottom: '10px', fontSize: '18px' }}>{group.groupName}</Button>
+                        <Button variant='contained' onClick={handleClickGroupName} style={{ marginBottom: '10px', fontSize: '18px' }}>{group.groupName}</Button>
                     </div>
                     <Button variant="text" sx={{ fontWeight: 'bold', fontSize: '18px' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
                 </div>
