@@ -114,12 +114,14 @@ export default function GroupModal({ onClose, editMode, onSubmitGroup }) {
                     aria-describedby="modal-modal-description"
                 >
                     <Box sx={style}>
-                        <div style={modalHeader}>
-                            <Box sx={titleStyle} align="center" marginBottom={2} >
-                                그룹 생성
-                            </Box>
-                            <img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} />
-                        </div>
+                        !editMode{
+                            <div style={modalHeader}>
+                                <Box sx={titleStyle} align="center" marginBottom={2} >
+                                    그룹 생성
+                                </Box>
+                                <img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} />
+                            </div>
+                        }
                         <TextField id="filled-basic"
                             name='groupName'
                             value={input.groupName}
