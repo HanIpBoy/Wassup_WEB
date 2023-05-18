@@ -16,6 +16,7 @@ export default function Group({ groups }) {
         setOpen(false)
     }
 
+
     const handleSubmitGroup = ([group]) => {
         // 1. 모달을 닫는다
         setOpen(false)

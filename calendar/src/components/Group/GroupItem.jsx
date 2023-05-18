@@ -6,6 +6,8 @@ import btn_delete from '../../images/btn_delete.png';
 import icon_groupmembers from '../../images/icon_groupmembers.png';
 import axios from "../../axios.js";
 import GroupModal from "../Modals/GroupModal";
+import { Modal } from "@mui/material";
+import DeleteModal from "../Modals/DeleteModal";
 
 export default function GroupItem({ group, onSubmitDeleteGroup }) {
     const navigate = useNavigate()
@@ -50,11 +52,18 @@ export default function GroupItem({ group, onSubmitDeleteGroup }) {
     }
 
     const handleClickEditGroup = () => { //그룹 수정 핸들러
-
+        setEditMode(true)
+        setOpen(true)
+        return (
+            <GroupModal editMode={editMode} />
+        )
     }
 
-    const handleClickDeleteGroup = () => { //그룹 삭제 핸들러
-
+    const handleClickDeleteGroup = (event) => { //그룹 삭제 핸들러
+        setOpen(true)
+        return (
+            <DeleteModal />
+        )
     }
 
     return (
