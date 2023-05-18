@@ -124,7 +124,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
         onClose()
     }
 
-    const handleDelete = async (event) => {
+    const handleDelete = async (event) => { //일정 삭제 핸들러
         const response = await axios.delete(`/schedule/${selectedSchedule.originKey}`)
         if (response.data.status === 'succeed') {
             onSubmitSchedule(response.data.data)
