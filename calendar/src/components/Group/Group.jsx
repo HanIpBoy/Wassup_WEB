@@ -23,6 +23,11 @@ export default function Group({ groups }) {
         setUpdatedGroups([...updatedGroups, group])
     }
 
+    const handleSubmitDeleteGroup = (group) => { //그룹아이템에 보내는 그룹삭제 핸들러
+        setOpen(false)
+        setUpdatedGroups([...updatedGroups, group])
+    }
+
     useEffect(() => {
         if (groups !== undefined) {
             setUpdatedGroups(groups)
@@ -40,7 +45,7 @@ export default function Group({ groups }) {
             borderRadius: '30px',
             boxShadow: '2px 2px 10px rgba(0,0,0,0.2)'
         }}>
-            <div style={{ display: 'flex', justifyContent: 'right', marginRight: '12%' }}>
+            <div style={{ display: 'flex', justifyContent: 'right', marginRight: '3%' }}>
                 {open && <GroupModal onClose={handleClose} editMode={editMode} onSubmitGroup={handleSubmitGroup} />}
                 <Button
                     variant="text"
@@ -56,7 +61,7 @@ export default function Group({ groups }) {
                 {updatedGroups.map((value, idx) => {
                     return <>
                         <hr style={{ borderTop: '1px solid rgba(0,0,0,0.1)', width: '100%' }} />
-                        <GroupItem group={value} key={idx} />
+                        <GroupItem group={value} key={idx} onSubmitDeleteGroup={handleSubmitDeleteGroup} />
                     </>
                 })}
             </div>
