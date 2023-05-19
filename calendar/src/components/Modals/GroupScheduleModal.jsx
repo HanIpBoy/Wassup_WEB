@@ -39,7 +39,7 @@ const buttons = [
 
 
 // TODO: response에 memo 데이터 없음
-export default function GroupScheduleModal({ onClose, groupSchedule, selectedDate, onClickGroupName, onSubmitSchedule, selectedSchedule }) {
+export default function GroupScheduleModal({ onClose, groupSchedule, group }) {
 
     // const initialInput = {
     //     name: '',
@@ -70,7 +70,7 @@ export default function GroupScheduleModal({ onClose, groupSchedule, selectedDat
                     <div style={modalHeader}>
 
                         <Box sx={titleStyle} align="center" marginBottom={2} >
-                            {groupSchedule.groupName}
+                            {group.groupName}
                         </Box>
                         <img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} />
                     </div>
