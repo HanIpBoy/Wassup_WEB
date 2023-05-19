@@ -3,17 +3,24 @@ import GroupModal from "../Modals/GroupModal";
 import { useState } from "react";
 import GroupItem from "./GroupItem";
 import { Button } from "@mui/material";
+import DeleteModal from "../Modals/DeleteModal";
+import axios from '../../axios'
 
 export default function Group({ groups }) {
     const [open, setOpen] = useState(false); // true면 모달 열림, false면 모달 닫힘
     const [editMode, setEditMode] = useState(false) // 수정할지 말지 알려줌
     const [updatedGroups, setUpdatedGroups] = useState(groups); //스케줄이 업데이트되었는지 
+    const [selectedGroup, setSelectedGroup] = useState() //
+    const [deleteMode, setDeleteMode] = useState(false) //삭제모드
+
     const handleClick = () => {
         setOpen(true)
+        setEditMode(false)
     }
 
     const handleClose = () => {
         setOpen(false)
+        setDeleteMode(false)
     }
 
 
@@ -21,12 +28,37 @@ export default function Group({ groups }) {
         // 1. 모달을 닫는다
         setOpen(false)
         // 2. group을 업데이트한다
-        setUpdatedGroups([...updatedGroups, group])
+        if (editMode) {
+            const idx = updatedGroups.findIndex((value) => value.originKey === group.originKey)
+            const temp = [...updatedGroups]
+            temp[idx] = group
+            setUpdatedGroups(temp)
+        }
+        else {
+            setUpdatedGroups([...updatedGroups, group])
+        }
+
     }
 
-    const handleSubmitDeleteGroup = (group) => { //그룹아이템에 보내는 그룹삭제 핸들러
+    const handleClickDeleteGroup = (group) => { // 삭제 모달을 띄운다
         setOpen(false)
-        setUpdatedGroups([...updatedGroups, group])
+        setDeleteMode(true)
+        setSelectedGroup(group)
+    }
+
+    const handleSubmitDeleteGroup = async (group) => {
+        await axios.delete(`/group/${group.originKey}`)
+        const idx = updatedGroups.findIndex((value) => value.originKey === group.originKey)
+
+        const temp = { ...updatedGroups } //temp에 복사
+        temp.splice(idx, 1)  //인덱스를 찾아 삭제
+        setUpdatedGroups(temp) //그룹 정보 업뎃
+    }
+
+    const handleClickEditGroup = (group) => {
+        setOpen(true)
+        setEditMode(true)
+        setSelectedGroup(group)
     }
 
     useEffect(() => {
@@ -47,7 +79,8 @@ export default function Group({ groups }) {
             boxShadow: '2px 2px 10px rgba(0,0,0,0.2)'
         }}>
             <div style={{ display: 'flex', justifyContent: 'right', marginRight: '3%' }}>
-                {open && <GroupModal onClose={handleClose} editMode={editMode} onSubmitGroup={handleSubmitGroup} />}
+                {open && <GroupModal onClose={handleClose} editMode={editMode} onSubmitGroup={handleSubmitGroup} selectedGroup={selectedGroup} />}
+                {deleteMode && <DeleteModal onSubmitDeleteGroup={handleSubmitDeleteGroup} onClose={handleClose} selectedGroup={selectedGroup} />}
                 <Button
                     variant="text"
                     onClick={handleClick}
@@ -62,7 +95,7 @@ export default function Group({ groups }) {
                 {updatedGroups.map((value, idx) => {
                     return <>
                         <hr style={{ borderTop: '1px solid rgba(0,0,0,0.1)', width: '100%' }} />
-                        <GroupItem group={value} key={idx} onSubmitDeleteGroup={handleSubmitDeleteGroup} />
+                        <GroupItem group={value} key={idx} onClickDeleteGroup={handleClickDeleteGroup} onClickEditGroup={handleClickEditGroup} />
                     </>
                 })}
             </div>

@@ -49,7 +49,7 @@ export default function SearchModal({ onSubmit }) {
     }, [users, searchResult])
 
     const handleSearch = async () => {
-        const response = await axios.get('/group', { userId: input })
+        const response = await axios.get(`/user/search/${input}`)
         console.log(response)
         const result = response.data.data[0]
         // const result = dummy

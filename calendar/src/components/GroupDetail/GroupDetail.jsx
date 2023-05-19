@@ -77,32 +77,30 @@ export default function GroupDetail({ group, groupUserSchedule, groupName, onSub
     const handleClickGroupSchedule = () => {
         setGroupMode(true)
         setOpen(true)
-
     }
 
-    const handleSubmitSchedule = aysnc(event) => { //그룹 일정 추가 눌렀을 때 핸들러
+    const handleSubmitSchedule = () => { //그룹 일정 추가 눌렀을 때 핸들러
+        // const payload = { //서버의 /group/schedule로 보내는 페이로드
+        //     groupOriginKey: ,
+        //     name: ,
+        //     startAt: ,
+        //     endAt: ,
+        //     memo: ,
+        //     allDayToggle: ,
+        //     color: 
+        // }
 
-        const payload = { //서버의 /group/schedule로 보내는 페이로드
-            groupOriginKey: ,
-            name: ,
-            startAt: ,
-            endAt: ,
-            memo: ,
-            allDayToggle: ,
-            color: 
-        }
+        // let response
 
-        let response
+        // if (editMode) { //수정할 경우
+        //     response = await axios.put('/group/schedule', payload)
+        // } else { //수정이 아닐 경우
+        //     response = await axios.post('/group', payload)
+        // }
 
-        if (editMode) { //수정할 경우
-            response = await axios.put('/group/schedule', payload)
-        } else { //수정이 아닐 경우
-            response = await axios.post('/group', payload)
-        }
-
-        if (response.data.status === 'succeed') { //서버 응답 성공시 onSubmitGroupSchedule 실행
-            onSubmitGroupSchedule(response.data.data)
-        }
+        // if (response.data.status === 'succeed') { //서버 응답 성공시 onSubmitGroupSchedule 실행
+        //     onSubmitGroupSchedule(response.data.data)
+        // }
     }
 
     const handleClickGroupName = () => {

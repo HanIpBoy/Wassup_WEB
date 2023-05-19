@@ -34,7 +34,7 @@ const modalHeader = {
 
 
 // TODO: response에 memo 데이터 없음
-export default function GroupModal({ onClose, editMode, onSubmitGroup }) {
+export default function GroupModal({ onClose, editMode, selectedGroup, onSubmitGroup }) {
     const initialInput = {
         groupName: '',
         description: '',
@@ -46,7 +46,9 @@ export default function GroupModal({ onClose, editMode, onSubmitGroup }) {
         setInput({ ...input, groupUsers: users })
     }
 
-    const [input, setInput] = useState(initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
+    //TODO: 서버 고쳐지면 아래 주석으로 사용하기
+    const [input, setInput] = useState(editMode && selectedGroup ? { ...selectedGroup, groupUsers: [] } : initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
+    // const [input, setInput] = useState(editMode && selectedGroup ? selectedGroup : initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
     const [searchUsers, setSearchUsers] = useState(false)
 
     const handleInput = (event) => {
@@ -114,7 +116,7 @@ export default function GroupModal({ onClose, editMode, onSubmitGroup }) {
                     aria-describedby="modal-modal-description"
                 >
                     <Box sx={style}>
-                        !editMode{
+                        {!editMode &&
                             <div style={modalHeader}>
                                 <Box sx={titleStyle} align="center" marginBottom={2} >
                                     그룹 생성

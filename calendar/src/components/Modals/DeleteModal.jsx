@@ -17,24 +17,17 @@ const style = {
     p: 4,
 };
 
-export default function BasicModal() {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const handleClickDeleteGroup = async (event) => { //그룹 삭제 핸들러
-        const response = await axios.delete(`/group/${group.originKey}}`)
-        if (response.data.status === 'succeed') {
-            onSubmitDeleteGroup(response.data.data)
-        }
+export default function DeleteModal({ onSubmitDeleteGroup, selectedGroup, onClose }) {
+    const handleSubmitDeleteGroup = (event) => {
+        onSubmitDeleteGroup(selectedGroup)
     }
 
 
     return (
         <div>
-            <Button onClick={handleOpen}>Open modal</Button>
             <Modal
-                open={open}
-                onClose={handleClose}
+                open={true}
+                onClose={onClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -47,7 +40,7 @@ export default function BasicModal() {
                             variant='text'
                             fullWidth
                             sx={{ mt: 3, height: 45, fontSize: 16, color: 'gray' }}
-                            onClick={handleclickDeleteGroup}
+                            onClick={handleSubmitDeleteGroup}
                         >
                             예
                         </Button>
@@ -55,7 +48,7 @@ export default function BasicModal() {
                             variant='text'
                             fullWidth
                             sx={{ mt: 3, height: 45, fontSize: 16, color: 'gray' }}
-                            onClose={handleClose}
+                            onClick={onClose}
                         >
                             아니오
                         </Button>
