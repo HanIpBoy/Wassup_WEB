@@ -64,10 +64,10 @@ export default function GroupDetailContainer() {
     const [groupSchedule, setGroupSchedule] = useState([])
     const [group, setGroup] = useState({})
     useEffect(() => {
-        // axios.get(`/group/${groupId}`).then((response) => {
-        //     const group = response.data.data
-        //     setGroup(group)
-        // })
+        axios.get(`/group/${groupId}`).then((response) => {
+            const group = response.data.data[0]
+            setGroup(group)
+        })
 
         axios.get(`/group/schedule/${groupId}`).then((response) => {
             const group = response.data.data

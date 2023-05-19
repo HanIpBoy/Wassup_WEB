@@ -77,15 +77,23 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule })
     useEffect(() => {
         const events = groupUserSchedule.map((value, userIdx) => { //포맷한 groupSchedules의 그룹스케줄
             const userId = value.userId
-
             const groupEvents = value.groupSchedules.map((value) => {
+
+
                 const schedule = { ...value, userId }
+
+                let start = new Date(schedule.startAt)
+                let end = new Date(schedule.endAt)
+                if (schedule.allDayToggle === 'true') {
+                    start = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0)
+                    end = new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23, 59, 59)
+                }
                 let isGroupColor = schedule.groupOriginKey === group.originKey
                 let event = {
                     id: schedule.originKey,
-                    start: schedule.startAt,
-                    end: schedule.endAt,
-                    allDay: schedule.allDayToggle === "true",
+                    start: start,
+                    end: end,
+                    allDay: false,
                     backgroundColor: isGroupColor ? 'white' : COLOR_CODE_LIST[userIdx],
                     borderColor: isGroupColor ? 'black' : COLOR_CODE_LIST[userIdx]
                 }
@@ -93,12 +101,21 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule })
             })
 
             const userEvents = value.userSchedules.map((value) => { //포맷한 groupSchedule의 유저스케줄
+
                 const schedule = { ...value, userId }
+
+                let start = new Date(schedule.startAt)
+                let end = new Date(schedule.endAt)
+                if (schedule.allDayToggle === 'true') {
+                    start = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0)
+                    end = new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23, 59, 59)
+                }
+
                 let event = {
                     id: schedule.originKey,
-                    start: schedule.startAt,
-                    end: schedule.endAt,
-                    allDay: schedule.allDayToggle,
+                    start: start,
+                    end: end,
+                    allDay: false,
                     backgroundColor: COLOR_CODE_LIST[userIdx],
                     borderColor: COLOR_CODE_LIST[userIdx]
                 }
@@ -131,6 +148,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule })
                     onClickGroupName={handleClickGroupName}
                     onClose={handleClose}
                     groupSchedule={groupSchedule}
+                    group={group}
                 />
 
             }
@@ -149,7 +167,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule })
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div>
                         {/* TODO: group.name -> {group.name} 으로 변경하기 */}
-                        <Button variant='contained' onClick={handleClickGroupName} style={{ marginBottom: '10px', fontSize: '18px' }}>group.groupName</Button>
+                        <Button variant='contained' onClick={handleClickGroupName} style={{ marginBottom: '10px', fontSize: '18px' }}>{group.groupName}</Button>
                     </div>
                     <Button variant="text" sx={{ fontWeight: 'bold', fontSize: '18px' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
                 </div>
