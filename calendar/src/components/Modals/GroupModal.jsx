@@ -63,9 +63,9 @@ export default function GroupModal({ group, onClose, editMode, selectedGroup, on
         setSearchUsers(true)
     }
 
+
     const handleSubmit = async (event) => {
         const payload = { //서버의 /group 으로 보내는 페이로드
-            originKey: group.originKey,
             groupName: input.groupName,
             description: input.description,
             numOfUsers: input.groupUsers.length,
