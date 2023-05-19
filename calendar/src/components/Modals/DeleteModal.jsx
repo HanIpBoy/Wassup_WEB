@@ -20,6 +20,7 @@ const style = {
 export default function DeleteModal({ onSubmitDeleteGroup, selectedGroup, onClose }) {
     const handleSubmitDeleteGroup = (event) => {
         onSubmitDeleteGroup(selectedGroup)
+        onClose()
     }
 
 
