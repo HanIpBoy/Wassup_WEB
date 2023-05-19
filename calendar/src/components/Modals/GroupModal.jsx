@@ -34,7 +34,7 @@ const modalHeader = {
 
 
 // TODO: response에 memo 데이터 없음
-export default function GroupModal({ onClose, editMode, selectedGroup, onSubmitGroup }) {
+export default function GroupModal({ group, onClose, editMode, selectedGroup, onSubmitGroup }) {
     const initialInput = {
         groupName: '',
         description: '',
@@ -65,6 +65,7 @@ export default function GroupModal({ onClose, editMode, selectedGroup, onSubmitG
 
     const handleSubmit = async (event) => {
         const payload = { //서버의 /group 으로 보내는 페이로드
+            originKey: group.originKey,
             groupName: input.groupName,
             description: input.description,
             numOfUsers: input.groupUsers.length,
@@ -80,7 +81,7 @@ export default function GroupModal({ onClose, editMode, selectedGroup, onSubmitG
         if (editMode) { //수정할 땐 put
             response = await axios.put('/group', payload)
         } else { //추가할 땐 post
-            response = await axios.post('/group', payload)
+            response = await axios.post('/group/createRequest', payload)
         }
 
         if (response.data.status === 'succeed') { //서버 응답 성공시 onSubmitGroup 실행
@@ -145,14 +146,14 @@ export default function GroupModal({ onClose, editMode, selectedGroup, onSubmitG
                             sx={{ mt: 2.5 }}
                             onInput={handleInput}
                         />
-                        <Button
+                        {!editMode && <Button
                             variant='text'
                             fullWidth
                             sx={{ mt: 3, height: 45, fontSize: 16, color: 'gray' }}
                             onClick={handleSearch}
                         >
                             사용자 검색하기
-                        </Button>
+                        </Button>}
                         <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: '30px', rowGap: '15px', padding: '0 25px', paddingTop: '10px' }}>
                             {input.groupUsers.map((value, idx) => {
                                 return <Avartar onClick={handleClickRemove} backgroundColor={COLOR_CODE_LIST[idx]} userName={value.userName} userId={value.userId} key={value.userId} />

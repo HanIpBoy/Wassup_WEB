@@ -79,7 +79,7 @@ export default function Group({ groups }) {
             boxShadow: '2px 2px 10px rgba(0,0,0,0.2)'
         }}>
             <div style={{ display: 'flex', justifyContent: 'right', marginRight: '3%' }}>
-                {open && <GroupModal onClose={handleClose} editMode={editMode} onSubmitGroup={handleSubmitGroup} selectedGroup={selectedGroup} />}
+                {open && <GroupModal group={selectedGroup} onClose={handleClose} editMode={editMode} onSubmitGroup={handleSubmitGroup} selectedGroup={selectedGroup} />}
                 {deleteMode && <DeleteModal onSubmitDeleteGroup={handleSubmitDeleteGroup} onClose={handleClose} selectedGroup={selectedGroup} />}
                 <Button
                     variant="text"

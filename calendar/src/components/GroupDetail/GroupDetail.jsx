@@ -13,59 +13,7 @@ import GroupItem from '../Group/GroupItem';
 import GroupScheduleModal from '../Modals/GroupScheduleModal';
 import axios from '../../axios.js';
 
-const dummy = [
-    {
-        originKey: '0',
-        userId: 'a@naver.com',
-        userName: '김에이',
-        name: 'a의 일정1',
-        startAt: '2023-05-15T08:00',
-        endAt: '2023-05-16T19:00',
-        memo: '메모',
-        allDayToogle: false,
-    },
-    {
-        originKey: '1',
-        userId: 'b@naver.com',
-        userName: '김비비',
-        name: 'b의 일정1',
-        startAt: '2023-05-15T10:30',
-        endAt: '2023-05-15T14:00',
-        memo: '메모',
-        allDayToogle: false,
-    },
-    {
-        originKey: '2',
-        userId: 'c@naver.com',
-        userName: '김씨씨',
-        name: 'c의 일정1',
-        startAt: '2023-05-15T10:00',
-        endAt: '2023-05-15T13:00',
-        memo: '메모',
-        allDayToogle: false,
-    },
-    {
-        originKey: '3',
-        userId: 'd@naver.com',
-        userName: '김디디',
-        name: 'd의 일정1',
-        startAt: '2023-05-20',
-        endAt: '2023-05-21',
-        memo: '메모',
-        allDayToogle: true,
-    },
-    {
-        originKey: '4',
-        userId: 'e@naver.com',
-        userName: '김이이',
-        name: 'e의 일정1',
-        startAt: '2023-05-15',
-        endAt: '2023-05-16',
-        memo: '메모',
-        allDayToogle: true,
-    },
-];
-export default function GroupDetail({ group, groupUserSchedule, groupName, onSubmitGroupSchedule, updatedGroupSchedules }) {
+export default function GroupDetail({ group, groupSchedule, groupUserSchedule }) {
     const calendarRef = useRef();
     const [events, setEvents] = useState([]);
     const [range, setRange] = useState();
@@ -137,7 +85,7 @@ export default function GroupDetail({ group, groupUserSchedule, groupName, onSub
                     id: schedule.originKey,
                     start: schedule.startAt,
                     end: schedule.endAt,
-                    allDay: schedule.allDayToggle,
+                    allDay: schedule.allDayToggle === "true",
                     backgroundColor: isGroupColor ? 'white' : COLOR_CODE_LIST[userIdx],
                     borderColor: isGroupColor ? 'black' : COLOR_CODE_LIST[userIdx]
                 }
@@ -158,8 +106,8 @@ export default function GroupDetail({ group, groupUserSchedule, groupName, onSub
             })
             return [...groupEvents, ...userEvents]
         })
-        console.log(events)
         setEvents(...events)
+        console.log(...events)
 
     }, [groupUserSchedule]);
 
@@ -182,7 +130,7 @@ export default function GroupDetail({ group, groupUserSchedule, groupName, onSub
                 <GroupScheduleModal
                     onClickGroupName={handleClickGroupName}
                     onClose={handleClose}
-                    group={group}
+                    groupSchedule={groupSchedule}
                 />
 
             }
@@ -200,7 +148,8 @@ export default function GroupDetail({ group, groupUserSchedule, groupName, onSub
             }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div>
-                        <Button variant='contained' onClick={handleClickGroupName} style={{ marginBottom: '10px', fontSize: '18px' }}>{group.groupName}</Button>
+                        {/* TODO: group.name -> {group.name} 으로 변경하기 */}
+                        <Button variant='contained' onClick={handleClickGroupName} style={{ marginBottom: '10px', fontSize: '18px' }}>group.groupName</Button>
                     </div>
                     <Button variant="text" sx={{ fontWeight: 'bold', fontSize: '18px' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
                 </div>

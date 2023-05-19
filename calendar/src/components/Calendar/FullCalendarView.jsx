@@ -63,8 +63,9 @@ export default function FullCalendarView({ onClickDate, schedule, onClickEvent }
                     start: new Date(value.startAt),
                     end: new Date(formattedEnd),
                     allDay: value.allDayToggle,
-                    backgroundColor: value.color,
-                    borderColor: value.color
+                    backgroundColor: value.groupOriginKey ? 'white' : value.color,
+                    borderColor: value.groupOriginKey ? 'black' : value.color,
+                    textColor: value.groupOriginKey ? 'black' : undefined
                 }
                 return event
             })

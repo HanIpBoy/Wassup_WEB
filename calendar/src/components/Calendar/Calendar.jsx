@@ -40,14 +40,26 @@ export default function Calendar({ schedule }) {
     setOpen(true)
   }
 
-  const handleSubmitSchedule = (event) => {
+  const handleSubmitSchedule = (schedule) => {
     // 1. 모달을 닫는다
     setOpen(false)
     // 2. schedule을 업데이트한다
-    setUpdatedSchedule(event)
-
+    if (editMode) {
+      const idx = updatedSchedule.findIndex((value) => value.originKey === schedule.originKey)
+      const temp = [...updatedSchedule]
+      temp[idx] = schedule
+      setUpdatedSchedule(temp)
+    } else {
+      setUpdatedSchedule([...updatedSchedule, schedule])
+    }
   }
 
+  const handleDeleteSchedule = (schedule) => {
+    const idx = updatedSchedule.findIndex((value) => value.originKey === schedule.originKey)
+    const temp = [...updatedSchedule]
+    temp.splice(idx, 1)
+    setUpdatedSchedule(temp)
+  }
 
   return (
     <>
@@ -58,6 +70,7 @@ export default function Calendar({ schedule }) {
           editMode={editMode}
           onClose={handleClose}
           onSubmitSchedule={handleSubmitSchedule}
+          onDeleteSchedule={handleDeleteSchedule}
         />
       }
       <div style={{

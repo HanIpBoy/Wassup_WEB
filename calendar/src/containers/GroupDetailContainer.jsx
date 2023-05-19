@@ -59,23 +59,29 @@ const dummy = [
 ]
 
 export default function GroupDetailContainer() {
-    const [groupUserSchedule, setGroupUserSchedule] = useState(dummy)
+    const [groupUserSchedule, setGroupUserSchedule] = useState([])
     const { groupId } = useParams()
-    const [group, setGroup] = useState(dummyGroup)
+    const [groupSchedule, setGroupSchedule] = useState([])
+    const [group, setGroup] = useState({})
     useEffect(() => {
         // axios.get(`/group/${groupId}`).then((response) => {
         //     const group = response.data.data
         //     setGroup(group)
         // })
 
-        // axios.get(`/group/user/schedule/${groupId}`).then((response) => {
-        //     console.log('response', response)
+        axios.get(`/group/schedule/${groupId}`).then((response) => {
+            const group = response.data.data
+            setGroupSchedule(group)
+        })
 
-        //     const schedule = response.data.data
-        //     setGroupUserSchedule(schedule)
-        // })
+        axios.get(`/group/user/schedule/${groupId}`).then((response) => {
+            console.log('response', response)
+
+            const schedule = response.data.data
+            setGroupUserSchedule(schedule)
+        })
 
     }, []);
 
-    return groupUserSchedule && group && <GroupDetail groupUserSchedule={groupUserSchedule} group={group} />
+    return group && groupUserSchedule && groupSchedule && <GroupDetail group={group} groupUserSchedule={groupUserSchedule} groupSchedule={groupSchedule} />
 }
