@@ -109,7 +109,7 @@ export default function SignUp() {
             emailAuthCode: codeInput
         })
 
-        if (responseEmail.data.includes('success')) { //만약 서버에서 보내준 값에 "success" 값이 있을 경우
+        if (responseEmail.data.includes('succeed')) { //만약 서버에서 보내준 값에 "success" 값이 있을 경우
             window.alert('이메일 인증에 성공했습니다!') //성공 alert를 띄운 후 그대로 실행
             setEmailCheck(true)
         } else {

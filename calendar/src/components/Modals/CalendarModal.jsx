@@ -39,7 +39,7 @@ const modalHeader = {
 
 
 // TODO: response에 memo 데이터 없음
-export default function CalendarModal({ onClose, selectedDate, editMode, groupMode, onSubmitSchedule, selectedSchedule, onSubmitGroupSchedule }) {
+export default function CalendarModal({ onClose, selectedDate, editMode, groupMode, onSubmitSchedule, onDeleteSchedule, selectedSchedule, onSubmitGroupSchedule }) {
 
     const initialInput = {
         name: '',
@@ -97,10 +97,8 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
             name: input.name,
             startAt: startAt,
             endAt: endAt,
-            userId: '',
             color: input.color,
             memo: input.memo,
-            notification: 0,
             allDayToggle: input.allday === true ? "true" : "false"
         }
         // 수정 모드일 때는 (editMode) PUT
@@ -115,7 +113,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
         }
 
         if (response.data.status === 'succeed') {
-            onSubmitSchedule(response.data.data)
+            onSubmitSchedule(response.data.data[0])
         }
     }
 
@@ -125,10 +123,12 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
     }
 
     const handleDelete = async (event) => { //일정 삭제 핸들러
+        onClose()
         const response = await axios.delete(`/schedule/${selectedSchedule.originKey}`)
         if (response.data.status === 'succeed') {
-            onSubmitSchedule(response.data.data)
+            onDeleteSchedule(response.data.data[0])
         }
+
     }
 
     return (
@@ -225,7 +225,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
                         <Button
                             variant="contained"
                             fullWidth
-                            sx={{ mt: 1, height: 45, fontSize: 16, backgroundColor: 'red', fontFamily: 'var(--font-PoorStory);' }}
+                            sx={{ mt: 1, height: 45, fontSize: 16, backgroundColor: 'red', fontFamily: 'var(--font-PoorStory);', ":hover": { transition: 'background-color 0.4s ease ', backgroundColor: 'rgba(234, 51, 35,0.8)' } }}
                             onClick={handleDelete}
                         >
                             삭제

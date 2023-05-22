@@ -50,7 +50,6 @@ export default function SearchModal({ onSubmit }) {
 
     const handleSearch = async () => {
         const response = await axios.get(`/user/search/${input}`)
-        console.log(response)
         const result = response.data.data[0]
         // const result = dummy
         setSearchResult(result)
