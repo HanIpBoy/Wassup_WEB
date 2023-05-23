@@ -89,8 +89,8 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
             } else return value
         }
         const { start, end } = input
-        const startAt = start.$y + '-' + format(start.$M + 1) + '-' + format(start.$D) + 'T' + format(start.$H) + ':' + format(start.$m)
-        const endAt = end.$y + '-' + format(end.$M + 1) + '-' + format(end.$D) + 'T' + format(end.$H) + ':' + format(end.$m)
+        const startAt = start.$y + '-' + format(start.$M + 1) + '-' + format(start.$D) + 'T' + format(start.$H) + ':' + format(start.$m) + ':00'
+        const endAt = end.$y + '-' + format(end.$M + 1) + '-' + format(end.$D) + 'T' + format(end.$H) + ':' + format(end.$m) + ':00'
 
         const payload = {
             ...(selectedSchedule && { originKey: selectedSchedule.originKey }),
@@ -141,11 +141,17 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
             >
                 <Box sx={style}>
                     <div style={modalHeader}>
-
-                        <Box sx={titleStyle} align="center" marginBottom={2} >
-                            {groupMode ? '그룹 일정 추가' : '일정 추가'}
-                        </Box>
-                        <img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} />
+                        {groupMode ?
+                            <><Box sx={titleStyle} align="center" marginBottom={2}>
+                                그룹 일정 추가
+                            </Box><img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} /></>
+                            :
+                            !editMode ?
+                                <><Box sx={titleStyle} align="center" marginBottom={2}>
+                                    일정 추가
+                                </Box><img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} /></>
+                                : undefined
+                        }
                     </div>
                     <TextField id="filled-basic"
                         name='name'
