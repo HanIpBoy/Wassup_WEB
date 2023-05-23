@@ -13,7 +13,7 @@ schedule [ //데이터 예시
         "userId": "abc@naver.com",
         "memo": " !",
         "notification": 1,
-        "allDayToogle": 1,
+        "allDayToggle": 1,
         "createdAt": "2023-03-17-19:11",
         "lastModifiedAt": "2023-03-17-19:11"
     },
