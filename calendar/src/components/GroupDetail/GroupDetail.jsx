@@ -11,9 +11,10 @@ import CalendarModal from '../Modals/CalendarModal';
 import Avatar from '../Avatar';
 import GroupItem from '../Group/GroupItem';
 import GroupScheduleModal from '../Modals/GroupScheduleModal';
+import cookie from 'js-cookie'
 import axios from '../../axios.js';
 
-export default function GroupDetail({ group, groupSchedule, groupUserSchedule }) {
+export default function GroupDetail({ group, groupSchedule, groupUserSchedule, onSubmitGroupSchedule }) {
     const calendarRef = useRef();
     const [events, setEvents] = useState([]);
     const [range, setRange] = useState();
@@ -27,29 +28,29 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule })
         setOpen(true)
     }
 
-    const handleSubmitSchedule = () => { //그룹 일정 추가 눌렀을 때 핸들러
-        // const payload = { //서버의 /group/schedule로 보내는 페이로드
-        //     groupOriginKey: ,
-        //     name: ,
-        //     startAt: ,
-        //     endAt: ,
-        //     memo: ,
-        //     allDayToggle: ,
-        //     color: 
-        // }
+    // const handleSubmitSchedule = async () => { //그룹 일정 추가 눌렀을 때 핸들러
+    //     const payload = { //서버의 /group/schedule로 보내는 페이로드
+    //         groupOriginKey: group.groupOriginKey,
+    //         name: group.groupName,
+    //         startAt: group.startAt,
+    //         endAt: group.endAt,
+    //         memo: group.memo,
+    //         allDayToggle: group.allDayToggle,
+    //         color: group.color
+    //     }
 
-        // let response
+    //     let response
 
-        // if (editMode) { //수정할 경우
-        //     response = await axios.put('/group/schedule', payload)
-        // } else { //수정이 아닐 경우
-        //     response = await axios.post('/group', payload)
-        // }
+    //     if (editMode) { //수정할 경우
+    //         response = await axios.put('/group/schedule', payload)
+    //     } else { //수정이 아닐 경우
+    //         response = await axios.post('/group/schedule', payload)
+    //     }
 
-        // if (response.data.status === 'succeed') { //서버 응답 성공시 onSubmitGroupSchedule 실행
-        //     onSubmitGroupSchedule(response.data.data)
-        // }
-    }
+    //     if (response.data.status === 'succeed') { //서버 응답 성공시 onSubmitGroupSchedule 실행
+    //         onSubmitGroupSchedule(response.data.data)
+    //     }
+    // }
 
     const handleClickGroupName = () => {
         setListOpen(true)
@@ -75,9 +76,9 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule })
     }, []);
 
     useEffect(() => {
-        const events = groupUserSchedule.map((value, userIdx) => { //포맷한 groupSchedules의 그룹스케줄
+        const events = groupUserSchedule.map((value, userIdx) => {
             const userId = value.userId
-            const groupEvents = value.groupSchedules.map((value) => {
+            const groupEvents = value.groupSchedules.map((value) => {//포맷한 groupSchedules의 그룹스케줄
 
 
                 const schedule = { ...value, userId }
@@ -112,6 +113,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule })
                 }
 
                 let event = {
+                    userid: schedule.userId,
                     id: schedule.originKey,
                     start: start,
                     end: end,
@@ -119,14 +121,20 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule })
                     backgroundColor: COLOR_CODE_LIST[userIdx],
                     borderColor: COLOR_CODE_LIST[userIdx]
                 }
+
                 return event
+
+
             })
             return [...groupEvents, ...userEvents]
         })
-        setEvents(...events)
-        console.log(...events)
+        setEvents(...events) //...events
+        console.log('group : ', group)
+        console.log('userId : : :   '.userId)
 
-    }, [groupUserSchedule]);
+    }, [groupUserSchedule])
+
+    const userId = cookie.get('userId')
 
 
 
@@ -137,10 +145,11 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule })
                     //   selectedSchedule={selectedSchedule}
                     //   selectedDate={selectedDate}
                     //
+                    group={group}
                     groupMode={groupMode}
                     onClickGroupSchedule={handleClickGroupSchedule}
                     onClose={handleClose}
-                    onSubmitGroupSchedule={handleSubmitSchedule}
+                // onSubmitGroupSchedule={handleSubmitSchedule}
                 />
             }
             {listOpen &&
@@ -169,7 +178,11 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule })
                         {/* TODO: group.name -> {group.name} 으로 변경하기 */}
                         <Button variant='contained' onClick={handleClickGroupName} style={{ marginBottom: '10px', fontSize: '18px' }}>{group.groupName}</Button>
                     </div>
-                    <Button variant="text" sx={{ fontWeight: 'bold', fontSize: '18px' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
+                    {group.leaderId === userId ?
+                        <Button variant="text" sx={{ fontWeight: 'bold', fontSize: '18px' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
+                        :
+                        ''
+                    }
                 </div>
                 <Box sx={style}>
                     <FullCalendar
