@@ -50,9 +50,17 @@ export default function Group({ groups }) {
         await axios.delete(`/group/${group.originKey}`)
         const idx = updatedGroups.findIndex((value) => value.originKey === group.originKey)
 
-        const temp = [...updatedGroups] //temp에 복사
-        temp.splice(idx, 1)  //인덱스를 찾아 삭제
-        setUpdatedGroups(temp) //그룹 정보 업뎃
+        let temp = undefined; //temp를 undefined로 초기화
+
+        if (idx !== -1) {
+            temp = [...updatedGroups];
+            temp.splice(idx, 1);
+            setUpdatedGroups(temp)
+        }
+
+        // const temp = [...updatedGroups]
+        // temp.splice(idx, 1)
+        // setUpdatedGroups(temp)
     }
 
     const handleClickEditGroup = (group) => {
