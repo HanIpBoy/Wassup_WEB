@@ -7,8 +7,8 @@ import Calendar from "../../images/Calendar.png";
 import CalendarTab from "../../images/CalendarTab.png";
 import Group from '../../images/Group.png';
 import GroupTab from '../../images/GroupTab.png';
-import Setting from '../../images/Setting.png';
-import SettingTab from '../../images/SettingTab.png';
+import Alarm from '../../images/Alarm.png';
+import AlarmTab from '../../images/AlarmTab.png';
 
 export default function Header() {
     const [username, setUserName] = useState('')
@@ -39,9 +39,9 @@ export default function Header() {
         setTab('/groups')
     }
 
-    const handleClickSettingIcon = (event) => {
-        navigate('/settings')
-        setTab('/settings')
+    const handleClickAlarmIcon = (event) => {
+        navigate('/alarms')
+        setTab('/alarms')
     }
 
     const handleClickMainIcon = (event) => {
@@ -63,7 +63,7 @@ export default function Header() {
                 <div style={{ display: 'flex', columnGap: '10px' }}>
                     <img src={tab === '/calendar' ? CalendarTab : Calendar} style={{ ...headerStyle }} onClick={handleClickCalendarIcon} />
                     <img src={tab === '/groups' || tab.startsWith('/groups/') ? GroupTab : Group} style={{ ...headerStyle }} onClick={handleClickGroupIcon} />
-                    <img src={tab === '/settings' ? SettingTab : Setting} style={{ ...headerStyle }} onClick={handleClickSettingIcon} />
+                    <img src={tab === '/alarms' ? AlarmTab : Alarm} style={{ ...headerStyle }} onClick={handleClickAlarmIcon} />
 
                 </div>
             </div>
