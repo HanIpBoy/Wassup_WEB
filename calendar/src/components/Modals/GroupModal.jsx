@@ -65,7 +65,8 @@ export default function GroupModal({ group, onClose, editMode, selectedGroup, on
 
 
     const handleSubmit = async (event) => {
-        const payload = { //서버의 /group 으로 보내는 페이로드
+        const payload = { //서버의 /group/createrequest 으로 보내는 페이로드
+            ...(selectedGroup && { originKey: selectedGroup.originKey }),
             groupName: input.groupName,
             description: input.description,
             numOfUsers: input.groupUsers.length,
@@ -166,7 +167,7 @@ export default function GroupModal({ group, onClose, editMode, selectedGroup, on
                             onClick={handleSubmit}
                         >{editMode ? '수정' : '추가'}</Button>
                         {/* 삼항연산자 사용, editMode에 따라 수정, 추가 버튼 변경 */}
-                        {editMode && (
+                        {/* {editMode && (
                             <Button
                                 variant="contained"
                                 fullWidth
@@ -174,7 +175,7 @@ export default function GroupModal({ group, onClose, editMode, selectedGroup, on
                             >
                                 그룹 삭제
                             </Button>
-                        )}
+                        )} */}
                     </Box>
                 </Modal>
             }
