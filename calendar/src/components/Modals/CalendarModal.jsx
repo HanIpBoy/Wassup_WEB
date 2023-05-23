@@ -43,7 +43,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
 
     const initialInput = {
         name: '',
-        allday: false,
+        allday: false, //undefined로 바꿔야 할 수도
         start: dayjs(selectedDate), //모달 클릭시 시작날짜 초기화
         end: dayjs(selectedDate),
         memo: '',
@@ -89,8 +89,8 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
             } else return value
         }
         const { start, end } = input
-        const startAt = start.$y + '-' + format(start.$M + 1) + '-' + format(start.$D) + 'T' + format(start.$H) + ':' + format(start.$m) + ':00'
-        const endAt = end.$y + '-' + format(end.$M + 1) + '-' + format(end.$D) + 'T' + format(end.$H) + ':' + format(end.$m) + ':00'
+        const startAt = start.$y + '-' + format(start.$M + 1) + '-' + format(start.$D) + 'T' + format(start.$H) + ':' + format(start.$m)
+        const endAt = end.$y + '-' + format(end.$M + 1) + '-' + format(end.$D) + 'T' + format(end.$H) + ':' + format(end.$m)
 
         const payload = {
             ...(selectedSchedule && { originKey: selectedSchedule.originKey }),
@@ -214,11 +214,6 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
                             sx={{ justifyContent: 'center' }}
                         />
                     }
-                    {/* <RepeatField
-                        name='repeat'
-                        onInput={handleInput}
-                        value={input.repeat}
-                    /> */}
                     <Button
                         variant="contained"
                         fullWidth
