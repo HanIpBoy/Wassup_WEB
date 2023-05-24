@@ -59,6 +59,8 @@ export default function Calendar({ schedule }) {
     const temp = [...updatedSchedule]
     temp.splice(idx, 1)
     setUpdatedSchedule(temp)
+    setEditMode(false) //수정된 코드
+    setSelectedSchedule(undefined) //수정된 코드
   }
 
   return (
