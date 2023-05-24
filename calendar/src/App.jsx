@@ -10,7 +10,7 @@ import Error from './pages/Error';
 import Group from './pages/Group';
 import GroupDetail from './pages/GroupDetail';
 import NotLogin from './pages/NotLogin';
-import Alarm from './pages/Alarm';
+import Alirm from './pages/Alirm';
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
           <Route path="/groups" element={<Group />} />
           <Route path="/notlogin" element={<NotLogin />} />
           <Route path="/groups/:groupId" element={<GroupDetail />} />
-          <Route path="/alarms" element={<Alarm />} />
+          <Route path="/alirms" element={<Alirm />} />
           <Route element={<NotFound />} />
         </Routes>
       </BrowserRouter>
