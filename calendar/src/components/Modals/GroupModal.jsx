@@ -82,7 +82,7 @@ export default function GroupModal({ group, onClose, editMode, selectedGroup, on
         if (editMode) { //수정할 땐 put
             response = await axios.put('/group', payload)
         } else { //추가할 땐 post
-            response = await axios.post('/group/createRequest', payload)
+            response = await axios.post('/group/create', payload)
         }
 
         if (response.data.status === 'succeed') { //서버 응답 성공시 onSubmitGroup 실행
