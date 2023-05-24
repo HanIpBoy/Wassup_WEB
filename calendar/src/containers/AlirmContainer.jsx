@@ -9,7 +9,8 @@ export default function AlirmContainer() {
     useEffect(() => {
         axios.get('user/notification/unread').then((response) => {
             console.log('response', response)
-            setAlirms(response.data.data)
+            setAlirms(response.data.data[0])
+            console.log('data, dtatdatds', response)
         })
     }, []);
 
@@ -19,4 +20,4 @@ export default function AlirmContainer() {
             <Alirm alirms={alirms} />
         </>
     )
-}
+} 

@@ -9,11 +9,12 @@ export default function AlirmItem({ alirm, onClickYes, onClickNo }) {
         onClickNo(alirm)
     }
 
+    console.log('알림은 무엇을 불러왔을까', alirm)
     return (
         <>
             <div style={{ display: 'flex', fontSize: '15px' }}>
                 <div style={{ margin: '10px', width: '80%', textAlign: 'center' }}>
-                    {alirm.message}
+                    {alirm?.message}
                 </div>
                 <div onClick={handleClickYes} style={{ margin: '10px 0', width: '10%', textAlign: 'center', cursor: 'pointer', color: 'blue' }}>
                     예
