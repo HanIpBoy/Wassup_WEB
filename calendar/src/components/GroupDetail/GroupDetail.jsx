@@ -15,7 +15,7 @@ import cookie from 'js-cookie'
 import MemberIcon from '../MemberIcon';
 import axios from '../../axios.js';
 
-export default function GroupDetail({ group, groupSchedule, groupUserSchedule, onSubmitGroupSchedule, groupMembers }) {
+export default function GroupDetail({ group, groupSchedule, groupUserSchedule, onSubmitGroupSchedule }) {
     const calendarRef = useRef();
     const [events, setEvents] = useState([]);
     const [range, setRange] = useState();
@@ -24,6 +24,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
     const [groupMode, setGroupMode] = useState(false) //그룹 일정 추가 모달을 띄울지 일정 추가 모달을 띄울지 결정
     const [editMode, setEditMode] = useState(false) //수정모드
     const [updatedGroupSchedule, setUpdatedGroupSchedule] = useState()
+    const [groupMembers, setGroupMembers] = useState([])
 
     const handleClickGroupSchedule = () => {
         setGroupMode(true)
@@ -67,6 +68,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
             .forEach((el) => el.addEventListener('click', updateRange));
         updateRange();
     }, []);
+    // console.log('groupDetail에서 groupUserSchedule의 값:', groupUserSchedule)
 
     useEffect(() => {
         const events = groupUserSchedule.map((value, userIdx) => {
@@ -103,7 +105,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                 if (schedule.allDayToggle === 'true') {
                     start = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0)
                     end = new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23, 59, 59)
-                }
+                } //하루종일일 경우 00:00 ~ 23: 59 까지 막대기 넣기
 
                 let event = {
                     userid: schedule.userId,
@@ -122,11 +124,27 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
             return [...groupEvents, ...userEvents]
         })
         setEvents(...events) //...events
-        console.log('group : ', group)
-        console.log('userId : : :   '.userId)
-
     }, [groupUserSchedule, groupSchedule])
 
+
+    useEffect(() => { //useEffect 안에선 async 함수를 직접 설정할 수 없기 때문에 직접 바꿔준 함수
+        const fetchData = async () => {
+            try {
+                const payload = {
+                    groupUsers: [...group.groupUser]
+                };
+                const response = await axios.post('/group/search/userName', payload);
+                if (response.status === 'succeed') {
+                    setGroupMembers(response.data[0].groupUsers);
+                }
+            } catch (error) {
+                // 오류 처리fffff
+            }
+        };
+
+        fetchData();
+    }, []);
+    console.log('groupDetail에서 groupMembers의 값 : ', groupMembers)
     const userId = cookie.get('userId')
 
 

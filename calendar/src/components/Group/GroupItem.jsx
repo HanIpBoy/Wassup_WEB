@@ -19,7 +19,6 @@ export default function GroupItem({ group, onClickDeleteGroup, onClickEditGroup 
         if (response.data.status === 'succeed') {
             setGroupMembers(response.data.data[0])
         }
-        console.log('groupMembers :  ', groupMembers)
         navigate(`/groups/${group.originKey}`)
     }
 
@@ -35,7 +34,6 @@ export default function GroupItem({ group, onClickDeleteGroup, onClickEditGroup 
 
     return (
         <>
-            {/* <GroupDetail groupMembers={groupMembers} /> && */}
             <div style={{ display: 'flex', fontSize: '20px' }}>
                 <div onClick={handleClickGroup} style={{ margin: '10px', width: '33%', textAlign: 'center', cursor: 'pointer' }}>{group.groupName}</div>
                 <div onClick={handleClickGroup} style={{ margin: '10px', marginRight: '50px', width: '34%', textAlign: 'center', cursor: 'pointer' }}>{group.description}</div>
