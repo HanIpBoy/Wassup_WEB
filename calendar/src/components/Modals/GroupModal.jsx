@@ -80,8 +80,11 @@ export default function GroupModal({ group, onClose, editMode, selectedGroup, on
         let response
 
         if (editMode) { //수정할 땐 put
+            window.alert('그룹 수정이 완료되었습니다.')
             response = await axios.put('/group', payload)
+
         } else { //추가할 땐 post
+            window.alert('그룹 생성이 완료되었습니다. 그룹원들에게 알림을 발송하였습니다!')
             response = await axios.post('/group/create', payload)
         }
 
