@@ -52,6 +52,11 @@ export default function SearchModal({ onSubmit }) {
         const response = await axios.get(`/user/search/${input}`)
         const result = response.data.data[0]
         // const result = dummy
+
+
+        if (response.data.data === null) {
+            window.alert('검색한 사용자가 존재하지 않습니다.')
+        }
         setSearchResult(result)
     }
 
