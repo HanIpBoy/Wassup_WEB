@@ -1,6 +1,7 @@
-import React, { } from "react";
+import React, { useState } from "react";
 
 export default function AlirmItem({ alirm, onClickYes, onClickNo }) {
+
     const handleClickYes = () => {
         onClickYes(alirm)
     }

@@ -8,16 +8,17 @@ export default function Alirm({ alirms }) {
 
     const [updatedAlirms, setUpdatedAlirms] = useState([]) //업데이트된 알람 상태 저장, 빈 배열로 관리
     const [isLoading, setIsLoading] = useState(true) //로딩 상태 관리
+    const [selectedAlirm, setSelectedAlirm] = useState() //선택된 알림
     const [alirmSuccess, setAlirmSuccess] = useState()
 
-    console.log('alirms는 ??? ', alirms)
+    console.log('alirms는 Alirm에 어떻게 들어왔니? ', alirms)
     useEffect(() => {
         if (alirms !== undefined) {
             setUpdatedAlirms(alirms)
             setIsLoading(false) //데이터 도착 후 로딩 상태를 false로 변경
         }
 
-    }, [])
+    }, [alirms])
 
     if (updatedAlirms === undefined) {
         return null; // alirms가 undefined인 경우 렌더링하지 않음
@@ -28,27 +29,42 @@ export default function Alirm({ alirms }) {
     }
 
 
-    const handleClickYes = async () => { //예 버튼 클릭시 작동되는 핸들러
+    const handleClickYes = async (alirm) => { //예 버튼 클릭시 작동되는 핸들러
         const payload = { //서버의 /group/invitation/accept로 보내는 페이로드
-            originKey: alirms.originKey,
-            groupOriginKey: alirms.groupOriginKey
-
+            originKey: alirm.originKey,
+            groupOriginKey: alirm.groupOriginKey
         }
 
         let response = await axios.post('/group/invitation/accept', payload)
         if (response.data.status === 'succeed') { //서버 응답 성공 시 onSubmitAlirm 실행
-            let responseDelete = await axios.delete(`/user/notification/${alirms.originKey}`)
+            const alrimOriginKey = alirm.originKey;
+            let responseDelete = await axios.delete(`/user/notification/${alrimOriginKey}`)
             if (responseDelete.data.status === 'succeed') {
                 axios.get('user/notification/unread').then((response) => {
-                    setUpdatedAlirms(response.data.data[0])
+                    setUpdatedAlirms(response.data.data)
                 })
 
             }
         }
     }
 
-    const handleClickNo = () => { //아니오 버튼 클릭시 작동되는 핸들러
+    const handleClickNo = async (alirm) => { //아니오 버튼 클릭시 작동되는 핸들러
+        let responseDelete = await axios.delete(`/user/notification/${alirm.originKey}`)
+        if (responseDelete.data.status === 'succeed') {
+            axios.get('user/notification/unread').then((response) => {
+                setUpdatedAlirms(response.data.data)
+            })
 
+        }
+        // const idx = updatedAlirms.findIndex((value) => value.originKey === alirms.originKey)
+
+        // let temp = undefined; //temp를 undefined로 초기화
+
+        // if (idx !== -1) {
+        //     temp = [...updatedAlirms];
+        //     temp.splice(idx, 1);
+        //     setUpdatedAlirms(temp)
+        // }
     }
 
     return (
@@ -66,10 +82,10 @@ export default function Alirm({ alirms }) {
             }}>
 
                 {updatedAlirms.map((value, idx) => {
-                    return <div key={idx}>
+                    return <>
                         <hr style={{ borderTop: '1px solid rgba(0,0,0,0.1)', width: '100%' }} />
-                        <AlirmItem alirm={value} onClickYes={handleClickYes} onClickNo={handleClickNo} />
-                    </div>
+                        <AlirmItem alirm={value} key={idx} onClickYes={() => handleClickYes(value)} onClickNo={() => handleClickNo(value)} />
+                    </>
                 })}
             </div>
         </>
