@@ -22,7 +22,7 @@ schedule [ //데이터 예시
 ]
 */
 
-// TODO: 이벤트가 endAt 전날 까지만 표시됨
+
 export default function FullCalendarView({ onClickDate, schedule, onClickEvent }) {
     const [events, setEvents] = useState([])
     const [calendarApi, setCalendarApi] = useState();
