@@ -2,7 +2,7 @@ import axios from "axios"
 import cookie from "js-cookie";
 
 const instance = axios.create({ //동일 형태로 url 설정
-    baseURL: 'http://13.125.226.121:8080'
+    baseURL: 'http://43.202.40.33:8080'
 })
 
 //인터셉터
@@ -17,7 +17,7 @@ instance.interceptors.request.use(function (config) {
     ) {
         console.log('No token required');
     } else {
-        //나머지 URL에는 'Bearer' 토큰을 포함시킴
+        //나머지 URL에는  s'Bearer' 토큰을 포함시킴
         config.headers = {
             Authorization: `Bearer ${token}` // Authorization에 token값 넣기
         }
