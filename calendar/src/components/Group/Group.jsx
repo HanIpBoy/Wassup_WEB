@@ -75,6 +75,7 @@ export default function Group({ groups }) {
         }
     }, [groups])
 
+    console.log('groups는 뭐냐?!??!?!?', groups)
     return (
         <div style={{
             backgroundColor: 'rgba(219,230,243,0.5)',
