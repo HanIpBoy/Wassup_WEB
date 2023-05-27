@@ -39,7 +39,7 @@ const modalHeader = {
 
 
 // TODO: response에 memo 데이터 없음
-export default function CalendarModal({ onClose, selectedDate, editMode, groupMode, onSubmitSchedule, onDeleteSchedule, selectedSchedule, onSubmitGroupSchedule }) {
+export default function CalendarModal({ onClose, selectedDate, editMode, groupMode, onSubmitSchedule, onDeleteSchedule, selectedSchedule, onSubmitGroupSchedule, group }) {
 
     const initialInput = {
         name: '',
@@ -61,7 +61,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
         return input
     }
 
-    const [input, setInput] = useState(selectedSchedule && editMode ? formatSchedule(selectedSchedule) : initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
+    const [input, setInput] = useState(selectedSchedule && editMode ? formatSchedule(selectedSchedule) : groupMode ? initialInput : initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
     // const [input, setInput] = useState(initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
     const handleInput = (event) => {
         const { value, name } = event.target
@@ -78,8 +78,68 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
         }))
     }
 
-    const handleSubmitGroupSchedule = (event) => {
-        onSubmitGroupSchedule(input)
+    const handleSubmitGroupSchedule = async () => { //그룹 일정 추가 눌렀을 때 핸들러
+        const format = (value) => {
+            if (value < 10) {
+                return '0' + value
+            } else return value
+        }
+        const { start, end } = input
+        const startAt = start.$y + '-' + format(start.$M + 1) + '-' + format(start.$D) + 'T' + format(start.$H) + ':' + format(start.$m)
+        const endAt = end.$y + '-' + format(end.$M + 1) + '-' + format(end.$D) + 'T' + format(end.$H) + ':' + format(end.$m)
+
+        const payload = { //서버의 /group/schedule로 보내는 페이로드
+            groupOriginKey: group.groupOriginKey,
+            name: input.name,
+            startAt: startAt,
+            endAt: endAt,
+            color: input.color,
+            memo: input.memo,
+            allDayToggle: input.allday === true ? "true" : "false"
+        }
+
+        // 그룹 수정 모드일 때는 (groupEditMode) PUT
+        // 생성할 때는 POST
+
+        let response
+        response = await axios.post('/group/schedule', payload)
+        if (response.data.status === 'succeed') { //서버 응답 성공 시 onSubmitGroupSchedule 실행
+            onSubmitGroupSchedule(response.data.data[0])
+        }
+
+        // if (groupEditMode) {
+        //     response = await axios.put('/schedule', payload)
+        // } else {
+        //     response = await axios.post('/schedule', payload)
+        // }
+
+        // if (response.data.status === 'succeed') {
+        //     onSubmitSchedule(response.data.data[0])
+        // }
+
+        // const handleSubmitSchedule = async () => { //그룹 일정 추가 눌렀을 때 핸들러
+        //     const payload = { //서버의 /group/schedule로 보내는 페이로드
+        //         groupOriginKey: group.groupOriginKey,
+        //         name: group.groupName,
+        //         startAt: group.startAt,
+        //         endAt: group.endAt,
+        //         memo: group.memo,
+        //         allDayToggle: group.allDayToggle,
+        //         color: group.color
+        //     }
+
+        //     let response
+
+        //     if (editMode) { //수정할 경우
+        //         response = await axios.put('/group/schedule', payload)
+        //     } else { //수정이 아닐 경우
+        //         response = await axios.post('/group/schedule', payload)
+        //     }
+
+        //     if (response.data.status === 'succeed') { //서버 응답 성공시 onSubmitGroupSchedule 실행
+        //         onSubmitGroupSchedule(response.data.data)
+        //     }
+        // }
     }
 
     const handleSubmit = async (event) => {
@@ -99,7 +159,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
             endAt: endAt,
             color: input.color,
             memo: input.memo,
-            allDayToggle: input.allday === true ? "true" : "false"
+            allDayToggle: input.allday === true ? true : false
         }
         // 수정 모드일 때는 (editMode) PUT
         // 생성할 때는 POST
@@ -128,6 +188,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
         if (response.data.status === 'succeed') {
             onDeleteSchedule(response.data.data[0])
         }
+        console.log(response)
 
     }
 

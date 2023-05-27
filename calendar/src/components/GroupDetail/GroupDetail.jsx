@@ -8,13 +8,14 @@ import { COLOR_CODE_LIST } from '../../constants';
 import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
 import CalendarModal from '../Modals/CalendarModal';
-import Avatar from '../Avatar';
+import Avartar from '../Avatar';
 import GroupItem from '../Group/GroupItem';
 import GroupScheduleModal from '../Modals/GroupScheduleModal';
 import cookie from 'js-cookie'
+import MemberIcon from '../MemberIcon';
 import axios from '../../axios.js';
 
-export default function GroupDetail({ group, groupSchedule, groupUserSchedule, onSubmitGroupSchedule }) {
+export default function GroupDetail({ group, groupSchedule, groupUserSchedule, onSubmitGroupSchedule, groupMembers }) {
     const calendarRef = useRef();
     const [events, setEvents] = useState([]);
     const [range, setRange] = useState();
@@ -22,35 +23,27 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
     const [listOpen, setListOpen] = useState(false) // groupname을 눌렀을 때 모달 띄우기
     const [groupMode, setGroupMode] = useState(false) //그룹 일정 추가 모달을 띄울지 일정 추가 모달을 띄울지 결정
     const [editMode, setEditMode] = useState(false) //수정모드
+    const [updatedGroupSchedule, setUpdatedGroupSchedule] = useState()
 
     const handleClickGroupSchedule = () => {
         setGroupMode(true)
         setOpen(true)
     }
 
-    // const handleSubmitSchedule = async () => { //그룹 일정 추가 눌렀을 때 핸들러
-    //     const payload = { //서버의 /group/schedule로 보내는 페이로드
-    //         groupOriginKey: group.groupOriginKey,
-    //         name: group.groupName,
-    //         startAt: group.startAt,
-    //         endAt: group.endAt,
-    //         memo: group.memo,
-    //         allDayToggle: group.allDayToggle,
-    //         color: group.color
-    //     }
-
-    //     let response
-
-    //     if (editMode) { //수정할 경우
-    //         response = await axios.put('/group/schedule', payload)
-    //     } else { //수정이 아닐 경우
-    //         response = await axios.post('/group/schedule', payload)
-    //     }
-
-    //     if (response.data.status === 'succeed') { //서버 응답 성공시 onSubmitGroupSchedule 실행
-    //         onSubmitGroupSchedule(response.data.data)
-    //     }
-    // }
+    const handleSubmitSchedule = (schedule) => {
+        // 1. 모달을 닫는다
+        setOpen(false)
+        // 2. schedule을 업데이트한다
+        setUpdatedGroupSchedule([...updatedGroupSchedule], schedule)
+        // if (groupEditMode) {
+        //   const idx = updatedGroupSchedule.findIndex((value) => value.originKey === schedule.originKey)
+        //   const temp = [...updatedGroupSchedule]
+        //   temp[idx] = schedule
+        //   setUpdatedGroupSchedule(temp)
+        // } else {
+        //   setUpdatedGroupSchedule([...updatedGroupSchedule, schedule])
+        // }
+    }
 
     const handleClickGroupName = () => {
         setListOpen(true)
@@ -132,10 +125,9 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
         console.log('group : ', group)
         console.log('userId : : :   '.userId)
 
-    }, [groupUserSchedule])
+    }, [groupUserSchedule, groupSchedule])
 
     const userId = cookie.get('userId')
-
 
 
     return (
@@ -149,7 +141,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                     groupMode={groupMode}
                     onClickGroupSchedule={handleClickGroupSchedule}
                     onClose={handleClose}
-                // onSubmitGroupSchedule={handleSubmitSchedule}
+                    onSubmitGroupSchedule={handleSubmitSchedule}
                 />
             }
             {listOpen &&
@@ -173,16 +165,26 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                 boxShadow: '2px 2px 10px rgba(0,0,0,0.2)',
                 fontFamily: 'var(--font-PoorStory);'
             }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <div>
-                        {/* TODO: group.name -> {group.name} 으로 변경하기 */}
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <div style={{ width: '20%' }}>
                         <Button variant='contained' onClick={handleClickGroupName} style={{ marginBottom: '10px', fontSize: '18px' }}>{group.groupName}</Button>
                     </div>
-                    {group.leaderId === userId ?
-                        <Button variant="text" sx={{ fontWeight: 'bold', fontSize: '18px' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
-                        :
-                        ''
-                    }
+                    {/* <div style={{ width: '60%' }}>
+                        {/* 이 자리에 아바타들 만들어야 함. }
+                        <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: '30px', rowGap: '15px', padding: '10px 25px' }}>
+                            {[group].map((value, idx) => {
+                                console.log('group.map의 value에는 뭐가 있니!!!!', value)
+                                return <MemberIcon backgroundColor={COLOR_CODE_LIST[idx]} userName={groupMembers[idx]} />
+                            })}
+                        </div>
+                    </div> */}
+                    <div style={{ width: '20%' }}>
+                        {group.leaderId === userId ?
+                            <Button variant="text" sx={{ fontWeight: 'bold', fontSize: '18px' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
+                            :
+                            ''
+                        }
+                    </div>
                 </div>
                 <Box sx={style}>
                     <FullCalendar
@@ -197,6 +199,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                         eventOrder={(a, b) => a.order - b.order}
                         allDaySlot={false}
                         height={'600px'}
+                        updatedGroupSchedule={updatedGroupSchedule}
                     />
                 </Box>
             </div>
