@@ -75,9 +75,10 @@ export default function GroupDetailContainer() {
         })
 
         axios.get(`/group/user/schedule/${groupId}`).then((response) => {
-            console.log('response', response)
+
 
             const schedule = response.data.data
+            console.log('groupUserSchedule response', schedule)
             setGroupUserSchedule(schedule)
         })
 
