@@ -63,7 +63,6 @@ export default function GroupModal({ group, onClose, editMode, selectedGroup, on
         setSearchUsers(true)
     }
 
-    console.log('selectedGroup은 멀까? ', selectedGroup)
 
     const handleSubmit = async (event) => {
 
@@ -73,7 +72,7 @@ export default function GroupModal({ group, onClose, editMode, selectedGroup, on
             description: input.description,
             numOfUsers: editMode ? selectedGroup.numOfUsers : input.groupUsers.length, //editMode일 경우엔 input값이 아니라 이미 저장된 numOfUsers값을 불러온다.
             leaderId: cookie.get('userId'),
-            groupUsers: input.groupUsers.map(user => user.userId.toString())
+            groupUsers: editMode ? selectedGroup.groupUsers : input.groupUsers.map(user => user.userId.toString())
         }
         // [...input.groupUsers, leaderId]
         // 수정 모드일 때는 (editMode) PUT

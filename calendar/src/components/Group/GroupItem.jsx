@@ -13,11 +13,12 @@ export default function GroupItem({ group, onClickDeleteGroup, onClickEditGroup 
 
     const handleClickGroup = async (event) => { //그룹 이름이나 그룹 메모를 클릭했을 때 작동하는 핸들러
         const payload = {
-            groupUsers: group.groupUsers
+            groupUsers: [...group.groupUsers]
         }
         let response = await axios.post('/group/search/userName', payload)
         if (response.data.status === 'succeed') {
-            setGroupMembers(response.data.data[0])
+            console.log('받아온 response 값', response)
+            setGroupMembers(response.data.data[0].groupUsers)
         }
         navigate(`/groups/${group.originKey}`)
     }

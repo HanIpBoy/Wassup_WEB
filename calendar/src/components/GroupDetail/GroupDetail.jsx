@@ -8,14 +8,14 @@ import { COLOR_CODE_LIST } from '../../constants';
 import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
 import CalendarModal from '../Modals/CalendarModal';
-import Avartar from '../Avatar';
+import Avatar from '../Avatar';
 import GroupItem from '../Group/GroupItem';
 import GroupScheduleModal from '../Modals/GroupScheduleModal';
 import cookie from 'js-cookie'
-import MemberIcon from '../MemberIcon';
+import MemberIcon from '../MemberIcon.jsx';
 import axios from '../../axios.js';
 
-export default function GroupDetail({ group, groupSchedule, groupUserSchedule, onSubmitGroupSchedule }) {
+export default function GroupDetail({ group, groupSchedule, groupUserSchedule, onSubmitGroupSchedule, groupMembers }) {
     const calendarRef = useRef();
     const [events, setEvents] = useState([]);
     const [range, setRange] = useState();
@@ -23,8 +23,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
     const [listOpen, setListOpen] = useState(false) // groupname을 눌렀을 때 모달 띄우기
     const [groupMode, setGroupMode] = useState(false) //그룹 일정 추가 모달을 띄울지 일정 추가 모달을 띄울지 결정
     const [editMode, setEditMode] = useState(false) //수정모드
-    const [updatedGroupSchedule, setUpdatedGroupSchedule] = useState()
-    const [groupMembers, setGroupMembers] = useState([])
+    const [updatedGroupSchedule, setUpdatedGroupSchedule] = useState([])
 
     const handleClickGroupSchedule = () => {
         setGroupMode(true)
@@ -35,7 +34,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
         // 1. 모달을 닫는다
         setOpen(false)
         // 2. schedule을 업데이트한다
-        setUpdatedGroupSchedule([...updatedGroupSchedule], schedule)
+        setUpdatedGroupSchedule([...updatedGroupSchedule, schedule])
         // if (groupEditMode) {
         //   const idx = updatedGroupSchedule.findIndex((value) => value.originKey === schedule.originKey)
         //   const temp = [...updatedGroupSchedule]
@@ -127,27 +126,25 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
     }, [groupUserSchedule, groupSchedule])
 
 
-    useEffect(() => { //useEffect 안에선 async 함수를 직접 설정할 수 없기 때문에 직접 바꿔준 함수
-        const fetchData = async () => {
-            try {
-                const payload = {
-                    groupUsers: [...group.groupUser]
-                };
-                const response = await axios.post('/group/search/userName', payload);
-                if (response.status === 'succeed') {
-                    setGroupMembers(response.data[0].groupUsers);
-                }
-            } catch (error) {
-                // 오류 처리fffff
-            }
-        };
+    // useEffect(() => { //useEffect 안에선 async 함수를 직접 설정할 수 없기 때문에 직접 바꿔준 함수
+    //     const fetchData = async () => {
+    //         try {
+    //             const payload = {
+    //                 groupUsers: [...group.groupUser]
+    //             };
+    //             const response = await axios.post('/group/search/userName', payload);
+    //             if (response.data.status === 'succeed') {
+    //                 setGroupMembers(response.data[0].groupUsers);
+    //             }
+    //         } catch (error) {
+    //             // 오류 처리
+    //         }
+    //     };
 
-        fetchData();
-    }, []);
-    console.log('groupDetail에서 groupMembers의 값 : ', groupMembers)
+    //     fetchData();
+    // }, []);
     const userId = cookie.get('userId')
-
-
+    console.log('그룹디테일의 group은?', group)
     return (
         <>
             {open &&
@@ -187,15 +184,14 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                     <div style={{ width: '20%' }}>
                         <Button variant='contained' onClick={handleClickGroupName} style={{ marginBottom: '10px', fontSize: '18px' }}>{group.groupName}</Button>
                     </div>
-                    {/* <div style={{ width: '60%' }}>
-                        {/* 이 자리에 아바타들 만들어야 함. }
-                        <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: '30px', rowGap: '15px', padding: '10px 25px' }}>
+                    <div style={{ width: '60%' }}>
+                        {/* <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: '30px', rowGap: '15px', padding: '10px 25px' }}>
                             {[group].map((value, idx) => {
-                                console.log('group.map의 value에는 뭐가 있니!!!!', value)
-                                return <MemberIcon backgroundColor={COLOR_CODE_LIST[idx]} userName={groupMembers[idx]} />
+                                console.log('groupResult.map의 value에는 뭐가 있니!!!!', value)
+                                return <MemberIcon backgroundColor={COLOR_CODE_LIST[idx]} userName={value.groupUsers[idx]} />
                             })}
-                        </div>
-                    </div> */}
+                        </div> */}
+                    </div>
                     <div style={{ width: '20%' }}>
                         {group.leaderId === userId ?
                             <Button variant="text" sx={{ fontWeight: 'bold', fontSize: '18px' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
@@ -230,3 +226,4 @@ const style = {
         width: '10px !important'
     },
 };
+
