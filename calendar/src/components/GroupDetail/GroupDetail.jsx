@@ -25,6 +25,9 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
     const [editMode, setEditMode] = useState(false) //수정모드
     const [updatedGroupSchedule, setUpdatedGroupSchedule] = useState([])
 
+
+
+
     const handleClickGroupSchedule = () => {
         setGroupMode(true)
         setOpen(true)
@@ -62,12 +65,12 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
             }
         }
 
+
         document
             .querySelectorAll('.fc-toolbar-chunk button')
             .forEach((el) => el.addEventListener('click', updateRange));
         updateRange();
     }, []);
-    // console.log('groupDetail에서 groupUserSchedule의 값:', groupUserSchedule)
 
     useEffect(() => {
         const events = groupUserSchedule.map((value, userIdx) => {
@@ -134,6 +137,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
     //             };
     //             const response = await axios.post('/group/search/userName', payload);
     //             if (response.data.status === 'succeed') {
+    //                 console('response 찍어주세요ㅛㅛㅛㅛㅛ', response)
     //                 setGroupMembers(response.data[0].groupUsers);
     //             }
     //         } catch (error) {
@@ -143,8 +147,9 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
 
     //     fetchData();
     // }, []);
+
     const userId = cookie.get('userId')
-    console.log('그룹디테일의 group은?', group)
+
     return (
         <>
             {open &&
@@ -180,19 +185,18 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                 boxShadow: '2px 2px 10px rgba(0,0,0,0.2)',
                 fontFamily: 'var(--font-PoorStory);'
             }}>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <div style={{ width: '20%' }}>
-                        <Button variant='contained' onClick={handleClickGroupName} style={{ marginBottom: '10px', fontSize: '18px' }}>{group.groupName}</Button>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
+                    <div style={{ width: '30%' }}>
+                        <Button variant='contained' onClick={handleClickGroupName} style={{ fontSize: '18px' }}>{group.groupName}</Button>
                     </div>
-                    <div style={{ width: '60%' }}>
-                        {/* <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: '30px', rowGap: '15px', padding: '10px 25px' }}>
-                            {[group].map((value, idx) => {
-                                console.log('groupResult.map의 value에는 뭐가 있니!!!!', value)
-                                return <MemberIcon backgroundColor={COLOR_CODE_LIST[idx]} userName={value.groupUsers[idx]} />
+                    <div style={{ width: '55%' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: '15px', rowGap: '20px', padding: '0 25px' }}>
+                            {groupMembers.map((value, idx) => {
+                                return <MemberIcon backgroundColor={COLOR_CODE_LIST[idx]} userName={value} />
                             })}
-                        </div> */}
+                        </div>
                     </div>
-                    <div style={{ width: '20%' }}>
+                    <div style={{ width: '15%' }}>
                         {group.leaderId === userId ?
                             <Button variant="text" sx={{ fontWeight: 'bold', fontSize: '18px' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
                             :

@@ -30,7 +30,6 @@ export default function GroupContainer() {
 
     useEffect(() => {
         axios.get('/group').then((response) => {
-            console.log('response', response)
             setGroups(response.data.data)
         })
     }, []);
