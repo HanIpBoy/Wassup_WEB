@@ -73,7 +73,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
     }, []);
 
     useEffect(() => {
-        const events = groupUserSchedule.map((value, userIdx) => {
+        const events = groupUserSchedule.flatMap((value, userIdx) => {
             const userId = value.userId
             const groupEvents = value.groupSchedules.map((value) => {//포맷한 groupSchedules의 그룹스케줄
 
@@ -118,35 +118,14 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                     backgroundColor: COLOR_CODE_LIST[userIdx],
                     borderColor: COLOR_CODE_LIST[userIdx]
                 }
-
-                return event
-
-
+                return event;
             })
             return [...groupEvents, ...userEvents]
         })
-        setEvents(...events) //...events
+        setEvents(events) //...events
+        console.log('events는??  ', events)
     }, [groupUserSchedule, groupSchedule])
 
-
-    // useEffect(() => { //useEffect 안에선 async 함수를 직접 설정할 수 없기 때문에 직접 바꿔준 함수
-    //     const fetchData = async () => {
-    //         try {
-    //             const payload = {
-    //                 groupUsers: [...group.groupUser]
-    //             };
-    //             const response = await axios.post('/group/search/userName', payload);
-    //             if (response.data.status === 'succeed') {
-    //                 console('response 찍어주세요ㅛㅛㅛㅛㅛ', response)
-    //                 setGroupMembers(response.data[0].groupUsers);
-    //             }
-    //         } catch (error) {
-    //             // 오류 처리
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, []);
 
     const userId = cookie.get('userId')
 
