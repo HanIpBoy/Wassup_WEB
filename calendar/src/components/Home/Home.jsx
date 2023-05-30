@@ -11,13 +11,13 @@ export default function Home() {
     return (
         <>
             <div className={styles.firstLayout}>
-                <img className={styles.mainIcon} src={MainIcon} />
+                <img className={styles.mainIcon} src={MainIcon} /> {/* 메인 아이콘 */}
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <Link href='/signin'>
-                        <button className={styles.loginHome}>로그인</button>
+                    <Link href='/signin'> {/* url이 ~/signin 인 페이지로 이동 */}
+                        <button className={styles.loginHome}>로그인</button> {/* 로그인 버튼 */}
                     </Link>
-                    <Link href='/signup'>
-                        <button className={styles.signUpHome} href="#">회원가입</button>
+                    <Link href='/signup'>{/* url이 ~/signup 인 페이지로 이동 */}
+                        <button className={styles.signUpHome} href="#">회원가입</button>{/* 회원가입 버튼 */}
                     </Link>
                 </div>
             </div>

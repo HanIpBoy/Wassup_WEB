@@ -35,6 +35,10 @@ export default function SignUp() {
             setSubmittable(false)
     }, [nameInput, emailInput, passwordInput, birthInput, codeInput, passwordCheck, emailCheck])
 
+    const handleClickMainIcon = () => { //메인 아이콘 클릭 시 홈페이지로 이동
+        navigate('/')
+    }
+
     const handleInputName = (event) => { //이름 이벤트 핸들러
         const { value } = event.target
         setNameInput(value)
@@ -132,7 +136,7 @@ export default function SignUp() {
                     marginBottom: '50px'
                 }}
             >
-                <img className={styles.mainIcon} src={MainIcon} />
+                <img className={styles.mainIcon} src={MainIcon} onClick={handleClickMainIcon} style={{ cursor: 'pointer' }} />
 
                 <div className={styles.container}>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>

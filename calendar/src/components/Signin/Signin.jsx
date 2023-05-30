@@ -22,6 +22,9 @@ export default function SignIn() {
     const [alirms, setAlirms] = useState()
     const navigate = useNavigate()
 
+    const handleClickMainIcon = () => {
+        navigate('/')
+    }
 
     const handleInputEmail = (event) => {
         const { value } = event.target
@@ -33,11 +36,6 @@ export default function SignIn() {
         setPasswordInput(value)
     }
 
-    const handleClickCheckEmail = (event) => {
-        console.log(event)
-        const { value, checked } = event.target
-        setCheckEmail(checked)
-    }
 
     const handleSubmit = async (event) => { // await을 사용하기 위해 async 함수로 선언
         event.preventDefault();
@@ -76,7 +74,7 @@ export default function SignIn() {
                         fontFamily: 'var(--font-PoorStory);'
                     }}
                 >
-                    <img className={styles.mainIcon} src={MainIcon} />
+                    <img className={styles.mainIcon} src={MainIcon} onClick={handleClickMainIcon} style={{ cursor: 'pointer' }} />
 
                     <div className={styles.container}>
                         <Box component="form" noValidate sx={{ mt: 1 }}>
@@ -103,10 +101,6 @@ export default function SignIn() {
                                 autoComplete="current-password"
                                 onInput={handleInputPassword}
                                 sx={{ fontFamily: 'var(--font-PoorStory);' }}
-                            />
-                            <FormControlLabel
-                                control={<Checkbox value={checkEmail} color="primary" onClick={handleClickCheckEmail} sx={{ fontFamily: 'var(--font-PoorStory);' }} />}
-                                label="아이디 기억하기"
                             />
                             <Button
                                 fullWidth

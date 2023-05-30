@@ -22,11 +22,14 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
     const [open, setOpen] = useState(false); // true면 모달 열림, false면 모달 닫힘
     const [listOpen, setListOpen] = useState(false) // groupname을 눌렀을 때 모달 띄우기
     const [groupMode, setGroupMode] = useState(false) //그룹 일정 추가 모달을 띄울지 일정 추가 모달을 띄울지 결정
-    const [editMode, setEditMode] = useState(false) //수정모드
+    const [groupEditMode, setGroupEditMode] = useState(false) //수정모드
+    const [leaderMode, setLeaderMode] = useState(false)
     const [updatedGroupSchedule, setUpdatedGroupSchedule] = useState([])
+    const [selectedGroupSchedule, setSelectedGroupSchedule] = useState() //클릭된 그룹스케줄 + 그룹 유저스케줄 의 모달에서 나타나는 정보
 
 
 
+    const userId = cookie.get('userId')
 
     const handleClickGroupSchedule = () => {
         setGroupMode(true)
@@ -37,15 +40,44 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
         // 1. 모달을 닫는다
         setOpen(false)
         // 2. schedule을 업데이트한다
-        setUpdatedGroupSchedule([...updatedGroupSchedule, schedule])
-        // if (groupEditMode) {
-        //   const idx = updatedGroupSchedule.findIndex((value) => value.originKey === schedule.originKey)
-        //   const temp = [...updatedGroupSchedule]
-        //   temp[idx] = schedule
-        //   setUpdatedGroupSchedule(temp)
-        // } else {
-        //   setUpdatedGroupSchedule([...updatedGroupSchedule, schedule])
-        // }
+        if (groupEditMode) {
+            const idx = updatedGroupSchedule.findIndex((value) => value.originKey === schedule.originKey)
+            const temp = [...updatedGroupSchedule]
+            temp[idx] = schedule
+            setUpdatedGroupSchedule(temp)
+        } else {
+            setUpdatedGroupSchedule([...updatedGroupSchedule, schedule])
+        }
+    }
+
+    const onClickEvent = (event) => {
+        setOpen(true);
+        setGroupEditMode(true);
+        setGroupMode(true);
+        setSelectedGroupSchedule(event);
+
+        if (userId === group.leaderId) { // 그룹장이 그룹 일정을 클릭했을때
+            setLeaderMode(true)
+        }
+        else {
+            setLeaderMode(false)
+        }
+
+    };
+
+
+
+    const handleClickGroupEvent = (event) => {
+        // schedule 중에 originKey값이 event의 publicId와 같은 리스트아이템을 넘겨준다.
+        const publicId = event.event._def.publicId
+        // Array.filter() -> Array
+        // (Array).find() -> Item
+
+        const target = groupSchedule.find((item) => {
+            return item.originKey === publicId
+        })
+
+        onClickEvent(target)
     }
 
     const handleClickGroupName = () => {
@@ -56,6 +88,22 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
         setOpen(false)
         setListOpen(false)
     };
+
+    const handleDeleteGroupSchedule = (schedule) => {
+        const idx = updatedGroupSchedule.findIndex((value) => value.originKey === schedule.originKey)
+        const temp = [...updatedGroupSchedule]
+        temp.splice(idx, 1)
+        setUpdatedGroupSchedule(temp)
+        setGroupEditMode(false) //수정된 코드
+        setSelectedGroupSchedule(undefined) //수정된 코드
+    }
+
+    useEffect(() => {
+        // schedule값이 undefined -> 리스트로 변하면 updatedSchedule을 schedule값으로 바꾼다
+        if (groupSchedule !== undefined) {
+            setUpdatedGroupSchedule(groupSchedule)
+        }
+    }, [groupSchedule])
 
     useEffect(() => {
         function updateRange() {
@@ -123,11 +171,9 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
             return [...groupEvents, ...userEvents]
         })
         setEvents(events) //...events
-        console.log('events는??  ', events)
     }, [groupUserSchedule, groupSchedule])
 
 
-    const userId = cookie.get('userId')
 
     return (
         <>
@@ -138,9 +184,13 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                     //
                     group={group}
                     groupMode={groupMode}
+                    groupEditMode={groupEditMode}
+                    leaderMode={leaderMode}
                     onClickGroupSchedule={handleClickGroupSchedule}
                     onClose={handleClose}
                     onSubmitGroupSchedule={handleSubmitSchedule}
+                    selectedGroupSchedule={selectedGroupSchedule}
+                    onDeleteGroupSchedule={handleDeleteGroupSchedule}
                 />
             }
             {listOpen &&
@@ -197,6 +247,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                         allDaySlot={false}
                         height={'600px'}
                         updatedGroupSchedule={updatedGroupSchedule}
+                        eventClick={handleClickGroupEvent}
                     />
                 </Box>
             </div>

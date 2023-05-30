@@ -39,7 +39,7 @@ const modalHeader = {
 
 
 // TODO: response에 memo 데이터 없음
-export default function CalendarModal({ onClose, selectedDate, editMode, groupMode, onSubmitSchedule, onDeleteSchedule, selectedSchedule, onSubmitGroupSchedule, group }) {
+export default function CalendarModal({ onClose, selectedDate, selectedGroupSchedule, group, userEditMode, groupEditMode, groupMode, leaderMode, onSubmitSchedule, onDeleteSchedule, onDeleteGroupSchedule, selectedSchedule, onSubmitGroupSchedule }) {
 
     const initialInput = {
         name: '',
@@ -61,7 +61,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
         return input
     }
 
-    const [input, setInput] = useState(selectedSchedule && editMode ? formatSchedule(selectedSchedule) : groupMode ? initialInput : initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
+    const [input, setInput] = useState(selectedSchedule && userEditMode ? formatSchedule(selectedSchedule) : selectedGroupSchedule && groupEditMode ? formatSchedule(selectedGroupSchedule) : initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
     // const [input, setInput] = useState(initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
     const handleInput = (event) => {
         const { value, name } = event.target
@@ -88,8 +88,10 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
         const startAt = start.$y + '-' + format(start.$M + 1) + '-' + format(start.$D) + 'T' + format(start.$H) + ':' + format(start.$m)
         const endAt = end.$y + '-' + format(end.$M + 1) + '-' + format(end.$D) + 'T' + format(end.$H) + ':' + format(end.$m)
 
+
         const payload = { //서버의 /group/schedule로 보내는 페이로드
-            groupOriginKey: group.groupOriginKey,
+            originKey: groupEditMode ? selectedGroupSchedule.originKey : undefined,
+            groupOriginKey: group.originKey,
             name: input.name,
             startAt: startAt,
             endAt: endAt,
@@ -98,12 +100,27 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
             allDayToggle: input.allday === true ? "true" : "false"
         }
 
+
+
         // 그룹 수정 모드일 때는 (groupEditMode) PUT
         // 생성할 때는 POST
 
+
         let response
-        response = await axios.post('/group/schedule', payload)
+
+        if (groupEditMode) {
+            response = await axios.put('group/schedule', payload)
+        } else {
+            response = await axios.post('group/schedule', payload)
+        }
+
         if (response.data.status === 'succeed') { //서버 응답 성공 시 onSubmitGroupSchedule 실행
+            if (groupEditMode) {
+                window.alert('그룹 일정이 수정되었습니다!')
+            }
+            else {
+                window.alert('그룹 일정이 생성되었습니다!')
+            }
             onSubmitGroupSchedule(response.data.data[0])
         }
 
@@ -166,7 +183,7 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
 
         let response
 
-        if (editMode) {
+        if (userEditMode) {
             response = await axios.put('/schedule', payload)
         } else {
             response = await axios.post('/schedule', payload)
@@ -188,7 +205,16 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
         if (response.data.status === 'succeed') {
             onDeleteSchedule(response.data.data[0])
         }
-        console.log(response)
+
+    }
+
+    const handleGroupDelete = async (event) => { //그룹 일정 삭제 핸들러
+        window.alert('그룹 일정이 삭제되었습니다!')
+        onClose()
+        const response = await axios.delete(`/group/schedule/${selectedGroupSchedule.originKey}`)
+        if (response.data.status === 'succeed') {
+            onDeleteGroupSchedule(response.data.data[0])
+        }
 
     }
 
@@ -202,16 +228,27 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
             >
                 <Box sx={style}>
                     <div style={modalHeader}>
-                        {groupMode ?
+                        {groupMode && leaderMode && !groupEditMode ?
                             <><Box sx={titleStyle} align="center" marginBottom={2}>
                                 그룹 일정 추가
                             </Box><img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} /></>
                             :
-                            !editMode ?
+                            groupMode && leaderMode && groupEditMode ?
                                 <><Box sx={titleStyle} align="center" marginBottom={2}>
-                                    일정 추가
+                                    그룹 일정 수정
                                 </Box><img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} /></>
-                                : undefined
+                                :
+                                !groupMode && !userEditMode ?
+                                    <><Box sx={titleStyle} align="center" marginBottom={2}>
+                                        일정 추가
+                                    </Box><img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} /></>
+                                    :
+                                    !groupMode && userEditMode ?
+                                        <><Box sx={titleStyle} align="center" marginBottom={2}>
+                                            일정 수정
+                                        </Box><img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} /></>
+                                        :
+                                        ' '
                         }
                     </div>
                     <TextField id="filled-basic"
@@ -281,16 +318,37 @@ export default function CalendarModal({ onClose, selectedDate, editMode, groupMo
                         sx={{ mt: 3, height: 45, fontSize: 16, fontFamily: 'var(--font-PoorStory);' }}
                         onClick={groupMode ? handleSubmitGroupSchedule : handleSubmit}
 
-                    >{editMode ? '수정' : '추가'}</Button>
+                    >
+                        {!groupMode && !userEditMode ? '추가'
+                            :
+                            !groupMode && userEditMode ? '수정'
+                                :
+                                groupMode && leaderMode && groupEditMode ? '그룹 일정 추가'
+                                    :
+                                    groupMode && !leaderMode && groupEditMode ? '그룹 일정 수정'
+                                        :
+                                        ' '
+                        }
+                    </Button>
                     {/* 삼항연산자 사용, editMode에 따라 수정, 추가 버튼 변경 */}
-                    {editMode && (
+                    {!groupMode && userEditMode && (
                         <Button
                             variant="contained"
                             fullWidth
                             sx={{ mt: 1, height: 45, fontSize: 16, backgroundColor: 'red', fontFamily: 'var(--font-PoorStory);', ":hover": { transition: 'background-color 0.4s ease ', backgroundColor: 'rgba(234, 51, 35,0.8)' } }}
                             onClick={handleDelete}
                         >
-                            삭제
+                            일정 삭제
+                        </Button>
+                    )}
+                    {groupEditMode && leaderMode && groupEditMode && (
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            sx={{ mt: 1, height: 45, fontSize: 16, backgroundColor: 'red', fontFamily: 'var(--font-PoorStory);', ":hover": { transition: 'background-color 0.4s ease ', backgroundColor: 'rgba(234, 51, 35,0.8)' } }}
+                            onClick={handleGroupDelete}
+                        >
+                            그룹 일정 삭제
                         </Button>
                     )}
                 </Box>

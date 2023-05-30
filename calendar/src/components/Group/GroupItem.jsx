@@ -36,26 +36,33 @@ export default function GroupItem({ group, onClickDeleteGroup, onClickEditGroup 
     return (
         <>
             <div style={{ display: 'flex', fontSize: '20px' }}>
-                <div onClick={handleClickGroup} style={{ margin: '10px', width: '33%', textAlign: 'center', cursor: 'pointer' }}>{group.groupName}</div>
-                <div onClick={handleClickGroup} style={{ margin: '10px', marginRight: '50px', width: '34%', textAlign: 'center', cursor: 'pointer' }}>{group.description}</div>
-                <div style={{ margin: '10px', marginRight: '-100px' }}>
-                    <img src={icon_groupmembers}></img>
+                <div onClick={handleClickGroup} style={{ margin: '10px', width: '35%', textAlign: 'center', cursor: 'pointer', fontWeight: 'bold' }}>{group.groupName}</div>
+
+                <div onClick={handleClickGroup} style={{ margin: '10px', marginRight: '50px', width: '30%', textAlign: 'center', cursor: 'pointer' }}>{group.description}</div>
+
+                <div style={{ display: 'flex', width: '23%' }}>
+                    <div style={{ margin: '10px 5px' }}>
+                        <img src={icon_groupmembers}></img>
+                    </div>
+                    <div style={{ margin: '10px 5px', textAlign: 'center' }}>{group.numOfUsers}</div>
                 </div>
-                <div style={{ margin: '10px', marginRight: '-50px', width: '33%', textAlign: 'center' }}>{group.numOfUsers}</div>
-                {group.leaderId === userId ?
-                    <div onClick={handleClickEditGroup} style={{ margin: '10px', marginRight: '5px', cursor: 'pointer' }}>
-                        <img src={btn_edit}></img>
-                    </div>
-                    :
-                    ''
-                }
-                {group.leaderId === userId ?
-                    <div onClick={handleClickDeleteGroup} style={{ margin: '10px', marginLeft: '5px', cursor: 'pointer' }}>
-                        <img src={btn_delete}></img>
-                    </div>
-                    :
-                    ''
-                }
+
+                <div style={{ display: 'flex', width: '12%' }}>
+                    {group.leaderId === userId ?
+                        <div onClick={handleClickEditGroup} style={{ margin: '10px', marginRight: '5px', cursor: 'pointer' }}>
+                            <img src={btn_edit}></img>
+                        </div>
+                        :
+                        ''
+                    }
+                    {group.leaderId === userId ?
+                        <div onClick={handleClickDeleteGroup} style={{ margin: '10px', marginLeft: '5px', cursor: 'pointer' }}>
+                            <img src={btn_delete}></img>
+                        </div>
+                        :
+                        ''
+                    }
+                </div>
 
             </div>
         </>
