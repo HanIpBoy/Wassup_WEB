@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Box } from '@mui/material';
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -31,15 +31,15 @@ const modalHeader = {
     marginLeft: '38%'
 }
 
-const buttons = [
-    <Button key="one">단체 연습</Button>,
-    <Button key="two">홈 경기</Button>,
-    <Button key="three">원정 경기</Button>
-]
+// const buttons = [
+//     <Button key="one">단체 연습</Button>,
+//     <Button key="two">홈 경기</Button>,
+//     <Button key="three">원정 경기</Button>
+// ]
 
 
 // TODO: response에 memo 데이터 없음
-export default function GroupScheduleModal({ onClose, groupSchedule, group }) {
+export default function GroupScheduleModal({ onClose, groupSchedule, group, updatedGroupSchedule }) {
 
     // const initialInput = {
     //     name: '',
@@ -50,12 +50,33 @@ export default function GroupScheduleModal({ onClose, groupSchedule, group }) {
     //     color: '',
     //     repeat: '',
     // }
+    console.log('그룹은 ??', group)
+
+    console.log('updatedGroupSchedule은 ????? ', updatedGroupSchedule)
+
+    // useEffect(() => {
+
+    // },[])
+
+    // const buttons = [
+    //     [updatedGroupSchedule].map((value, idx) => {
+    //         console.log('value는?? ', value)
+    //         return <Button> {value[idx].name}</ Button>
+    //     })
+    // ]
+
+    const buttons = updatedGroupSchedule.map((value, idx) => (
+        <Button key={idx}>{value.name}</Button>
+    ));
 
 
 
     const handleClose = () => {
         onClose()
     }
+
+    console.log('group 은 ??', group)
+    console.log('groupSchedule은 ??', groupSchedule)
 
 
     return (
@@ -69,7 +90,7 @@ export default function GroupScheduleModal({ onClose, groupSchedule, group }) {
                 <Box sx={style}>
                     <div style={modalHeader}>
 
-                        <Box sx={titleStyle} align="center" marginBottom={2} >
+                        <Box sx={titleStyle} textAlign='center' marginBottom={2} >
                             {group.groupName}
                         </Box>
                         <img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} />
