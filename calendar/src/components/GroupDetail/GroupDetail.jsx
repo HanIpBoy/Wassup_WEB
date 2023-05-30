@@ -26,14 +26,17 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
     const [leaderMode, setLeaderMode] = useState(false)
     const [updatedGroupSchedule, setUpdatedGroupSchedule] = useState([])
     const [selectedGroupSchedule, setSelectedGroupSchedule] = useState() //클릭된 그룹스케줄 + 그룹 유저스케줄 의 모달에서 나타나는 정보
+    const [calendarApi, setCalendarApi] = useState()
 
 
 
     const userId = cookie.get('userId')
 
     const handleClickGroupSchedule = () => {
-        setGroupMode(true)
         setOpen(true)
+        setGroupMode(true)
+        setGroupEditMode(false)
+        setLeaderMode(true)
     }
 
     const handleSubmitSchedule = (schedule) => {
@@ -50,17 +53,81 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
         }
     }
 
-    const onClickEvent = (event) => {
-        setOpen(true);
-        setGroupEditMode(true);
-        setGroupMode(true);
-        setSelectedGroupSchedule(event);
-
-        if (userId === group.leaderId) { // 그룹장이 그룹 일정을 클릭했을때
-            setLeaderMode(true)
+    useEffect(() => {
+        function updateRange() {
+            if (calendarRef.current) {
+                const currentRange = calendarRef.current.calendar.currentData.dateProfile.currentRange;
+                setRange(currentRange);
+            }
         }
-        else {
-            setLeaderMode(false)
+
+
+        document
+            .querySelectorAll('.fc-toolbar-chunk button')
+            .forEach((el) => el.addEventListener('click', updateRange));
+        updateRange();
+    }, []);
+
+
+
+
+    // useEffect(() => { //스케줄을 FullCalendar library 형식에 맞춰 가공
+    //     if (calendarApi && updatedGroupSchedule) {
+
+    //         const events = updatedGroupSchedule.map((value, idx) => {
+    //             console.log('value값은?? ', value)
+    //             const end = new Date(value.endAt).getTime()
+    //             const formattedEnd = new Date(end + 60 * 60 * 24 * 1000) //포맷된 날짜
+    //             let event = {
+    //                 id: value.originKey,
+    //                 title: value.name,
+    //                 start: new Date(value.startAt),
+    //                 end: new Date(formattedEnd),
+    //                 allDay: value.allDayToggle,
+    //                 backgroundColor: value.groupOriginKey ? 'white' : value.color,
+    //                 borderColor: value.groupOriginKey ? 'black' : value.color,
+    //                 textColor: value.groupOriginKey ? 'black' : undefined
+    //             }
+    //             return event
+    //         })
+    //         setEvents(events)
+    //     }
+
+    // }, [calendarApi, updatedGroupSchedule])
+
+
+    // useEffect(() => {
+    //     if (calendarRef.current) {
+    //         setCalendarApi(calendarRef.current.getApi())
+    //     }
+    // }, [calendarRef.current]);
+
+    useEffect(() => {
+        // schedule값이 undefined -> 리스트로 변하면 updatedSchedule을 schedule값으로 바꾼다
+        if (groupSchedule !== undefined) {
+            setUpdatedGroupSchedule(groupSchedule)
+        }
+    }, [groupSchedule])
+
+
+
+
+
+
+    const onClickEvent = (event) => {
+        if (!(event === undefined)) {
+            setOpen(true);
+            setGroupMode(true);
+            setSelectedGroupSchedule(event);
+
+            if (userId === group.leaderId) { // 그룹장이 그룹 일정을 클릭했을때
+                setLeaderMode(true)
+                setGroupEditMode(true);
+            }
+            else {
+                setLeaderMode(false)
+                setGroupEditMode(true)
+            }
         }
 
     };
@@ -98,27 +165,8 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
         setSelectedGroupSchedule(undefined) //수정된 코드
     }
 
-    useEffect(() => {
-        // schedule값이 undefined -> 리스트로 변하면 updatedSchedule을 schedule값으로 바꾼다
-        if (groupSchedule !== undefined) {
-            setUpdatedGroupSchedule(groupSchedule)
-        }
-    }, [groupSchedule])
-
-    useEffect(() => {
-        function updateRange() {
-            if (calendarRef.current) {
-                const currentRange = calendarRef.current.calendar.currentData.dateProfile.currentRange;
-                setRange(currentRange);
-            }
-        }
 
 
-        document
-            .querySelectorAll('.fc-toolbar-chunk button')
-            .forEach((el) => el.addEventListener('click', updateRange));
-        updateRange();
-    }, []);
 
     useEffect(() => {
         const events = groupUserSchedule.flatMap((value, userIdx) => {
@@ -199,6 +247,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                     onClose={handleClose}
                     groupSchedule={groupSchedule}
                     group={group}
+                    updatedGroupSchedule={updatedGroupSchedule}
                 />
 
             }
@@ -246,7 +295,6 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                         eventOrder={(a, b) => a.order - b.order}
                         allDaySlot={false}
                         height={'600px'}
-                        updatedGroupSchedule={updatedGroupSchedule}
                         eventClick={handleClickGroupEvent}
                     />
                 </Box>
@@ -260,4 +308,5 @@ const style = {
         width: '10px !important'
     },
 };
+
 

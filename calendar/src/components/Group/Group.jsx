@@ -108,7 +108,6 @@ export default function Group({ groups }) {
                     </>
                 })}
             </div>
-
         </div>
     )
 }
