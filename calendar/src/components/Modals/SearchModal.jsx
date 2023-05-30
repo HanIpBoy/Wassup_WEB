@@ -35,7 +35,6 @@ export default function SearchModal({ onSubmit }) {
             userId: cookie.get('userId'),
             userName: cookie.get('username'),
         }
-        console.log(me)
         setUsers([me])
         axios.get('/user').then(console.log)
 
