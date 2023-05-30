@@ -21,7 +21,6 @@ export default function CalendarContainer() {
 
     useEffect(() => {
         axios.get('/schedule').then((response) => {
-            console.log('response', response)
             const schedule = response.data.data[0]
             const allSchedules = [...schedule.userSchedules, ...schedule.groupSchedules]
             const formattedSchedules = allSchedules.map((value, idx) => {

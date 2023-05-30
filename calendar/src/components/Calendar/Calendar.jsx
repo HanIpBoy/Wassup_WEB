@@ -15,8 +15,6 @@ export default function Calendar({ schedule }) {
   const [selectedSchedule, setSelectedSchedule] = useState(); //스케줄 클릭시 나타나는 모달 정보
   const [updatedSchedule, setUpdatedSchedule] = useState();
   const [leaderMode, setLeaderMode] = useState(false)
-  const [leaderId, setLeaderId] = useState('');
-  const [groupLeaderId, setGroupLeaderId] = useState('')
   const [groupMode, setGroupMode] = useState();
   const [groupEditMode, setGroupEditMode] = useState(false);
   const userId = cookie.get('userId')
@@ -34,32 +32,40 @@ export default function Calendar({ schedule }) {
     setOpen(true)
     setUserEditMode(false)
     setGroupMode(false)
+    setGroupMode(false)
+    setLeaderMode(false)
     setSelectedDate(date)
   };
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false)
 
-  const handleClickEvent = async (event) => { //FullCalendar 에서 넘겨준 클릭 이벤트
+  };
+
+  const handleClickEvent = async (event) => {//FullCalendar 에서 넘겨준 클릭 이벤트
+    let response
+
+
     if (event.groupOriginKey === undefined) { //캘린더에서 개인 일정 클릭시
       setOpen(true)
       setUserEditMode(true)
       setGroupMode(false)
+      setGroupEditMode(false)
       setSelectedSchedule(event)
     }
-    else { // 캘린더에서 그룹 일정 클릭시
-      await axios.get(`/group/${event.groupOriginKey}`).then((response) => {
-        setLeaderId(response.data.data[0].leaderId)
-      })
+    else {  //캘린더에서 그룹 일정 클릭시
+      response = await axios.get(`/group/${event.groupOriginKey}`);
+      const leaderId = response.data.data[0].leaderId
       setOpen(true)
+      setUserEditMode(false)
       setGroupMode(true)
-      setGroupEditMode(true)
-
-      console.log("userId !!!!   ", userId, "  leaderID!!!!  ", leaderId)
 
       if (leaderId === userId) { // 그룹장일 때
         setLeaderMode(true)
+        setGroupEditMode(true)
       }
       else { // 그룹장이 아닐때 
         setLeaderMode(false)
+        setGroupEditMode(true)
       }
 
       setSelectedSchedule(event)
@@ -68,9 +74,11 @@ export default function Calendar({ schedule }) {
 
   const handleClickPlusBtn = (event) => { //PlusBtn을 클릭시 일정 추가 모달 띄우기
     setSelectedSchedule()
-    setUserEditMode(false)
     setOpen(true)
+    setUserEditMode(false)
     setGroupMode(false)
+    setGroupMode(false)
+    setLeaderMode(false)
   }
 
   const handleSubmitSchedule = (schedule) => {
@@ -137,6 +145,20 @@ export default function Calendar({ schedule }) {
           savedSchedule={schedule}
         /> */}
           <FullCalendarView schedule={updatedSchedule} onClickDate={handleClickDate} onClickEvent={handleClickEvent} />  {/* FullCalendarView Library 렌더링 */}
+          {/* <FullCalendar
+                        ref={calendarRef}
+                        plugins={[timeGridPlugin]}
+                        initialView='timeGridWeek'
+                        locale={koLocale}
+                        events={events}
+                        displayEventTime={false}
+                        eventOverlap={false}
+                        eventClassNames={'custom-event'}
+                        eventOrder={(a, b) => a.order - b.order}
+                        allDaySlot={false}
+                        height={'600px'}
+                        eventClick={handleClickGroupEvent}
+                    /> */}
         </div>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <img src={PlusBtn} onClick={handleClickPlusBtn} className={styles.plusBtn} />
