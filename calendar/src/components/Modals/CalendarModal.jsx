@@ -61,18 +61,28 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
         return input
     }
 
-    const [input, setInput] = useState(selectedSchedule && userEditMode ? formatSchedule(selectedSchedule) : selectedGroupSchedule && groupEditMode ? formatSchedule(selectedGroupSchedule) : initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
-    // const [input, setInput] = useState(
-    //     groupMode
-    //         ? userEditMode
-    //             ? formatSchedule(selectedSchedule)
-    //             : initialInput
-    //         : leaderMode
-    //             ? groupEditMode
-    //                 ? formatSchedule(selectedGroupSchedule)
-    //                 : initialInput
-    //             : formatSchedule(selectedGroupSchedule)
-    // );
+    //const [input, setInput] = useState(selectedSchedule && userEditMode ? formatSchedule(selectedSchedule) : selectedGroupSchedule && groupEditMode ? formatSchedule(selectedGroupSchedule) : initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
+    const [input, setInput] = useState(
+        groupMode ?
+            leaderMode ?
+                groupEditMode ?
+                    selectedSchedule ?
+                        formatSchedule(selectedSchedule) // Calendar가 selectedSchedule로 넘겨준 그룹 일정 수정,삭제 모달
+                        :
+                        formatSchedule(selectedGroupSchedule) // GroupDetail이 selectedGroupSchedule로 넘겨준 그룹 일정 수정,삭제 모달    
+                    :
+                    formatSchedule(initialInput) // 그룹 일정 생성 모달
+                :
+                selectedSchedule ?
+                    formatSchedule(selectedSchedule) // Calendar가 selectedSchedule로 넘겨준 그룹 일정 수정,삭제 모달
+                    :
+                    formatSchedule(selectedGroupSchedule) // GroupDetail이 selectedGroupSchedule로 넘겨준 그룹 일정 수정,삭제 모달
+            :
+            userEditMode ?
+                formatSchedule(selectedSchedule) // 개인 일정 수정,삭제 모달
+                :
+                formatSchedule(selectedDate) // 개인 일정 생성 모달
+    );
     // const [input, setInput] = useState(initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
     const handleInput = (event) => {
         const { value, name } = event.target
@@ -108,7 +118,7 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
             endAt: endAt,
             color: input.color,
             memo: input.memo,
-            allDayToggle: input.allday === true ? "true" : "false"
+            allDayToggle: input.allday
         }
 
 
@@ -187,7 +197,7 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
             endAt: endAt,
             color: input.color,
             memo: input.memo,
-            allDayToggle: input.allday === true ? true : false
+            allDayToggle: input.allday
         }
         // 수정 모드일 때는 (editMode) PUT
         // 생성할 때는 POST
@@ -228,6 +238,7 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
         }
 
     }
+
 
     return (
         <div>
@@ -322,43 +333,6 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
                             sx={{ justifyContent: 'center' }}
                         />
                     }
-
-
-
-                    {!groupMode && !userEditMode ?
-                        <Button
-                            variant="contained"
-                            fullWidth
-                            sx={{ mt: 3, height: 45, fontSize: 16, fontFamily: 'var(--font-PoorStory);' }}
-                            onClick={groupMode ? handleSubmitGroupSchedule : handleSubmit}
-                        >일정 추가
-                        </Button>
-                        :
-
-                        !groupMode && userEditMode ?
-                            <Button
-                                variant="contained"
-                                fullWidth
-                                sx={{ mt: 3, height: 45, fontSize: 16, fontFamily: 'var(--font-PoorStory);' }}
-                                onClick={groupMode ? handleSubmitGroupSchedule : handleSubmit}
-                            >일정 수정
-                            </Button>
-                            :
-
-                            groupMode && leaderMode && groupEditMode ?
-                                <Button
-                                    variant="contained"
-                                    fullWidth
-                                    sx={{ mt: 3, height: 45, fontSize: 16, fontFamily: 'var(--font-PoorStory);' }}
-                                    onClick={groupMode ? handleSubmitGroupSchedule : handleSubmit}
-                                >그룹 일정 수정
-                                </Button>
-                                :
-
-                                null
-                    }
-
-                    {/* 
                     <Button
                         variant="contained"
                         fullWidth
@@ -366,21 +340,17 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
                         onClick={groupMode ? handleSubmitGroupSchedule : handleSubmit}
 
                     >
-                        {!groupMode && !userEditMode ? '일정 추가'
+                        {!groupMode && !userEditMode ? '추가'
                             :
-                            !groupMode && userEditMode ? '일정 수정'
+                            !groupMode && userEditMode ? '수정'
                                 :
-                                groupMode && leaderMode && groupEditMode ? '그룹 일정 수정'
+                                groupMode && leaderMode && groupEditMode ? '그룹 일정 추가'
                                     :
-                                    groupMode && !leaderMode && groupEditMode ? '그룹 일정 ?'
+                                    groupMode && !leaderMode && groupEditMode ? '그룹 일정 수정'
                                         :
                                         ' '
                         }
-                    </Button> */}
-
-
-
-
+                    </Button>
                     {/* 삼항연산자 사용, editMode에 따라 수정, 추가 버튼 변경 */}
                     {!groupMode && userEditMode && (
                         <Button
