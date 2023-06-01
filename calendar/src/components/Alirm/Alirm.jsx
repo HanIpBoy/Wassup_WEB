@@ -11,7 +11,6 @@ export default function Alirm({ alirms }) {
     const [selectedAlirm, setSelectedAlirm] = useState() //선택된 알림
     const [alirmSuccess, setAlirmSuccess] = useState()
 
-    console.log('alirms는 Alirm에 어떻게 들어왔니? ', alirms)
     useEffect(() => {
         if (alirms !== undefined) {
             setUpdatedAlirms(alirms)
@@ -25,7 +24,7 @@ export default function Alirm({ alirms }) {
     }
 
     if (isLoading) {
-        return <div>Loading...</div>; // 로딩 중일 때 로딩 표시
+        return <div style={{ textAlign: 'center' }}>Loading...</div>; // 로딩 중일 때 로딩 표시
     }
 
 
@@ -67,7 +66,7 @@ export default function Alirm({ alirms }) {
                 marginLeft: '15%',
                 marginRight: '15%',
                 marginBottom: '50px',
-                // paddingBottom: '10px',
+                paddingBottom: '10px',
                 borderRadius: '10px',
                 boxShadow: '2px 2px 10px rgba(0,0,0,0.2)'
             }}>

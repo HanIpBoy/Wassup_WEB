@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 
 export default function AlirmItem({ alirm, onClickYes, onClickNo }) {
 
@@ -9,7 +9,7 @@ export default function AlirmItem({ alirm, onClickYes, onClickNo }) {
     const handleClickNo = () => {
         onClickNo(alirm)
     }
-    console.log('AlirmItem 에서 들어온 alirm은? ', alirm)
+
     return (
         <>
             <div style={{ display: 'flex', fontSize: '16px' }}>
