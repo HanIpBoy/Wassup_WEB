@@ -40,7 +40,7 @@ const modalHeader = {
 
 
 // TODO: response에 memo 데이터 없음
-export default function CalendarModal({ onClose, selectedDate, selectedGroupSchedule, group, userEditMode, groupEditMode, groupMode, leaderMode, onSubmitSchedule, onDeleteSchedule, onDeleteGroupSchedule, selectedSchedule, onSubmitGroupSchedule }) {
+export default function CalendarModal({ onClose, selectedDate, selectedGroupSchedule, group, userEditMode, groupEditMode, groupMode, leaderMode, onSubmitSchedule, onDeleteSchedule, onDeleteGroupSchedule, selectedSchedule, onSubmitGroupSchedule, selectedGroupScheduleName }) {
 
     const initialInput = {
         name: '',
@@ -156,18 +156,8 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
 
 
         const payload = { //서버의 /group/schedule로 보내는 페이로드
-            originKey: groupEditMode ?
-                selectedGroupSchedule === undefined ? // 그룹 수정 일 때
-                    selectedSchedule.originKey // Calendar에서 selectedSchedule 을 넘겨줄 때
-                    :
-                    selectedGroupSchedule.originKey // GroupDetail에서 selectedGroupSchedule을 넘겨줄 때
-                :
-                undefined, // 그룹 생성 일때
-            groupOriginKey: selectedGroupSchedule === undefined ?
-                selectedSchedule.groupOriginKey // Calendar가 보내줄 때의 groupOriginKey 세팅법
-                :
-                group.originKey // GroupDetail이 보내 줄 때의 groupOriginKey 세팅법
-            ,
+            originKey: groupEditMode ? selectedGroupSchedule.originKey : undefined,
+            groupOriginKey: group.originKey,
             name: input.name,
             startAt: startAt,
             endAt: endAt,
@@ -197,7 +187,6 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
             else {
                 window.alert('그룹 일정이 생성되었습니다!')
             }
-            onClose()
             onSubmitGroupSchedule(response.data.data[0])
         }
 
@@ -255,24 +244,26 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
     const handleGroupDelete = async (event) => { //그룹 일정 삭제 핸들러
         window.alert('그룹 일정이 삭제되었습니다!')
         onClose()
-        const response = await axios.delete(`/group/schedule/${selectedSchedule == undefined ? selectedGroupSchedule.originKey : selectedSchedule.originKey}`)
+        const response = await axios.delete(`/group/schedule/${selectedGroupSchedule.originKey}`)
         if (response.data.status === 'succeed') {
             onDeleteGroupSchedule(response.data.data[0])
         }
 
     }
+
+    console.log('아오 왜 안돼ㅡㅡ', selectedGroupScheduleName)
     const getModalHeader = () => {
         let headerText = '';
         let imageSrc = <img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} />;
 
         if (groupMode && leaderMode) {
             if (groupEditMode) {
-                headerText = '그룹 일정 수정';
+                headerText = `${selectedGroupScheduleName}`;
             } else {
                 headerText = '그룹 일정 추가';
             }
         } else if (groupMode && !leaderMode) {
-            headerText = '그룹 일정 보기'
+            headerText = `${selectedGroupScheduleName}`
         }
         else if (!groupMode && userEditMode) {
             headerText = '일정 수정';

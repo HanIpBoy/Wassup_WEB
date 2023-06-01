@@ -18,6 +18,7 @@ export default function Calendar({ schedule }) {
   const [leaderMode, setLeaderMode] = useState(false)
   const [groupMode, setGroupMode] = useState();
   const [groupEditMode, setGroupEditMode] = useState(false);
+  const [selectedGroupScheduleName, setSelectedGroupScheduleName] = useState('');
   const userId = cookie.get('userId')
 
 
@@ -59,6 +60,7 @@ export default function Calendar({ schedule }) {
       setOpen(true)
       setUserEditMode(false)
       setGroupMode(true)
+      setSelectedGroupScheduleName(response.data.data[0].groupName)
 
       if (leaderId === userId) { // 그룹장일 때
         setLeaderMode(true)
@@ -117,6 +119,7 @@ export default function Calendar({ schedule }) {
           onClose={handleClose}
           onSubmitSchedule={handleSubmitSchedule}
           onDeleteSchedule={handleDeleteSchedule}
+          selectedGroupScheduleName={selectedGroupScheduleName}
         />
       }
       <div style={{
