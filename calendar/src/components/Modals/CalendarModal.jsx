@@ -70,7 +70,7 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
                     selectedSchedule ?
                         formatSchedule(selectedSchedule) // Calendar가 selectedSchedule로 넘겨준 그룹 일정 수정,삭제 모달
                         :
-                        formatSchedule(selectedGroupSchedule) // GroupDetail이 selectedGroupSchedule로 넘겨준 그룹 일정 수정,삭제 모달    
+                        formatSchedule(selectedGroupSchedule) // GroupDetail이 selectedGroupSchedule로 넘겨준 그룹 일정 수정,삭제 모달
                     :
                     formatSchedule(initialInput) // 그룹 일정 생성 모달
                 :
@@ -82,8 +82,55 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
             userEditMode ?
                 formatSchedule(selectedSchedule) // 개인 일정 수정,삭제 모달
                 :
-                formatSchedule(selectedDate) // 개인 일정 생성 모달
+                selectedSchedule === undefined ?
+                    formatSchedule(initialInput) // 개인 일정 생성 모달, 일정 추가 버튼을 클릭 했을 때
+                    :
+                    formatSchedule(selectedSchedule) // 개인 일정 생성 모달, 빈 날짜를 클릭
     );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const [input, setInput] = useState(
+    //     groupMode ?
+    //         leaderMode ?
+    //             groupEditMode ?
+    //                 selectedSchedule ?
+    //                     formatSchedule(selectedSchedule) // Calendar가 selectedSchedule로 넘겨준 그룹 일정 수정,삭제 모달
+    //                     :
+    //                     formatSchedule(selectedGroupSchedule) // GroupDetail이 selectedGroupSchedule로 넘겨준 그룹 일정 수정,삭제 모달    
+    //                 :
+    //                 formatSchedule(initialInput) // 그룹 일정 생성 모달
+    //             :
+    //             selectedSchedule ?
+    //                 formatSchedule(selectedSchedule) // Calendar가 selectedSchedule로 넘겨준 그룹 일정 수정,삭제 모달
+    //                 :
+    //                 formatSchedule(selectedGroupSchedule) // GroupDetail이 selectedGroupSchedule로 넘겨준 그룹 일정 수정,삭제 모달
+    //         :
+    //         userEditMode ?
+    //             formatSchedule(selectedSchedule) // 개인 일정 수정,삭제 모달
+    //             :
+    //             formatSchedule(selectedDate) // 개인 일정 생성 모달
+    // );
+
+
+
+
+
+
+
+
+
     // const [input, setInput] = useState(initialInput) // editMode, selectedSchedule가 true이면 들어있는 값으로 변경
     const handleInput = (event) => {
         const { value, name } = event.target

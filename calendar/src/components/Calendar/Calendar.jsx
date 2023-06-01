@@ -132,11 +132,11 @@ export default function Calendar({ schedule }) {
         borderRadius: '10px'
       }}>
         <div className={styles.calendar}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: '5px' }}>
             <Button
               variant="text"
               // onClick={handleClick}
-              sx={{ cursor: 'pointer', fontFamily: 'var(--font-PoorStory)', fontWeight: 'bold', fontSize: '16px' }}
+              sx={{ cursor: 'pointer', fontFamily: 'var(--font-PoorStory)', fontWeight: 'bold', fontSize: '18px' }}
               onClick={handleClickPlusBtn}
             >
               일정 추가
