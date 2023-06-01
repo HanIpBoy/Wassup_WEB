@@ -80,14 +80,14 @@ export default function Group({ groups }) {
         <div style={{
             backgroundColor: 'rgba(219,230,243,0.5)',
             height: 'auto',
-            marginLeft: '20%',
-            marginRight: '20%',
+            marginLeft: '15%',
+            marginRight: '15%',
             marginBottom: '50px',
-            paddingBottom: '10px',
+            // paddingBottom: '10px',
             borderRadius: '10px',
             boxShadow: '2px 2px 10px rgba(0,0,0,0.2)'
         }}>
-            <div style={{ display: 'flex', justifyContent: 'right', marginRight: '3%' }}>
+            <div style={{ display: 'flex', justifyContent: 'right', marginRight: '4%' }}>
                 {open && <GroupModal group={selectedGroup} onClose={handleClose} editMode={editMode} onSubmitGroup={handleSubmitGroup} selectedGroup={selectedGroup} />}
                 {deleteMode && <DeleteModal onSubmitDeleteGroup={handleSubmitDeleteGroup} onClose={handleClose} selectedGroup={selectedGroup} />}
                 <Button
