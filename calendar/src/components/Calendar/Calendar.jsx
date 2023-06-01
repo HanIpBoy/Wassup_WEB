@@ -87,7 +87,7 @@ export default function Calendar({ schedule }) {
     // 1. 모달을 닫는다
     setOpen(false)
     // 2. schedule을 업데이트한다
-    if (userEditMode) {
+    if (userEditMode || groupEditMode) {
       const idx = updatedSchedule.findIndex((value) => value.originKey === schedule.originKey)
       const temp = [...updatedSchedule]
       temp[idx] = schedule
@@ -118,7 +118,9 @@ export default function Calendar({ schedule }) {
           leaderMode={leaderMode}
           onClose={handleClose}
           onSubmitSchedule={handleSubmitSchedule}
+          onSubmitGroupSchedule={handleSubmitSchedule}
           onDeleteSchedule={handleDeleteSchedule}
+          onDeleteGroupSchedule={handleDeleteSchedule}
           selectedGroupScheduleName={selectedGroupScheduleName}
         />
       }

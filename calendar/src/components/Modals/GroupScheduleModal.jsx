@@ -27,8 +27,9 @@ const titleStyle = {
 const modalHeader = {
     display: 'flex',
     gap: 10,
-    alignItems: 'center',
-    marginLeft: '38%'
+    textAlign: 'center',
+    justifyContent: 'center',
+    marginLeft: '10%'
 }
 
 // const buttons = [

@@ -34,8 +34,10 @@ const flexContainerStyle = {
 const modalHeader = {
     display: 'flex',
     gap: 10,
-    alignItems: 'center',
-    marginLeft: '38%'
+    textAlign: 'center',
+    justifyContent: 'center',
+    marginLeft: '5%'
+
 }
 
 
@@ -258,26 +260,31 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
     const handleGroupDelete = async (event) => { //그룹 일정 삭제 핸들러
         window.alert('그룹 일정이 삭제되었습니다!')
         onClose()
-        const response = await axios.delete(`/group/schedule/${selectedSchedule == undefined ? selectedGroupSchedule.originKey : selectedSchedule.originKey}`)
+        const response = await axios.delete(`/group/schedule/${selectedSchedule === undefined ? selectedGroupSchedule.originKey : selectedSchedule.originKey}`)
         if (response.data.status === 'succeed') {
             onDeleteGroupSchedule(response.data.data[0])
         }
 
     }
 
-    console.log('아오 왜 안돼ㅡㅡ', selectedGroupScheduleName)
     const getModalHeader = () => {
         let headerText = '';
         let imageSrc = <img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} />;
 
-        if (groupMode && leaderMode) {
-            if (groupEditMode) {
-                headerText = `${selectedGroupScheduleName}`;
+        if (groupMode && leaderMode) { // 그룹장이
+            if (groupEditMode) { // 그룹을 수정할 때
+                if (selectedGroupSchedule === undefined)
+                    headerText = `${selectedGroupScheduleName}` // Calendar에서 CalendarModal을 띄울 떄                     
+                else
+                    headerText = `${group.groupName}`; // GroupDetail에서 CalendarModal을 띄울 때 
             } else {
-                headerText = '그룹 일정 추가';
+                headerText = '그룹 일정 추가'; // 그룹을 추가 할 때
             }
-        } else if (groupMode && !leaderMode) {
-            headerText = `${selectedGroupScheduleName}`
+        } else if (groupMode && !leaderMode) { //그룹원일 떄 
+            if (selectedGroupSchedule === undefined) // 그룹 스케쥴을 볼 때 
+                headerText = `${selectedGroupScheduleName}` // Calendar에서 CalendarModal을 띄울 떄                     
+            else
+                headerText = `${group.groupName}`; // GroupDetail에서 CalendarModal을 띄울 때 
         }
         else if (!groupMode && userEditMode) {
             headerText = '일정 수정';
