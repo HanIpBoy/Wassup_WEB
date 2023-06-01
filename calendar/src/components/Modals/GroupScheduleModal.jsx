@@ -64,9 +64,134 @@ export default function GroupScheduleModal({ onClose, groupSchedule, group, upda
     //     })
     // ]
 
+
+    console.log('아오 이거 뭔데 updated야??', updatedGroupSchedule)
+
+
+
+
+
+
+
+
+
+
+    // const start = updatedGroupSchedule.map((value, idx) => { //그룹일정 시작시간
+    //     new Date(value[idx].startAt)
+    // })
+
+    // const end = updatedGroupSchedule.map((value, idx) => { //그룹일정 종료시간
+    //     new Date(value[idx].endAt)
+    // })
+
+
+    // const start = new Date(groupSchedule[0].startAt) //그룹일정 시작시간
+    // const end = new Date(groupSchedule[0].endAt) //그룹일정 종료시간
+
+
+
+
+
+
+
+    // if (schedule.allDayToggle === 'true') {
+    //     start = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0);
+    //     end = new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23, 59, 59);
+    // }
+
+
+
+
+    const start = updatedGroupSchedule.map(value => new Date(value.startAt));
+
+    const end = updatedGroupSchedule.map(value => new Date(value.endAt));
+
+    console.log('과연..??', updatedGroupSchedule)
+
+
+
+
+
+
+    const formatter = new Intl.DateTimeFormat('ko-KR', { month: 'long', day: 'numeric', weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: false }); //시간 변환 formatter
+
+
+
+
+
+
+
+
+
+
+
+    // const formattedDateStart = start.map((date, idx) => {
+    //     if (updatedGroupSchedule[idx].allDayToggle === 'true') {
+    //         if (date.getHours() === 0 && date.getMinutes() === 0) {
+    //             return '00:00';
+    //         } else {
+    //             date.setHours(0, 0, 0); // 오전 12시 00분으로 설정
+    //         }
+    //     }
+    //     let formattedTime = formatter.format(date).replace('오후', '').replace(':', ':');
+    //     if (formattedTime === '24:00') {
+    //         formattedTime = '00:00';
+    //     }
+    //     return formattedTime;
+    // });
+
+    // const formattedDateEnd = end.map((date, idx) => {
+    //     if (updatedGroupSchedule[idx].allDayToggle === 'true') {
+    //         if (date.getHours() === 0 && date.getMinutes() === 0) {
+    //             return '00:00';
+    //         } else {
+    //             date.setHours(23, 59, 59); // 오후 11시 59분으로 설정
+    //         }
+    //     }
+    //     let formattedTime = formatter.format(date).replace('오후', '').replace(':', ':');
+    //     if (formattedTime === '24:00') {
+    //         formattedTime = '00:00';
+    //     }
+    //     return formattedTime;
+    // });
+
+
+    // const formattedDateStart = start.map(date => formatter.format(date)).map(str => str.replace('오후', '').replace(':', ':')); //포맷된 그룹일정 시작시간
+    // const formattedDateEnd = end.map(date => formatter.format(date)).map(str => str.replace('오후', '').replace(':', ':')); //포맷된 그룹일정 종료시간
+
+
+
+
+    const formattedDateStart = start.map((date, idx) => {
+        if (updatedGroupSchedule[idx].allDayToggle === 'true') {
+            return '하루종일';
+        } else {
+            return formatter.format(date).replace('오후', '').replace(':', ':');
+        }
+    });
+
+    const formattedDateEnd = end.map((date, idx) => {
+        if (updatedGroupSchedule[idx].allDayToggle === 'true') {
+            return '하루종일';
+        } else {
+            return formatter.format(date).replace('오후', '').replace(':', ':');
+        }
+    });
+
+
+
+
     const buttons = updatedGroupSchedule.map((value, idx) => (
+
         <>
-            <div key={idx} style={{ textAlign: 'center', color: '#3874CB', marginBottom: '10px' }}>{value.name}</div>
+
+            <div key={idx} style={{ textAlign: 'center', color: '#3874CB', marginBottom: '5px' }}>{value.name}</div>
+            <div style={{ fontSize: '10px', textAlign: 'center', color: 'gray', marginBottom: '10px' }}>
+                {formattedDateStart[idx] === '하루종일' && formattedDateEnd[idx] === '하루종일'
+                    ? '하루종일'
+                    : `${formattedDateStart[idx]} ~ ${formattedDateEnd[idx]}`
+                }
+            </div>
             <div style={{ borderTop: '0.5px solid grey', marginBottom: '10px' }}></div>
         </>
     ));

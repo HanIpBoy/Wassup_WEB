@@ -143,7 +143,6 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
         const target = groupSchedule.find((item) => {
             return item.originKey === publicId
         })
-
         onClickEvent(target)
     }
 
