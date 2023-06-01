@@ -35,7 +35,7 @@ export default function GroupItem({ group, onClickDeleteGroup, onClickEditGroup 
 
     return (
         <>
-            <div style={{ display: 'flex', fontSize: '20px' }}>
+            <div style={{ display: 'flex', fontSize: '16px' }}>
                 <div onClick={handleClickGroup} style={{ margin: '10px', width: '35%', textAlign: 'center', cursor: 'pointer', fontWeight: 'bold' }}>{group.groupName}</div>
 
                 <div onClick={handleClickGroup} style={{ margin: '10px', marginRight: '50px', width: '30%', textAlign: 'center', cursor: 'pointer' }}>{group.description}</div>

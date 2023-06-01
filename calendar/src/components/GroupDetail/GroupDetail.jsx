@@ -189,7 +189,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                     end: end,
                     allDay: false,
                     backgroundColor: isGroupColor ? 'white' : COLOR_CODE_LIST[userIdx],
-                    borderColor: isGroupColor ? 'black' : COLOR_CODE_LIST[userIdx]
+                    borderColor: isGroupColor ? '#0040ff' : COLOR_CODE_LIST[userIdx]
                 }
                 return event
             })
@@ -259,7 +259,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                 marginRight: '15%',
                 marginBottom: '50px',
                 padding: '35px 50px',
-                borderRadius: '30px',
+                borderRadius: '10px',
                 boxShadow: '2px 2px 10px rgba(0,0,0,0.2)',
                 fontFamily: 'var(--font-PoorStory);'
             }}>
@@ -282,7 +282,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                         }
                     </div>
                 </div>
-                <Box sx={style}>
+                <Box sx={style} style={{ padding: '0 0' }}>
                     <FullCalendar
                         ref={calendarRef}
                         plugins={[timeGridPlugin]}

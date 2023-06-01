@@ -149,6 +149,7 @@
   height: 30px;
   cursor: pointer;
   margin-top: 20px;
+  margin-bottom: -10px;
 }
 
 .plusBtn:hover {

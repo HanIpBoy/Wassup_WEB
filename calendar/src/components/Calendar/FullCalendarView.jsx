@@ -4,6 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import koLocale from '@fullcalendar/core/locales/ko';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useEffect, useState, useRef } from 'react';
+import PlusBtn from '../../images/btn_plus.png';
 
 /*
 schedule [ //데이터 예시
@@ -64,8 +65,8 @@ export default function FullCalendarView({ onClickDate, schedule, onClickEvent }
                     end: new Date(formattedEnd),
                     allDay: value.allDayToggle,
                     backgroundColor: value.groupOriginKey ? 'white' : value.color,
-                    borderColor: value.groupOriginKey ? 'black' : value.color,
-                    textColor: value.groupOriginKey ? 'black' : undefined
+                    borderColor: value.groupOriginKey ? 'lightgray' : value.color,
+                    textColor: value.groupOriginKey ? '#2f2f2f' : undefined
                 }
                 return event
             })
@@ -74,16 +75,20 @@ export default function FullCalendarView({ onClickDate, schedule, onClickEvent }
     }, [calendarApi, schedule])
 
     return (
-        <div>
-            <FullCalendar
-                ref={calendarRef}
-                plugins={[dayGridPlugin, interactionPlugin]}
-                initialView="dayGridMonth"
-                locale={koLocale}
-                dateClick={handleClickDate}
-                eventClick={handleClickEvent}
-                events={events}
-            />
-        </div>
+        <>
+            <div style={{ height: '90%' }}>
+                <FullCalendar
+                    ref={calendarRef}
+                    plugins={[dayGridPlugin, interactionPlugin]}
+                    initialView="dayGridMonth"
+                    locale={koLocale}
+                    dateClick={handleClickDate}
+                    eventClick={handleClickEvent}
+                    events={events}
+
+                />
+            </div>
+        </>
+
     )
 }

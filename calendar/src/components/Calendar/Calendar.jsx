@@ -7,6 +7,7 @@ import PlusBtn from '../../images/btn_plus.png';
 import PlusBtnHover from '../../images/btn_plus_hover.png';
 import axios from '../../axios.js';
 import cookie from 'js-cookie'
+import { Button } from '@mui/material';
 
 export default function Calendar({ schedule }) {
   const [open, setOpen] = useState(false); // true면 모달 열림, false면 모달 닫힘
@@ -77,7 +78,6 @@ export default function Calendar({ schedule }) {
     setOpen(true)
     setUserEditMode(false)
     setGroupMode(false)
-    setGroupMode(false)
     setLeaderMode(false)
   }
 
@@ -122,28 +122,27 @@ export default function Calendar({ schedule }) {
       <div style={{
         backgroundColor: 'rgba(219,230,243,0.5)',
         height: 'auto',
-        marginLeft: '20%',
-        marginRight: '20%',
-        marginBottom: '50px',
-        padding: '35px 0',
-        borderRadius: '30px',
+        marginLeft: '15%',
+        marginRight: '15%',
+        marginBottom: '30px',
+        paddingTop: '5px',
+        paddingBottom: '40px',
         boxShadow: '2px 2px 10px rgba(0,0,0,0.2)',
-        fontFamily: 'var(--font-PoorStory);'
+        // fontFamily: 'var(--font-PoorStory);',
+        borderRadius: '10px'
       }}>
         <div className={styles.calendar}>
-          {/* <RenderHeader
-          currentMonth={currentMonth}
-          prevMonth={prevMonth}
-          nextMonth={nextMonth}
-        />
-        <RenderDays />
-        <RenderCells
-          onClose={handleClose}
-          onOpen={handleOpen}
-          currentMonth={currentMonth}
-          selectedDate={selectedDate}
-          savedSchedule={schedule}
-        /> */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button
+              variant="text"
+              // onClick={handleClick}
+              sx={{ cursor: 'pointer', fontFamily: 'var(--font-PoorStory)', fontWeight: 'bold', fontSize: '16px' }}
+              onClick={handleClickPlusBtn}
+            >
+              일정 추가
+            </Button>
+          </div>
+
           <FullCalendarView schedule={updatedSchedule} onClickDate={handleClickDate} onClickEvent={handleClickEvent} />  {/* FullCalendarView Library 렌더링 */}
           {/* <FullCalendar
                         ref={calendarRef}
@@ -160,9 +159,9 @@ export default function Calendar({ schedule }) {
                         eventClick={handleClickGroupEvent}
                     /> */}
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
           <img src={PlusBtn} onClick={handleClickPlusBtn} className={styles.plusBtn} />
-        </div>
+        </div> */}
       </div>
 
     </>
