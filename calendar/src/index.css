@@ -8,12 +8,12 @@ body {
 }
 
 @font-face {
-  font-family: "PoorStory";
-  src: url(./assets/fonts/Poor_Story/PoorStory-Regular.ttf);
+  font-family: "Pretendard";
+  src: url(./assets/fonts/Poor_Story/PretendardVariable.ttf);
 }
 
 :root {
-  --font-PoorStory: "PoorStory";
+  --font-PoorStory: "Pretendard";
 }
 
 code {
