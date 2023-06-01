@@ -144,20 +144,6 @@ export default function Calendar({ schedule }) {
           </div>
 
           <FullCalendarView schedule={updatedSchedule} onClickDate={handleClickDate} onClickEvent={handleClickEvent} />  {/* FullCalendarView Library 렌더링 */}
-          {/* <FullCalendar
-                        ref={calendarRef}
-                        plugins={[timeGridPlugin]}
-                        initialView='timeGridWeek'
-                        locale={koLocale}
-                        events={events}
-                        displayEventTime={false}
-                        eventOverlap={false}
-                        eventClassNames={'custom-event'}
-                        eventOrder={(a, b) => a.order - b.order}
-                        allDaySlot={false}
-                        height={'600px'}
-                        eventClick={handleClickGroupEvent}
-                    /> */}
         </div>
         {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
           <img src={PlusBtn} onClick={handleClickPlusBtn} className={styles.plusBtn} />
