@@ -56,15 +56,6 @@ export default function Alirm({ alirms }) {
             })
 
         }
-        // const idx = updatedAlirms.findIndex((value) => value.originKey === alirms.originKey)
-
-        // let temp = undefined; //temp를 undefined로 초기화
-
-        // if (idx !== -1) {
-        //     temp = [...updatedAlirms];
-        //     temp.splice(idx, 1);
-        //     setUpdatedAlirms(temp)
-        // }
     }
 
     return (
@@ -73,10 +64,10 @@ export default function Alirm({ alirms }) {
             <div style={{
                 backgroundColor: 'rgba(219,230,243,0.5)',
                 height: 'auto',
-                marginLeft: '20%',
-                marginRight: '20%',
+                marginLeft: '15%',
+                marginRight: '15%',
                 marginBottom: '50px',
-                paddingBottom: '10px',
+                // paddingBottom: '10px',
                 borderRadius: '10px',
                 boxShadow: '2px 2px 10px rgba(0,0,0,0.2)'
             }}>
