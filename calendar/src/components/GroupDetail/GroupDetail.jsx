@@ -277,7 +277,7 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
                     </div>
                     <div style={{ width: '15%' }}>
                         {group.leaderId === userId ?
-                            <Button variant="text" sx={{ fontWeight: 'bold', fontSize: '18px' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
+                            <Button variant="text" sx={{ fontWeight: 'bold', fontSize: '18px', whiteSpace: 'nowrap' }} onClick={handleClickGroupSchedule}>그룹 일정 추가</Button>
                             :
                             ''
                         }
