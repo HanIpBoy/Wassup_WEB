@@ -19,10 +19,6 @@ const style = {
 };
 
 
-const dummy = {
-    userId: 'abdsafasd@naver.com',
-    userName: '김정한'
-}
 
 export default function SearchModal({ onSubmit }) {
     const [searchResult, setSearchResult] = useState()
