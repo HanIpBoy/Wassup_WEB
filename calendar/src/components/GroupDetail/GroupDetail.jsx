@@ -169,57 +169,58 @@ export default function GroupDetail({ group, groupSchedule, groupUserSchedule, o
 
 
     useEffect(() => {
-        const events = groupUserSchedule.flatMap((value, userIdx) => {
-            const userId = value.userId
-            const groupEvents = value.groupSchedules.map((value) => {//포맷한 groupSchedules의 그룹스케줄
-
-
-                const schedule = { ...value, userId }
-
-                let start = new Date(schedule.startAt)
-                let end = new Date(schedule.endAt)
+        const updatedEvents = groupUserSchedule.flatMap((value, userIdx) => {
+            const userId = value.userId;
+            const groupEvents = value.groupSchedules.map((value) => {
+                const schedule = { ...value, userId };
+                let start = new Date(schedule.startAt);
+                let end = new Date(schedule.endAt);
                 if (schedule.allDayToggle === 'true') {
-                    start = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0)
-                    end = new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23, 59, 59)
+                    start = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0);
+                    end = new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23, 59, 59);
                 }
-                let isGroupColor = schedule.groupOriginKey === group.originKey
-                let event = {
+                const isGroupColor = schedule.groupOriginKey === group.originKey;
+                const event = {
                     id: schedule.originKey,
-                    start: start,
-                    end: end,
+                    start,
+                    end,
                     allDay: false,
                     backgroundColor: isGroupColor ? 'white' : COLOR_CODE_LIST[userIdx],
                     borderColor: isGroupColor ? '#0040ff' : COLOR_CODE_LIST[userIdx]
-                }
-                return event
-            })
+                };
+                return event;
+            });
 
-            const userEvents = value.userSchedules.map((value) => { //포맷한 groupSchedule의 유저스케줄
-
-                const schedule = { ...value, userId }
-
-                let start = new Date(schedule.startAt)
-                let end = new Date(schedule.endAt)
+            const userEvents = value.userSchedules.map((value) => {
+                const schedule = { ...value, userId };
+                let start = new Date(schedule.startAt);
+                let end = new Date(schedule.endAt);
                 if (schedule.allDayToggle === 'true') {
-                    start = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0)
-                    end = new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23, 59, 59)
-                } //하루종일일 경우 00:00 ~ 23: 59 까지 막대기 넣기
-
-                let event = {
+                    start = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0);
+                    end = new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23, 59, 59);
+                }
+                const event = {
                     userid: schedule.userId,
                     id: schedule.originKey,
-                    start: start,
-                    end: end,
+                    start,
+                    end,
                     allDay: false,
                     backgroundColor: COLOR_CODE_LIST[userIdx],
                     borderColor: COLOR_CODE_LIST[userIdx]
-                }
+                };
                 return event;
-            })
-            return [...groupEvents, ...userEvents]
-        })
-        setEvents(events) //...events
-    }, [groupUserSchedule, groupSchedule])
+            });
+
+            return [...groupEvents, ...userEvents];
+        });
+
+        const filteredEvents = updatedEvents.filter((event, index, self) =>
+            index === self.findIndex((e) => e.id === event.id)
+        );
+
+        setEvents(filteredEvents);
+    }, [groupUserSchedule, groupSchedule]);
+
 
 
 
