@@ -77,7 +77,7 @@ export default function Alirm({ alirms }) {
                 marginRight: '20%',
                 marginBottom: '50px',
                 paddingBottom: '10px',
-                borderRadius: '30px',
+                borderRadius: '10px',
                 boxShadow: '2px 2px 10px rgba(0,0,0,0.2)'
             }}>
 
