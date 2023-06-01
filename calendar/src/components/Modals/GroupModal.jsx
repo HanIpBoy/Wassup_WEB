@@ -7,6 +7,7 @@ import cookie from 'js-cookie'
 import SearchModal from './SearchModal.jsx';
 import Avartar from '../Avatar';
 import { COLOR_CODE_LIST } from '../../constants';
+import Alert from '@mui/material/Alert';
 
 const style = {
     position: 'absolute',
@@ -85,6 +86,7 @@ export default function GroupModal({ group, onClose, editMode, selectedGroup, on
             response = await axios.put('/group', payload)
 
         } else { //추가할 땐 post
+            // <Alert severity="info">그룹 생성이 완료</Alert>
             window.alert('그룹 생성이 완료되었습니다. 그룹원들에게 알림을 발송하였습니다!')
             response = await axios.post('/group/create', payload)
         }

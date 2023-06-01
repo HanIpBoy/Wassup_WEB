@@ -6,6 +6,7 @@ import Button from '@mui/material/Button'
 import MiniIcon from '../../images/MiniIcon.png';
 import axios from '../../axios';
 import dayjs from 'dayjs'
+import Alert from '@mui/material/Alert';
 
 const style = {
     position: 'absolute',
@@ -250,7 +251,7 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
             >
                 <Box sx={style}>
                     <div style={modalHeader}>
-                        {groupMode && leaderMode && !groupEditMode ?
+                        {groupMode && leaderMode && groupEditMode ?
                             <><Box sx={titleStyle} align="center" marginBottom={2}>
                                 그룹 일정 추가
                             </Box><img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} /></>
