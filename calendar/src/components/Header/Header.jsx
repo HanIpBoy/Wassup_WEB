@@ -59,10 +59,10 @@ export default function Header() {
                 <img src={MainIcon} onClick={handleClickMainIcon} style={{ width: '80px', height: '100px', margin: '0 auto', marginLeft: '47%', cursor: 'pointer' }} />
 
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: '20%' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', whiteSpace: 'nowrap' }}>
                         <div>{username} 님</div>
                         <div style={{ borderLeft: "solid gray", height: '50%', left: '50%', marginLeft: '10px' }}></div>
-                        <Button variant="text" onClick={handleClickLogout} sx={{ color: 'gray', fontFamily: 'var(--font-PoorStory)', paddingTop: '7px' }}>로그아웃</Button>
+                        <Button variant="text" onClick={handleClickLogout} sx={{ color: 'gray', fontFamily: 'var(--font-PoorStory)', paddingTop: '7px', whiteSpace: 'nowrap' }}>로그아웃</Button>
                     </div>
                     <div style={{ display: 'flex', columnGap: '10px' }}>
                         <img src={tab === '/calendar' ? CalendarTab : Calendar} style={{ ...headerStyle }} onClick={handleClickCalendarIcon} />
