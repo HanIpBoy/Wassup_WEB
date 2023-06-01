@@ -108,7 +108,7 @@ export default function SearchModal({ onSubmit }) {
                         />
                         <Button
                             variant="contained"
-                            sx={{ height: '55px', fontSize: 16, mt: '5px' }}
+                            sx={{ height: '55px', fontSize: 16, mt: '5px', whiteSpace: 'nowrap' }}
                             onClick={handleSearch}
                         >검색</Button>
                     </div>
