@@ -50,9 +50,7 @@ export default function GroupScheduleModal({ onClose, groupSchedule, group, upda
     //     color: '',
     //     repeat: '',
     // }
-    console.log('그룹은 ??', group)
 
-    console.log('updatedGroupSchedule은 ????? ', updatedGroupSchedule)
 
     // useEffect(() => {
 
@@ -66,7 +64,7 @@ export default function GroupScheduleModal({ onClose, groupSchedule, group, upda
     // ]
 
     const buttons = updatedGroupSchedule.map((value, idx) => (
-        <Button key={idx}>{value.name}</Button>
+        <div key={idx} style={{ textAlign: 'center', color: '#3874CB' }}>{value.name}</div>
     ));
 
 
@@ -75,8 +73,6 @@ export default function GroupScheduleModal({ onClose, groupSchedule, group, upda
         onClose()
     }
 
-    console.log('group 은 ??', group)
-    console.log('groupSchedule은 ??', groupSchedule)
 
 
     return (
