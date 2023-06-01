@@ -144,7 +144,7 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
         }))
     }
 
-    const handleSubmitGroupSchedule = async () => { //그룹 일정 추가 눌렀을 때 핸들러
+    const handleSubmitGroupSchedule = async () => { //그룹 일정 추가,수정 눌렀을 때 핸들러
         const format = (value) => {
             if (value < 10) {
                 return '0' + value
@@ -164,7 +164,10 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
                 :
                 undefined, // 그룹 생성 일때
             groupOriginKey: selectedGroupSchedule === undefined ?
-                selectedSchedule.groupOriginKey // Calendar가 보내줄 때의 groupOriginKey 세팅법
+                selectedSchedule === undefined ?
+                    group.originKey // GroupDetail이 그룹 일정 생성으로 보내줄 때 groupOriginKey
+                    :
+                    selectedSchedule.groupOriginKey // Calendar가 보내줄 때의 groupOriginKey 세팅법
                 :
                 group.originKey // GroupDetail이 보내 줄 때의 groupOriginKey 세팅법
             ,
@@ -197,7 +200,7 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
             else {
                 window.alert('그룹 일정이 생성되었습니다!')
             }
-            onclose()
+            onClose()
             onSubmitGroupSchedule(response.data.data[0])
         }
 
@@ -245,7 +248,7 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
 
     const handleDelete = async (event) => { //일정 삭제 핸들러
         onClose()
-        const response = await axios.delete(`/group/schedule/${selectedSchedule == undefined ? selectedGroupSchedule.originKey : selectedSchedule.originKey}`)
+        const response = await axios.delete(`/schedule/${selectedSchedule.originKey}`)
         if (response.data.status === 'succeed') {
             onDeleteSchedule(response.data.data[0])
         }
@@ -255,7 +258,7 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
     const handleGroupDelete = async (event) => { //그룹 일정 삭제 핸들러
         window.alert('그룹 일정이 삭제되었습니다!')
         onClose()
-        const response = await axios.delete(`/group/schedule/${selectedGroupSchedule.originKey}`)
+        const response = await axios.delete(`/group/schedule/${selectedSchedule == undefined ? selectedGroupSchedule.originKey : selectedSchedule.originKey}`)
         if (response.data.status === 'succeed') {
             onDeleteGroupSchedule(response.data.data[0])
         }
