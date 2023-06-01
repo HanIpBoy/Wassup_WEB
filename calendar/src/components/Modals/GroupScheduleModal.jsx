@@ -64,7 +64,10 @@ export default function GroupScheduleModal({ onClose, groupSchedule, group, upda
     // ]
 
     const buttons = updatedGroupSchedule.map((value, idx) => (
-        <div key={idx} style={{ textAlign: 'center', color: '#3874CB' }}>{value.name}</div>
+        <>
+            <div key={idx} style={{ textAlign: 'center', color: '#3874CB', marginBottom: '10px' }}>{value.name}</div>
+            <div style={{ borderTop: '0.5px solid grey', marginBottom: '10px' }}></div>
+        </>
     ));
 
 
