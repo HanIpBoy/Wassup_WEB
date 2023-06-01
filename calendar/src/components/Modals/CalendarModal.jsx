@@ -159,7 +159,7 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
         const endAt = end.$y + '-' + format(end.$M + 1) + '-' + format(end.$D) + 'T' + format(end.$H) + ':' + format(end.$m)
 
         const payload = {
-            ...(selectedSchedule && { originKey: selectedSchedule.originKey }),
+            originKey: userEditMode ? selectedSchedule.originKey : undefined,
             name: input.name,
             startAt: startAt,
             endAt: endAt,
