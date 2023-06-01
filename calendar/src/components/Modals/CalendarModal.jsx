@@ -235,6 +235,38 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
         );
     };
 
+    const renderAddButton = () => (
+        <Button
+            variant="contained"
+            fullWidth
+            sx={{ mt: 3, height: 45, fontSize: 16, fontFamily: 'var(--font-PoorStory);' }}
+            onClick={groupMode ? handleSubmitGroupSchedule : handleSubmit}
+        >
+            {groupMode ? '그룹 일정 추가' : '추가'}
+        </Button>
+    );
+
+    const renderEditButtons = () => (
+        <>
+            <Button
+                variant="contained"
+                fullWidth
+                sx={{ mt: 3, height: 45, fontSize: 16, fontFamily: 'var(--font-PoorStory);' }}
+                onClick={groupMode ? handleSubmitGroupSchedule : handleSubmit}
+            >
+                {groupMode ? '그룹 일정 수정' : '수정'}
+            </Button>
+            <Button
+                variant="contained"
+                fullWidth
+                sx={{ mt: 1, height: 45, fontSize: 16, backgroundColor: 'red', fontFamily: 'var(--font-PoorStory);', ":hover": { transition: 'background-color 0.4s ease ', backgroundColor: 'rgba(234, 51, 35,0.8)' } }}
+                onClick={groupMode ? handleGroupDelete : handleDelete}
+            >
+                {groupMode ? '그룹 일정 삭제' : '삭제'}
+            </Button>
+        </>
+    );
+
 
     return (
         <div>
@@ -308,45 +340,12 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
                             sx={{ justifyContent: 'center' }}
                         />
                     }
-                    <Button
-                        variant="contained"
-                        fullWidth
-                        sx={{ mt: 3, height: 45, fontSize: 16, fontFamily: 'var(--font-PoorStory);' }}
-                        onClick={groupMode ? handleSubmitGroupSchedule : handleSubmit}
-
-                    >
-                        {!groupMode && !userEditMode ? '추가'
-                            :
-                            !groupMode && userEditMode ? '수정'
-                                :
-                                groupMode && leaderMode && groupEditMode ? '그룹 일정 추가'
-                                    :
-                                    groupMode && !leaderMode && groupEditMode ? '그룹 일정 수정'
-                                        :
-                                        ' '
-                        }
-                    </Button>
-                    {/* 삼항연산자 사용, editMode에 따라 수정, 추가 버튼 변경 */}
-                    {!groupMode && userEditMode && (
-                        <Button
-                            variant="contained"
-                            fullWidth
-                            sx={{ mt: 1, height: 45, fontSize: 16, backgroundColor: 'red', fontFamily: 'var(--font-PoorStory);', ":hover": { transition: 'background-color 0.4s ease ', backgroundColor: 'rgba(234, 51, 35,0.8)' } }}
-                            onClick={handleDelete}
-                        >
-                            일정 삭제
-                        </Button>
-                    )}
-                    {groupEditMode && leaderMode && groupEditMode && (
-                        <Button
-                            variant="contained"
-                            fullWidth
-                            sx={{ mt: 1, height: 45, fontSize: 16, backgroundColor: 'red', fontFamily: 'var(--font-PoorStory);', ":hover": { transition: 'background-color 0.4s ease ', backgroundColor: 'rgba(234, 51, 35,0.8)' } }}
-                            onClick={handleGroupDelete}
-                        >
-                            그룹 일정 삭제
-                        </Button>
-                    )}
+                    {
+                        ((!groupMode && !userEditMode) || (groupMode && leaderMode && !groupEditMode)) && renderAddButton() // 일정 추가 모달 일때는 추가 버튼을 띄움
+                    }
+                    {
+                        ((!groupMode && userEditMode) || (groupMode && leaderMode && groupEditMode)) && renderEditButtons() // 일정 수정 모달 일때는 수정,삭제 버튼을 띄움
+                    }
                 </Box>
             </Modal>
         </div>
