@@ -45,8 +45,8 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
     const initialInput = {
         name: '',
         allday: false, //undefined로 바꿔야 할 수도
-        start: dayjs(selectedDate), //모달 클릭시 시작날짜 초기화
-        end: dayjs(selectedDate),
+        startAt: dayjs(selectedDate), //모달 클릭시 시작날짜 초기화
+        endAt: dayjs(selectedDate),
         memo: '',
         color: '',
         repeat: '',
@@ -82,10 +82,7 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
             userEditMode ?
                 formatSchedule(selectedSchedule) // 개인 일정 수정,삭제 모달
                 :
-                selectedSchedule === undefined ?
-                    formatSchedule(initialInput) // 개인 일정 생성 모달, 일정 추가 버튼을 클릭 했을 때
-                    :
-                    formatSchedule(selectedSchedule) // 개인 일정 생성 모달, 빈 날짜를 클릭
+                formatSchedule(initialInput) // 개인 일정 생성 모달
     );
 
 
