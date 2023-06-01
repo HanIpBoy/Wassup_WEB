@@ -146,39 +146,6 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
             onSubmitGroupSchedule(response.data.data[0])
         }
 
-        // if (groupEditMode) {
-        //     response = await axios.put('/schedule', payload)
-        // } else {
-        //     response = await axios.post('/schedule', payload)
-        // }
-
-        // if (response.data.status === 'succeed') {
-        //     onSubmitSchedule(response.data.data[0])
-        // }
-
-        // const handleSubmitSchedule = async () => { //그룹 일정 추가 눌렀을 때 핸들러
-        //     const payload = { //서버의 /group/schedule로 보내는 페이로드
-        //         groupOriginKey: group.groupOriginKey,
-        //         name: group.groupName,
-        //         startAt: group.startAt,
-        //         endAt: group.endAt,
-        //         memo: group.memo,
-        //         allDayToggle: group.allDayToggle,
-        //         color: group.color
-        //     }
-
-        //     let response
-
-        //     if (editMode) { //수정할 경우
-        //         response = await axios.put('/group/schedule', payload)
-        //     } else { //수정이 아닐 경우
-        //         response = await axios.post('/group/schedule', payload)
-        //     }
-
-        //     if (response.data.status === 'succeed') { //서버 응답 성공시 onSubmitGroupSchedule 실행
-        //         onSubmitGroupSchedule(response.data.data)
-        //     }
-        // }
     }
 
     const handleSubmit = async (event) => {
@@ -239,6 +206,34 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
         }
 
     }
+    const getModalHeader = () => {
+        let headerText = '';
+        let imageSrc = <img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} />;
+
+        if (groupMode && leaderMode) {
+            if (groupEditMode) {
+                headerText = '그룹 일정 수정';
+            } else {
+                headerText = '그룹 일정 추가';
+            }
+        } else if (groupMode && !leaderMode) {
+            headerText = '그룹 일정 보기'
+        }
+        else if (!groupMode && userEditMode) {
+            headerText = '일정 수정';
+        } else if (!groupMode) {
+            headerText = '일정 추가';
+        }
+
+        return (
+            <>
+                <Box sx={titleStyle} align="center" marginBottom={2}>
+                    {headerText}
+                </Box>
+                {imageSrc}
+            </>
+        );
+    };
 
 
     return (
@@ -251,28 +246,7 @@ export default function CalendarModal({ onClose, selectedDate, selectedGroupSche
             >
                 <Box sx={style}>
                     <div style={modalHeader}>
-                        {groupMode && leaderMode && groupEditMode ?
-                            <><Box sx={titleStyle} align="center" marginBottom={2}>
-                                그룹 일정 추가
-                            </Box><img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} /></>
-                            :
-                            groupMode && leaderMode && groupEditMode ?
-                                <><Box sx={titleStyle} align="center" marginBottom={2}>
-                                    그룹 일정 수정
-                                </Box><img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} /></>
-                                :
-                                !groupMode && !userEditMode ?
-                                    <><Box sx={titleStyle} align="center" marginBottom={2}>
-                                        일정 추가
-                                    </Box><img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} /></>
-                                    :
-                                    !groupMode && userEditMode ?
-                                        <><Box sx={titleStyle} align="center" marginBottom={2}>
-                                            일정 수정
-                                        </Box><img src={MiniIcon} style={{ width: '15%', height: '15%', marginLeft: '-5px', marginTop: '-11px' }} /></>
-                                        :
-                                        ' '
-                        }
+                        {getModalHeader()}
                     </div>
                     <TextField id="filled-basic"
                         name='name'
