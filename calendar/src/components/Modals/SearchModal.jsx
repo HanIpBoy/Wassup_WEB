@@ -49,9 +49,9 @@ export default function SearchModal({ onSubmit }) {
         // const result = dummy
 
 
-        if (response.data.data === null) {
-            window.alert('검색한 사용자가 존재하지 않습니다.')
-        }
+        // if (response.data.status !== 'succeed') {
+        //     window.alert('검색한 사용자가 존재하지 않습니다.')
+        // }
         setSearchResult(result)
     }
 

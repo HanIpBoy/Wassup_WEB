@@ -71,12 +71,25 @@ export default function Alirm({ alirms }) {
                 boxShadow: '2px 2px 10px rgba(0,0,0,0.2)'
             }}>
 
-                {updatedAlirms.map((value, idx) => {
+                {/* {updatedAlirms.map((value, idx) => {
                     return <>
                         <hr style={{ borderTop: '1px solid rgba(0,0,0,0.1)', width: '100%' }} />
                         <AlirmItem alirm={value} key={idx} onClickYes={() => handleClickYes(value)} onClickNo={() => handleClickNo(value)} />
                     </>
-                })}
+                })} */}
+
+                {updatedAlirms.map((value, idx) => { //역순으로 알림 배열
+                    return (
+                        <>
+                            <hr style={{ borderTop: '1px solid rgba(0,0,0,0.1)', width: '100%' }} />
+                            <AlirmItem alirm={value} key={idx} onClickYes={() => handleClickYes(value)} onClickNo={() => handleClickNo(value)} />
+                        </>
+                    );
+                }).reverse()}
+
+
+
+
             </div>
         </>
     )
