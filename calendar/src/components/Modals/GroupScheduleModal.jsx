@@ -32,11 +32,6 @@ const modalHeader = {
     marginLeft: '10%'
 }
 
-// const buttons = [
-//     <Button key="one">단체 연습</Button>,
-//     <Button key="two">홈 경기</Button>,
-//     <Button key="three">원정 경기</Button>
-// ]
 
 
 // TODO: response에 memo 데이터 없음
@@ -53,54 +48,6 @@ export default function GroupScheduleModal({ onClose, groupSchedule, group, upda
     // }
 
 
-    // useEffect(() => {
-
-    // },[])
-
-    // const buttons = [
-    //     [updatedGroupSchedule].map((value, idx) => {
-    //         console.log('value는?? ', value)
-    //         return <Button> {value[idx].name}</ Button>
-    //     })
-    // ]
-
-
-    console.log('아오 이거 뭔데 updated야??', updatedGroupSchedule)
-
-
-
-
-
-
-
-
-
-
-    // const start = updatedGroupSchedule.map((value, idx) => { //그룹일정 시작시간
-    //     new Date(value[idx].startAt)
-    // })
-
-    // const end = updatedGroupSchedule.map((value, idx) => { //그룹일정 종료시간
-    //     new Date(value[idx].endAt)
-    // })
-
-
-    // const start = new Date(groupSchedule[0].startAt) //그룹일정 시작시간
-    // const end = new Date(groupSchedule[0].endAt) //그룹일정 종료시간
-
-
-
-
-
-
-
-    // if (schedule.allDayToggle === 'true') {
-    //     start = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0);
-    //     end = new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23, 59, 59);
-    // }
-
-
-
 
     const start = updatedGroupSchedule.map(value => new Date(value.startAt));
 
@@ -114,53 +61,6 @@ export default function GroupScheduleModal({ onClose, groupSchedule, group, upda
 
 
     const formatter = new Intl.DateTimeFormat('ko-KR', { month: 'long', day: 'numeric', weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: false }); //시간 변환 formatter
-
-
-
-
-
-
-
-
-
-
-
-    // const formattedDateStart = start.map((date, idx) => {
-    //     if (updatedGroupSchedule[idx].allDayToggle === 'true') {
-    //         if (date.getHours() === 0 && date.getMinutes() === 0) {
-    //             return '00:00';
-    //         } else {
-    //             date.setHours(0, 0, 0); // 오전 12시 00분으로 설정
-    //         }
-    //     }
-    //     let formattedTime = formatter.format(date).replace('오후', '').replace(':', ':');
-    //     if (formattedTime === '24:00') {
-    //         formattedTime = '00:00';
-    //     }
-    //     return formattedTime;
-    // });
-
-    // const formattedDateEnd = end.map((date, idx) => {
-    //     if (updatedGroupSchedule[idx].allDayToggle === 'true') {
-    //         if (date.getHours() === 0 && date.getMinutes() === 0) {
-    //             return '00:00';
-    //         } else {
-    //             date.setHours(23, 59, 59); // 오후 11시 59분으로 설정
-    //         }
-    //     }
-    //     let formattedTime = formatter.format(date).replace('오후', '').replace(':', ':');
-    //     if (formattedTime === '24:00') {
-    //         formattedTime = '00:00';
-    //     }
-    //     return formattedTime;
-    // });
-
-
-    // const formattedDateStart = start.map(date => formatter.format(date)).map(str => str.replace('오후', '').replace(':', ':')); //포맷된 그룹일정 시작시간
-    // const formattedDateEnd = end.map(date => formatter.format(date)).map(str => str.replace('오후', '').replace(':', ':')); //포맷된 그룹일정 종료시간
-
-
-
 
     const formattedDateStart = start.map((date, idx) => {
         if (updatedGroupSchedule[idx].allDayToggle === 'true') {
