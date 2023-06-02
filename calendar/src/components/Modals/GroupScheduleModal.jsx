@@ -53,7 +53,6 @@ export default function GroupScheduleModal({ onClose, groupSchedule, group, upda
 
     const end = updatedGroupSchedule.map(value => new Date(value.endAt));
 
-    console.log('과연..??', updatedGroupSchedule)
 
 
 
